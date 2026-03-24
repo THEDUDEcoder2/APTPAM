@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="efe55322-380b-4ea4-ae23-9ee7b554477c" name="Changes" comment="git push --force origin master" />
+    <list default="true" id="efe55322-380b-4ea4-ae23-9ee7b554477c" name="Changes" comment="git pull origin main --allow-unrelated-histories" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,6 +22,7 @@
         <option value="Chicherito &lt;alanisraelmaresaquino@gmail.com&gt;" />
       </list>
     </option>
+    <option name="PUSH_AUTO_UPDATE" value="true" />
     <option name="PUSH_TAGS">
       <GitPushTagMode>
         <option name="argument" value="--tags" />
@@ -47,6 +48,9 @@
     &quot;accountId&quot;: &quot;146d7396-be9b-44e9-a46b-e865ae177d2a&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
 }</component>
@@ -249,7 +253,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774311356587</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="git pull origin main --allow-unrelated-histories">
+      <option name="closed" value="true" />
+      <created>1774312092084</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1774312092084</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -258,6 +270,7 @@
     <MESSAGE value="git add .&#10;git commit -m &quot;Descripción de los nuevos cambios&quot;&#10;git push" />
     <MESSAGE value="git push -f origin master" />
     <MESSAGE value="git push --force origin master" />
-    <option name="LAST_COMMIT_MESSAGE" value="git push --force origin master" />
+    <MESSAGE value="git pull origin main --allow-unrelated-histories" />
+    <option name="LAST_COMMIT_MESSAGE" value="git pull origin main --allow-unrelated-histories" />
   </component>
 </project>
