@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -15,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="844.0" prefWidth="1539.0" style="-fx-background-color: radial-gradient(center 50% 50%, radius 80%, #3a7bd5 0%, #001f3f 100%);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.trabajos.SesionController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="844.0" prefWidth="1539.0" style="-fx-background-color: radial-gradient(center 50% 50%, radius 80%, #3a7bd5 0%, #001f3f 100%);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.trabajos.SesionController">
    <children>
       <VBox layoutX="251.0" prefHeight="115.0" prefWidth="982.0" style="-fx-background-color: linear-gradient(to bottom right, rgba(26, 54, 104, 0.85), rgba(10, 25, 47, 0.5)); -fx-border-color: rgba(100, 149, 237, 0.4); -fx-border-width: 1.5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 20, 0, 0, 12);" />
       <Label alignment="CENTER" layoutX="241.0" layoutY="10.0" prefHeight="100.0" prefWidth="982.0" style="-fx-text-fill: #ffffff; -fx-font-size: 30; -fx-font-weight: bold;" text="PLATAFORMA DE EMPLEO TEMPORAL">
@@ -30,30 +28,30 @@
             <VBox maxWidth="150.0" minWidth="150.0" prefHeight="76.0" prefWidth="150.0" />
          </children>
       </VBox>
-      <Label layoutX="630.0" layoutY="142.0" style="-fx-text-fill: #ffffff; -fx-font-size: 36; -fx-font-weight: bold;" text="Iniciar Sesión">
+      <Label layoutX="594.0" layoutY="141.0" style="-fx-text-fill: #ffffff; -fx-font-size: 36; -fx-font-weight: bold;" text="Iniciar Sesión">
          <font>
             <Font name="System Bold" size="36.0" />
          </font>
       </Label>
-      <Label fx:id="tipoUsuarioLabel" layoutX="669.0" layoutY="215.0" style="-fx-text-fill: rgba(255, 255, 255, 0.9); -fx-font-size: 20; -fx-font-weight: bold;" text="Tipo de usuario" />
-      <Label layoutX="659.0" layoutY="259.0" style="-fx-text-fill: rgba(255, 255, 255, 0.9); -fx-font-size: 18;" text="¿Ya estás registrado?">
+      <Label fx:id="tipoUsuarioLabel" layoutX="594.0" layoutY="221.0" style="-fx-text-fill: rgba(255, 255, 255, 0.9); -fx-font-size: 20; -fx-font-weight: bold;" text="Tipo de usuario" />
+      <Label layoutX="649.0" layoutY="563.0" style="-fx-text-fill: rgba(255, 255, 255, 0.9); -fx-font-size: 18;" text="¿Ya estás registrado?">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Hyperlink layoutX="668.0" layoutY="302.0" onAction="#onCrearCuentaClick" style="-fx-text-fill: rgba(255, 255, 255, 0.9); -fx-font-size: 20; -fx-font-weight: bold;" text="crear cuenta" />
-      <Label layoutX="531.0" layoutY="363.0" style="-fx-text-fill: #ffffff; -fx-font-size: 16; -fx-font-weight: bold;" text=" CORREO: " />
-      <TextField fx:id="emailField" layoutX="531.0" layoutY="410.0" prefHeight="50" prefWidth="450" promptText="ejemplo@correo.com" style="-fx-border-color: rgba(255, 255, 255, 0.1); -fx-border-radius: 8; -fx-background-radius: 8; -fx-font-size: 16; -fx-padding: 10;" />
-      <Label layoutX="531.0" layoutY="490.0" style="-fx-text-fill: #ffffff; -fx-font-size: 16; -fx-font-weight: bold;" text="CONTRASEÑA:" />
-      <HBox layoutX="531.0" layoutY="529.0" spacing="10">
+      <Hyperlink layoutX="668.0" layoutY="591.0" onAction="#onCrearCuentaClick" style="-fx-text-fill: rgba(255, 255, 255, 0.9); -fx-font-size: 20; -fx-font-weight: bold;" text="crear cuenta" />
+      <Label layoutX="517.0" layoutY="297.0" style="-fx-text-fill: #ffffff; -fx-font-size: 16; -fx-font-weight: bold;" text=" Correo: " />
+      <TextField fx:id="emailField" layoutX="517.0" layoutY="344.0" prefHeight="50" prefWidth="450" promptText="ejemplo@correo.com" style="-fx-border-color: rgba(255, 255, 255, 0.1); -fx-border-radius: 8; -fx-background-radius: 8; -fx-font-size: 16; -fx-padding: 10;" />
+      <Label layoutX="517.0" layoutY="424.0" style="-fx-text-fill: #ffffff; -fx-font-size: 16; -fx-font-weight: bold;" text="Contraseña:" />
+      <HBox layoutX="517.0" layoutY="463.0" spacing="10">
          <children>
             <PasswordField fx:id="passwordField" prefHeight="50" prefWidth="350" style="-fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-background-radius: 8; -fx-font-size: 16; -fx-padding: 10;" />
             <TextField fx:id="passwordVisibleField" managed="false" prefHeight="50" prefWidth="350" style="-fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-background-radius: 8; -fx-font-size: 16; -fx-padding: 10;" visible="false" />
          </children>
       </HBox>
-      <CheckBox fx:id="mostrarPasswordCheckBox" layoutX="536.0" layoutY="594.0" onAction="#onMostrarPasswordChanged" style="-fx-font-size: 14; -fx-text-fill: rgba(255, 255, 255, 0.9);" text="Mostrar contraseña" />
-      <Button onAction="#onAccederClick" layoutX="699.0" layoutY="666.0" prefHeight="40" prefWidth="150" style="-fx-background-color: #2e7d32; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Acceder" />
-      <Button onAction="#onVolverClick" layoutX="531.0" layoutY="666.0" prefHeight="40" prefWidth="150" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Regresar" />
+      <CheckBox fx:id="mostrarPasswordCheckBox" layoutX="522.0" layoutY="528.0" onAction="#onMostrarPasswordChanged" style="-fx-font-size: 14; -fx-text-fill: rgba(255, 255, 255, 0.9);" text="Mostrar contraseña" />
+      <Button layoutX="777.0" layoutY="629.0" onAction="#onAccederClick" prefHeight="40" prefWidth="150" style="-fx-background-color: #2e7d32; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Acceder" />
+      <Button layoutX="562.0" layoutY="629.0" onAction="#onVolverClick" prefHeight="40" prefWidth="150" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Regresar" />
       <VBox prefHeight="870.0" prefWidth="250.0" style="-fx-background-color: linear-gradient(to bottom right, rgba(26, 54, 104, 0.85), rgba(10, 25, 47, 0.5));">
          <children>
             <ImageView fitHeight="198.0" fitWidth="349.0" pickOnBounds="true" preserveRatio="true">

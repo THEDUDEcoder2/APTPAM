@@ -6,6 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="efe55322-380b-4ea4-ae23-9ee7b554477c" name="Changes" comment="git add .&#10;git commit -m &quot;Descripción de los nuevos cambios&quot;&#10;git push">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/FormularioPrivado.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/FormularioPrivado.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/Notas.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/Notas.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/Registro.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/Registro.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/RegistroTrabajador.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/RegistroTrabajador.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/Sesion.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/Sesion.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -219,12 +224,29 @@
       <option name="project" value="LOCAL" />
       <updated>1774308260899</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="git push --force origin master">
+      <option name="closed" value="true" />
+      <created>1774308591608</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1774308591608</updated>
+    </task>
+    <task id="LOCAL-00015" summary="git add .&#10;git commit -m &quot;Descripción de los nuevos cambios&quot;&#10;git push">
+      <option name="closed" value="true" />
+      <created>1774308667778</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1774308667778</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="git commit -m &quot;Primer commit&quot;" />
     <MESSAGE value="git push -u origin master" />
+    <MESSAGE value="git push --force origin master" />
     <MESSAGE value="git add .&#10;git commit -m &quot;Descripción de los nuevos cambios&quot;&#10;git push" />
     <option name="LAST_COMMIT_MESSAGE" value="git add .&#10;git commit -m &quot;Descripción de los nuevos cambios&quot;&#10;git push" />
   </component>
