@@ -16,259 +16,137 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="844.0" prefWidth="1539.0" style="-fx-background-color: radial-gradient(center 50% 50%, radius 80%, #3a7bd5 0%, #001f3f 100%);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.trabajos.RegistroTrabajadorController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1539.0" style="-fx-background-color: #dce8f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.trabajos.RegistroTrabajadorController">
    <children>
-      <Label alignment="CENTER" layoutX="241.0" layoutY="10.0" prefHeight="100.0" prefWidth="1122.0" style="-fx-text-fill: #ffffff; -fx-font-size: 30; -fx-font-weight: bold;" text="PLATAFORMA DE EMPLEO TEMPORAL">
-         <font>
-            <Font size="32.0" />
-         </font>
+
+      <!-- TÍTULO -->
+      <Label alignment="CENTER" layoutX="391.0" layoutY="-14.0" prefHeight="100.0" prefWidth="822.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 30; -fx-font-weight: bold;" text="PLATAFORMA DE EMPLEO TEMPORAL">
+         <font><Font size="32.0" /></font>
       </Label>
-      <VBox layoutY="14.0" prefHeight="844.0" prefWidth="250.0" style="-fx-background-color: linear-gradient(to bottom right, rgba(26, 54, 104, 0.85), rgba(10, 25, 47, 0.5));">
+
+      <!-- TARJETA IZQUIERDA -->
+      <VBox alignment="TOP_CENTER" layoutX="25.0" layoutY="56.0" maxWidth="250.0" minWidth="250.0" prefHeight="758.0" prefWidth="250.0" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+         <padding><Insets bottom="28.0" left="16.0" right="16.0" top="28.0" /></padding>
          <children>
-            <ImageView fitHeight="198.0" fitWidth="349.0" pickOnBounds="true" preserveRatio="true">
-               <Image url="@assets/imagen_2026-03-14_155500407-removebg-preview.png" />
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/WhatsApp_Image_2026-03-24_at_12.15.37-removebg-preview.png" />
+               </image>
             </ImageView>
-            <Label prefHeight="86.0" prefWidth="256.0" style="-fx-text-fill: #ffffff; -fx-font-size: 22; -fx-font-weight: bold;" text="Registro de trabajador">
-               <font>
-                  <Font name="System Bold" size="24.0" />
-               </font>
-            </Label>
-            <VBox maxWidth="150.0" minWidth="250.0" prefHeight="76.0" prefWidth="150.0">
-               <children>
-                  <Button alignment="CENTER" onAction="#onRegistrarClick" prefHeight="55.0" prefWidth="231.0" style="-fx-background-color: linear-gradient(to bottom right, #10b981, #065f46); -fx-text-fill: white; -fx-border-color: rgba(255, 255, 255, 0.5); -fx-font-weight: bold; -fx-cursor: hand;" text="Registrarse">
-                     <VBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </VBox.margin>
-                     <graphic>
-                        <ImageView fitHeight="63.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true">
-                           <Image url="@assets/imagen_2026-03-19_232526305-removebg-preview.png" />
-                        </ImageView>
-                     </graphic>
-                  </Button>
-               </children>
-            </VBox>
-            <VBox maxWidth="150.0" minWidth="250.0" prefHeight="76.0" prefWidth="150.0">
-               <children>
-                  <Button onAction="#onRegresarClick" prefHeight="55.0" prefWidth="231.0" style="-fx-background-color: linear-gradient(to bottom right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1)); -fx-text-fill: white; -fx-font-weight: bold; -fx-border-color: rgba(255, 255, 255, 0.5); -fx-cursor: hand;" text="Regresar">
-                     <VBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </VBox.margin>
-                     <graphic>
-                        <ImageView fitHeight="64.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
-                           <Image url="@assets/imagen_2026-03-14_203506318-removebg-preview.png" />
-                        </ImageView>
-                     </graphic>
-                  </Button>
-               </children>
-            </VBox>
+            <Label alignment="CENTER" prefWidth="210.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;" text="Registro de trabajador" wrapText="true" />
+            <Region VBox.vgrow="ALWAYS" />
+            <Button fx:id="registrarButton" onAction="#onRegistrarClick" prefHeight="55.0" prefWidth="225.0" style="-fx-background-color: linear-gradient(to bottom right, #10b981, #065f46); -fx-text-fill: white; -fx-font-size: 17; -fx-font-weight: bold; -fx-border-color: rgba(255,255,255,0.5); -fx-border-radius: 4; -fx-background-radius: 4; -fx-cursor: hand;" text="✓ Registrarse" />
+            <Button fx:id="volverButton" onAction="#onRegresarClick" prefHeight="55.0" prefWidth="225.0" style="-fx-background-color: linear-gradient(to bottom right, #4a6fa5, #2c4a7c); -fx-text-fill: white; -fx-font-size: 17; -fx-font-weight: bold; -fx-border-color: rgba(255,255,255,0.5); -fx-border-radius: 4; -fx-background-radius: 4; -fx-cursor: hand;" text="← Regresar" />
          </children>
       </VBox>
-      <VBox layoutX="1243.0" layoutY="7.0" prefHeight="850.0" prefWidth="315.0" style="-fx-background-color: linear-gradient(to bottom right, rgba(26, 54, 104, 0.85), rgba(10, 25, 47, 0.5));">
-         <children>
-            <VBox maxHeight="76.0" maxWidth="150.0" minHeight="76.0" minWidth="150.0" prefHeight="76.0" prefWidth="150.0" />
-            <VBox maxWidth="150.0" minWidth="150.0" prefHeight="76.0" prefWidth="150.0" />
-            <VBox maxWidth="150.0" minWidth="150.0" prefHeight="76.0" prefWidth="150.0" />
-         </children>
+
+      <!-- HBox: Formulario + Tips -->
+      <VBox layoutX="293.0" layoutY="56.0" prefHeight="745.0" prefWidth="920.0" spacing="14.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+         <padding><Insets bottom="32.0" left="36.0" right="36.0" top="28.0" /></padding>
+
+         <!-- INFORMACIÓN PERSONAL -->
+         <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 16; -fx-font-weight: bold;" text="INFORMACIÓN PERSONAL" />
+         <HBox alignment="CENTER_LEFT" spacing="12.0">
+            <VBox spacing="4.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Nombre(s)" /><TextField fx:id="nombreField" prefHeight="28.0" prefWidth="160.0" /></VBox>
+            <VBox spacing="4.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Apellido Paterno" /><TextField fx:id="apellidoPaternoField" prefHeight="28.0" prefWidth="160.0" /></VBox>
+            <VBox spacing="4.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Apellido Materno" /><TextField fx:id="apellidoMaternoField" prefHeight="28.0" prefWidth="160.0" /></VBox>
+         </HBox>
+
+         <HBox alignment="CENTER_LEFT" spacing="12.0">
+            <VBox spacing="4.0">
+               <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Fecha nacimiento" />
+               <DatePicker fx:id="fechaNacimientoPicker" prefHeight="28.0" prefWidth="160.0" />
+               <Label fx:id="fechaSeleccionadaLabel" style="-fx-text-fill: #27ae60; -fx-font-size: 14; -fx-font-weight: bold;" visible="false" />
+            </VBox>
+            <VBox spacing="4.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Email" /><TextField fx:id="emailField" prefHeight="28.0" prefWidth="160.0" promptText="ejemplo@gmail.com" /></VBox>
+            <VBox spacing="4.0">
+               <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Género" />
+               <HBox spacing="10.0">
+                  <RadioButton fx:id="masculinoRadio" style="-fx-text-fill: #1a3a5c; -fx-font-size: 14;" text="Masculino"><toggleGroup><ToggleGroup fx:id="generoGroup" /></toggleGroup></RadioButton>
+                  <RadioButton fx:id="femeninoRadio" style="-fx-text-fill: #1a3a5c; -fx-font-size: 14;" text="Femenino" toggleGroup="$generoGroup" />
+               </HBox>
+            </VBox>
+         </HBox>
+
+         <HBox alignment="CENTER_LEFT" spacing="12.0">
+            <VBox spacing="4.0">
+               <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Contraseña" />
+               <HBox spacing="5.0">
+                  <PasswordField fx:id="passwordField" prefHeight="28.0" prefWidth="200.0" />
+                  <TextField fx:id="passwordVisibleField" managed="false" prefHeight="28.0" prefWidth="200.0" visible="false" />
+               </HBox>
+            </VBox>
+            <CheckBox fx:id="mostrarPasswordCheckBox" onAction="#onMostrarPasswordChanged" style="-fx-text-fill: #1a3a5c; -fx-font-size: 14;" text="Mostrar contraseña" />
+         </HBox>
+
+         <HBox alignment="CENTER_LEFT" spacing="12.0">
+            <VBox spacing="4.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Nacionalidad" /><ComboBox fx:id="nacionalidadComboBox" prefHeight="28.0" prefWidth="140.0" /></VBox>
+            <VBox spacing="4.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="RFC" /><TextField fx:id="rfcField" prefHeight="28.0" prefWidth="140.0" /></VBox>
+            <VBox spacing="4.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="CURP" /><TextField fx:id="curpField" prefHeight="28.0" prefWidth="140.0" /></VBox>
+            <VBox spacing="4.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Estado civil" /><ComboBox fx:id="estadoCivilComboBox" prefHeight="28.0" prefWidth="140.0" /></VBox>
+         </HBox>
+
+         <!-- INFORMACIÓN DE CONTACTO -->
+         <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 16; -fx-font-weight: bold; -fx-padding: 6 0 0 0;" text="INFORMACIÓN DE CONTACTO" />
+         <HBox alignment="CENTER_LEFT" spacing="12.0">
+            <VBox spacing="4.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Calle" /><TextField fx:id="calleField" prefHeight="28.0" prefWidth="130.0" /></VBox>
+            <VBox spacing="4.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Colonia" /><TextField fx:id="coloniaField" prefHeight="28.0" prefWidth="130.0" /></VBox>
+            <VBox spacing="4.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Municipio" /><ComboBox fx:id="municipioComboBox" prefHeight="28.0" prefWidth="130.0" /></VBox>
+            <VBox spacing="4.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Ciudad" /><ComboBox fx:id="ciudadComboBox" prefHeight="28.0" prefWidth="130.0" /></VBox>
+            <VBox spacing="4.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Código Postal" /><TextField fx:id="codigoPostalField" prefHeight="28.0" prefWidth="130.0" /></VBox>
+            <VBox spacing="4.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Teléfono" /><TextField fx:id="telefonoField" prefHeight="28.0" prefWidth="130.0" promptText="10 dígitos" /></VBox>
+         </HBox>
+
+         <!-- INFORMACIÓN PROFESIONAL -->
+         <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 16; -fx-font-weight: bold; -fx-padding: 6 0 0 0;" text="INFORMACIÓN PROFESIONAL" />
+         <HBox alignment="CENTER_LEFT" spacing="12.0">
+            <VBox spacing="4.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Herramientas que sabe manejar" /><TextField fx:id="herramientasField" prefHeight="28.0" prefWidth="220.0" promptText="Herramientas" /></VBox>
+            <VBox spacing="4.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Nivel de estudio" /><ComboBox fx:id="nivelEstudioComboBox" prefHeight="28.0" prefWidth="150.0" /></VBox>
+            <VBox spacing="4.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Especialidad" /><TextField fx:id="especialidadField" prefHeight="28.0" prefWidth="150.0" /></VBox>
+            <VBox spacing="4.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Años experiencia" /><TextField fx:id="anosExperienciaField" prefHeight="28.0" prefWidth="150.0" /></VBox>
+         </HBox>
+
+         <HBox alignment="TOP_LEFT" spacing="20.0">
+            <VBox spacing="4.0">
+               <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Idiomas que domina" />
+               <ComboBox fx:id="cantidadIdiomasComboBox" prefHeight="28.0" prefWidth="200.0" />
+               <VBox fx:id="idiomasContainer" spacing="4.0" />
+            </VBox>
+            <VBox spacing="4.0">
+               <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Discapacidad" />
+               <ComboBox fx:id="discapacidadComboBox" prefHeight="28.0" prefWidth="180.0" />
+            </VBox>
+            <VBox spacing="4.0">
+               <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Experiencia" />
+               <TextField fx:id="experienciaField" prefHeight="28.0" prefWidth="280.0" promptText="Describa experiencia" />
+            </VBox>
+            <VBox spacing="4.0">
+               <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Habilidades" />
+               <TextArea fx:id="habilidadesArea" prefHeight="60.0" prefWidth="260.0" promptText="Describa habilidades" wrapText="true" />
+            </VBox>
+         </HBox>
+
+         <!-- Link -->
+         <HBox alignment="CENTER" spacing="6.0">
+            <VBox.margin><Insets top="8.0" /></VBox.margin>
+            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 16;" text="¿Ya tienes cuenta?" />
+            <Hyperlink onAction="#onIniciarSesionClick" style="-fx-text-fill: #3498db; -fx-font-size: 16; -fx-font-weight: bold;" text="Iniciar sesión" />
+         </HBox>
+
       </VBox>
-      <Label layoutX="304.0" layoutY="101.0" style="-fx-text-fill: #ffffff; -fx-font-size: 12; -fx-font-weight: bold;" text="INFORMACIÓN PERSONAL" />
-      <HBox alignment="CENTER_LEFT" layoutX="266.0" layoutY="133.0" spacing="8">
-         <children>
-            <VBox spacing="3">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="Nombre(s)" />
-                  <TextField fx:id="nombreField" prefHeight="25" prefWidth="150" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" />
-               </children>
-            </VBox>
-            <VBox spacing="3">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="Apellido Paterno" />
-                  <TextField fx:id="apellidoPaternoField" prefHeight="25" prefWidth="150" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" />
-               </children>
-            </VBox>
-            <VBox spacing="3">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="Apellido Materno" />
-                  <TextField fx:id="apellidoMaternoField" prefHeight="25" prefWidth="150" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" />
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" layoutX="266.0" layoutY="203.0" spacing="8">
-         <children>
-            <VBox spacing="3">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="Fecha nacimiento" />
-                  <DatePicker fx:id="fechaNacimientoPicker" prefHeight="25" prefWidth="150" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" />
-                  <Label fx:id="fechaSeleccionadaLabel" style="-fx-text-fill: #27ae60; -fx-font-size: 9; -fx-font-weight: bold;" visible="false" />
-               </children>
-            </VBox>
-            <VBox spacing="3">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="Email" />
-                  <TextField fx:id="emailField" prefHeight="25" prefWidth="150" promptText="ejemplo@gmail.com" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" />
-               </children>
-            </VBox>
-            <VBox spacing="3">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="Género" />
-                  <HBox spacing="8">
-                     <children>
-                        <RadioButton fx:id="masculinoRadio" style="-fx-text-fill: rgba(255, 255, 255, 0.9); -fx-font-size: 10;" text="Masculino">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="generoGroup" />
-                           </toggleGroup>
-                        </RadioButton>
-                        <RadioButton fx:id="femeninoRadio" style="-fx-text-fill: rgba(255, 255, 255, 0.9); -fx-font-size: 10;" text="Femenino" toggleGroup="$generoGroup" />
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" layoutX="266.0" layoutY="264.0" spacing="8">
-         <children>
-            <VBox spacing="3">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="Contraseña" />
-                  <HBox spacing="5">
-                     <children>
-                        <PasswordField fx:id="passwordField" prefHeight="25" prefWidth="200" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" />
-                        <TextField fx:id="passwordVisibleField" managed="false" prefHeight="25" prefWidth="200" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" visible="false" />
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" layoutX="266.0" layoutY="314.0" spacing="8">
-         <children>
-            <CheckBox fx:id="mostrarPasswordCheckBox" onAction="#onMostrarPasswordChanged" style="-fx-text-fill: rgba(255, 255, 255, 0.9); -fx-font-size: 10;" text="Mostrar contraseña" />
-         </children>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" layoutX="266.0" layoutY="359.0" spacing="8">
-         <children>
-            <VBox spacing="3">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="Nacionalidad" />
-                  <ComboBox fx:id="nacionalidadComboBox" prefHeight="25" prefWidth="140" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" />
-               </children>
-            </VBox>
-            <VBox spacing="3">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="RFC" />
-                  <TextField fx:id="rfcField" prefHeight="25" prefWidth="140" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" />
-               </children>
-            </VBox>
-            <VBox spacing="3">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="CURP" />
-                  <TextField fx:id="curpField" prefHeight="25" prefWidth="140" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" />
-               </children>
-            </VBox>
-            <VBox spacing="3">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="Estado civil" />
-                  <ComboBox fx:id="estadoCivilComboBox" prefHeight="25" prefWidth="140" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" />
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-      <Label layoutX="266.0" layoutY="432.0" style="-fx-text-fill: #ffffff; -fx-font-size: 12; -fx-font-weight: bold;" text="INFORMACIÓN DE CONTACTO" />
-      <HBox alignment="CENTER_LEFT" layoutX="265.0" layoutY="462.0" spacing="8">
-         <children>
-            <VBox spacing="3">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="Calle" />
-                  <TextField fx:id="calleField" prefHeight="25" prefWidth="130" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" />
-               </children>
-            </VBox>
-            <VBox spacing="3">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="Colonia" />
-                  <TextField fx:id="coloniaField" prefHeight="25" prefWidth="130" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" />
-               </children>
-            </VBox>
-            <VBox spacing="3">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="Municipio" />
-                  <ComboBox fx:id="municipioComboBox" prefHeight="25" prefWidth="130" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" />
-               </children>
-            </VBox>
-            <VBox spacing="3">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="Ciudad" />
-                  <ComboBox fx:id="ciudadComboBox" prefHeight="25" prefWidth="130" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" />
-               </children>
-            </VBox>
-            <VBox spacing="3">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="Código Postal" />
-                  <TextField fx:id="codigoPostalField" prefHeight="25" prefWidth="130" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" />
-               </children>
-            </VBox>
-            <VBox spacing="3">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="Teléfono" />
-                  <TextField fx:id="telefonoField" prefHeight="25" prefWidth="130" promptText="10 dígitos" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" />
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-      <Label layoutX="267.0" layoutY="532.0" style="-fx-text-fill: #ffffff; -fx-font-size: 12; -fx-font-weight: bold;" text="INFORMACIÓN PROFESIONAL" />
-      <HBox alignment="CENTER_LEFT" layoutX="265.0" layoutY="559.0" spacing="8">
-         <children>
-            <VBox spacing="3">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="Herramientas que sabe manejar" />
-                  <TextField fx:id="herramientasField" prefHeight="26.0" prefWidth="250.0" promptText="Herramientas" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" />
-               </children>
-            </VBox>
-            <VBox spacing="3">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="Nivel de estudio" />
-                  <ComboBox fx:id="nivelEstudioComboBox" prefHeight="25" prefWidth="150" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" />
-               </children>
-            </VBox>
-            <VBox spacing="3">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="Especialidad" />
-                  <TextField fx:id="especialidadField" prefHeight="25" prefWidth="150" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" />
-               </children>
-            </VBox>
-            <VBox spacing="3">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="Años experiencia" />
-                  <TextField fx:id="anosExperienciaField" prefHeight="25" prefWidth="150" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" />
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" layoutX="266.0" layoutY="620.0" spacing="8">
-         <children>
-            <VBox spacing="3">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="Idiomas que domina" />
-                  <VBox spacing="3">
-                     <children>
-                        <ComboBox fx:id="cantidadIdiomasComboBox" prefHeight="25" prefWidth="200" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" />
-                        <VBox fx:id="idiomasContainer" spacing="3" />
-                     </children>
-                  </VBox>
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-      <VBox layoutX="263.0" layoutY="690.0" spacing="3">
-         <children>
-            <Label style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="Discapacidad" />
-            <ComboBox fx:id="discapacidadComboBox" prefHeight="25" prefWidth="180" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" />
-         </children>
+
+      <!-- TARJETA DERECHA -->
+      <VBox alignment="TOP_CENTER" layoutX="1237.0" layoutY="56.0" maxWidth="250.0" minWidth="250.0" prefHeight="758.0" prefWidth="250.0" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+         <padding><Insets bottom="28.0" left="22.0" right="22.0" top="28.0" /></padding>
+         <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;" text="Tips de registro" />
+         <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Completa todos los campos requeridos." wrapText="true" /></HBox>
+         <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Usa un correo válido y activo." wrapText="true" /></HBox>
+         <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Describe bien tu experiencia y habilidades." wrapText="true" /></HBox>
       </VBox>
-      <TextField fx:id="experienciaField" layoutX="463.0" layoutY="712.0" prefHeight="26.0" prefWidth="426.0" promptText="Describa experiencia" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" />
-      <Label layoutX="464.0" layoutY="690.0" style="-fx-text-fill: #ffffff; -fx-font-size: 10; -fx-font-weight: bold;" text="Experiencia" />
-      <TextArea fx:id="habilidadesArea" layoutX="901.0" layoutY="706.0" prefHeight="38.0" prefWidth="320.0" promptText="Describa habilidades" style="-fx-border-color: #bdc3c7; -fx-border-radius: 3; -fx-background-radius: 3; -fx-font-size: 11;" wrapText="true" />
+
    </children>
 </AnchorPane>

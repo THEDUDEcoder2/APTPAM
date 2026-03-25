@@ -5,13 +5,13 @@ import com.example.trabajos.models.Empresa;
 import com.example.trabajos.services.OfertaService;
 import com.example.trabajos.services.EmpresaService;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class FormulariosTableController {

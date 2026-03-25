@@ -6,151 +6,124 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="844.0" prefWidth="1539.0" style="-fx-background-color: radial-gradient(center 50% 50%, radius 80%, #3a7bd5 0%, #001f3f 100%);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.trabajos.FormularioController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1539.0" style="-fx-background-color: #dce8f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.trabajos.FormularioController">
    <children>
-      <Label alignment="CENTER" layoutX="279.0" layoutY="10.0" prefHeight="100.0" prefWidth="993.0" style="-fx-text-fill: #ffffff; -fx-font-size: 30; -fx-font-weight: bold;" text="PLATAFORMA DE EMPLEO TEMPORAL">
-         <font>
-            <Font size="32.0" />
-         </font>
+
+      <!-- TÍTULO -->
+      <Label alignment="CENTER" layoutX="392.0" layoutY="20.0" prefHeight="100.0" prefWidth="822.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 30; -fx-font-weight: bold;" text="PLATAFORMA DE EMPLEO TEMPORAL">
+         <font><Font size="32.0" /></font>
       </Label>
-      <VBox layoutY="-2.0" prefHeight="847.0" prefWidth="248.0" style="-fx-background-color: linear-gradient(to bottom right, rgba(26, 54, 104, 0.85), rgba(10, 25, 47, 0.5));">
+
+      <!-- TARJETA IZQUIERDA -->
+      <VBox alignment="TOP_CENTER" layoutX="28.0" layoutY="126.0" maxWidth="250.0" minWidth="250.0" prefHeight="674.0" prefWidth="250.0" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+         <padding><Insets bottom="28.0" left="16.0" right="16.0" top="28.0" /></padding>
          <children>
-            <ImageView fitHeight="198.0" fitWidth="349.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@assets/imagen_2026-03-14_155500407-removebg-preview.png" />
+                  <Image url="@assets/WhatsApp_Image_2026-03-24_at_12.15.37-removebg-preview.png" />
                </image>
             </ImageView>
-            <Label prefHeight="86.0" prefWidth="256.0" style="-fx-text-fill: #ffffff; -fx-font-size: 14; -fx-font-weight: bold;" text="Llenar Formulario de Oferta Laboral">
-               <font>
-                  <Font name="System Bold" size="24.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="6.0" />
-               </VBox.margin>
-            </Label>
-            <VBox maxWidth="150.0" minWidth="250.0" prefHeight="76.0" prefWidth="150.0">
-               <children>
-                  <Button alignment="CENTER" onAction="#onGuardarClick" prefHeight="55.0" prefWidth="231.0" style="-fx-background-color: linear-gradient(to bottom right, #10b981, #065f46); -fx-text-fill: white; -fx-border-color: rgba(255, 255, 255, 0.5); -fx-font-weight: bold; -fx-cursor: hand;" text="Guardar">
-                     <VBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </VBox.margin>
-                     <graphic>
-                        <ImageView fitHeight="63.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@assets/imagen_2026-03-19_232526305-removebg-preview.png" />
-                           </image>
-                           <effect>
-                              <ColorAdjust />
-                           </effect>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-               </children>
-            </VBox>
-            <VBox maxWidth="150.0" minWidth="250.0" prefHeight="76.0" prefWidth="150.0">
-               <children>
-                  <Button onAction="#onCancelarClick" prefHeight="55.0" prefWidth="231.0" style="-fx-background-color: linear-gradient(to bottom right, #ef5350, #c62828); -fx-text-fill: white; -fx-border-color: rgba(255, 255, 255, 0.5); -fx-font-weight: bold; -fx-cursor: hand;" text="Cancelar">
-                     <VBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </VBox.margin>
-                     <graphic>
-                        <ImageView fitHeight="61.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@assets/imagen_2026-03-14_202326379-removebg-preview.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-               </children>
-            </VBox>
+            <Label alignment="CENTER" prefHeight="52.0" prefWidth="180.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;" text="Llenar Formulario de Oferta Laboral" wrapText="true" />
+            <Region VBox.vgrow="ALWAYS" />
+            <Button fx:id="guardarButton" onAction="#onGuardarClick" prefHeight="55.0" prefWidth="225.0" style="-fx-background-color: linear-gradient(to bottom right, #10b981, #065f46); -fx-text-fill: white; -fx-font-size: 17; -fx-font-weight: bold; -fx-border-color: rgba(255,255,255,0.5); -fx-border-radius: 4; -fx-background-radius: 4; -fx-cursor: hand;" text="✓ Guardar" />
+            <Button fx:id="cancelarButton" onAction="#onCancelarClick" prefHeight="55.0" prefWidth="225.0" style="-fx-background-color: linear-gradient(to bottom right, #ef5350, #c62828); -fx-text-fill: white; -fx-font-size: 17; -fx-font-weight: bold; -fx-border-color: rgba(255,255,255,0.5); -fx-border-radius: 4; -fx-background-radius: 4; -fx-cursor: hand;" text="✗ Cancelar" />
          </children>
       </VBox>
-      <VBox layoutX="1223.0" layoutY="-3.0" prefHeight="876.0" prefWidth="315.0" style="-fx-background-color: linear-gradient(to bottom right, rgba(26, 54, 104, 0.85), rgba(10, 25, 47, 0.5));">
-         <children>
-            <VBox maxHeight="76.0" maxWidth="150.0" minHeight="76.0" minWidth="150.0" prefHeight="76.0" prefWidth="150.0" />
-            <VBox maxWidth="150.0" minWidth="150.0" prefHeight="76.0" prefWidth="150.0" />
-            <VBox maxWidth="150.0" minWidth="150.0" prefHeight="76.0" prefWidth="150.0" />
-         </children>
-      </VBox>
-      <GridPane hgap="15" layoutX="272.0" layoutY="195.0" prefHeight="557.0" prefWidth="940.0" style="-fx-padding: 20;" vgap="15">
-         <columnConstraints>
-            <ColumnConstraints halignment="RIGHT" prefWidth="200" />
-            <ColumnConstraints prefWidth="400" />
-            <ColumnConstraints halignment="RIGHT" prefWidth="200" />
-            <ColumnConstraints prefWidth="400" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
-         <children>
-            <Label style="-fx-text-fill: #ffffff;" text="Nombre Empresa:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <TextField fx:id="nombreEmpresaField" editable="false" prefWidth="350" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-            <Label style="-fx-text-fill: #ffffff;" text="Herramientas/Equipo:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-            <TextField fx:id="herramientaField" prefWidth="350" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-            <Label style="-fx-text-fill: #ffffff;" text="Idiomas que domina:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <ComboBox fx:id="cantidadIdiomasComboBox" prefWidth="350" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label style="-fx-text-fill: #ffffff;" text="Horario:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <HBox spacing="10" GridPane.columnIndex="3" GridPane.rowIndex="1">
-               <children>
-                  <ComboBox fx:id="horarioEntradaComboBox" prefWidth="150" />
-                  <Label text="a" />
-                  <ComboBox fx:id="horarioSalidaComboBox" prefWidth="150" />
-               </children>
-            </HBox>
-            <VBox fx:id="idiomasContainer" GridPane.columnSpan="4" GridPane.rowIndex="2" />
-            <Label style="-fx-text-fill: #ffffff;" text="Calle:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-            <TextField fx:id="calleField" editable="false" prefWidth="350" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label style="-fx-text-fill: #ffffff;" text="Colonia:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <TextField fx:id="coloniaField" editable="false" prefWidth="350" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <Label style="-fx-text-fill: #ffffff;" text="Código Postal:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-            <TextField fx:id="codigoPostalField" editable="false" prefWidth="350" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Label style="-fx-text-fill: #ffffff;" text="Email:" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-            <TextField fx:id="gmailField" editable="false" prefWidth="350" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-            <Label style="-fx-text-fill: #ffffff;" text="Teléfono:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-            <TextField fx:id="telefonoField" editable="false" prefWidth="350" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Label style="-fx-text-fill: #ffffff;" text="Puesto/Tipo de Trabajo:" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-            <ComboBox fx:id="tipoTrabajoComboBox" prefWidth="350" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-            <HBox fx:id="otroTrabajoContainer" managed="false" spacing="10" visible="false" GridPane.columnSpan="4" GridPane.rowIndex="6">
-               <children>
-                  <Label text="Especificar otro trabajo:" />
-                  <TextField fx:id="otroTrabajoField" prefWidth="300" />
-               </children>
-            </HBox>
-            <Label style="-fx-text-fill: #ffffff;" text="Sueldo:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
-            <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="7">
-               <children>
-                  <TextField fx:id="sueldoField" prefWidth="200" />
-                  <Label style="-fx-text-fill: #ffffff;" text="Tipo:" />
+
+      <!-- HBox: Formulario + Tips -->
+      <VBox layoutX="290.0" layoutY="126.0" prefHeight="740.0" prefWidth="930.0" spacing="12.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+         <padding><Insets bottom="32.0" left="36.0" right="36.0" top="28.0" /></padding>
+
+         <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 21; -fx-font-weight: bold;" text="Formulario de Oferta Laboral" />
+
+         <GridPane hgap="16" vgap="14">
+            <columnConstraints>
+               <ColumnConstraints halignment="RIGHT" prefWidth="160" />
+               <ColumnConstraints prefWidth="310" />
+               <ColumnConstraints halignment="RIGHT" prefWidth="160" />
+               <ColumnConstraints prefWidth="310" />
+            </columnConstraints>
+            <rowConstraints>
+               <RowConstraints /><RowConstraints /><RowConstraints /><RowConstraints />
+               <RowConstraints /><RowConstraints /><RowConstraints /><RowConstraints />
+               <RowConstraints /><RowConstraints />
+            </rowConstraints>
+            <children>
+               <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Nombre Empresa:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+               <TextField fx:id="nombreEmpresaField" editable="false" prefWidth="290" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+               <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Herramientas:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+               <TextField fx:id="herramientaField" prefWidth="290" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+
+               <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Idiomas que domina:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+               <ComboBox fx:id="cantidadIdiomasComboBox" prefWidth="290" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Horario:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+               <HBox spacing="8" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                  <ComboBox fx:id="horarioEntradaComboBox" prefWidth="120" />
+                  <Label style="-fx-text-fill: #1a3a5c;" text="a" />
+                  <ComboBox fx:id="horarioSalidaComboBox" prefWidth="120" />
+               </HBox>
+
+               <VBox fx:id="idiomasContainer" GridPane.columnSpan="4" GridPane.rowIndex="2" />
+
+               <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Calle:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+               <TextField fx:id="calleField" editable="false" prefWidth="290" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+               <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Colonia:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+               <TextField fx:id="coloniaField" editable="false" prefWidth="290" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+
+               <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Código Postal:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+               <TextField fx:id="codigoPostalField" editable="false" prefWidth="290" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+               <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Email:" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+               <TextField fx:id="gmailField" editable="false" prefWidth="290" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+
+               <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Teléfono:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+               <TextField fx:id="telefonoField" editable="false" prefWidth="290" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+               <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Puesto:" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+               <ComboBox fx:id="tipoTrabajoComboBox" prefWidth="290" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+
+               <HBox fx:id="otroTrabajoContainer" managed="false" spacing="10" visible="false" GridPane.columnSpan="4" GridPane.rowIndex="6">
+                  <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Especificar otro trabajo:" />
+                  <TextField fx:id="otroTrabajoField" prefWidth="280" />
+               </HBox>
+
+               <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Sueldo:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+               <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                  <TextField fx:id="sueldoField" prefWidth="160" />
+                  <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Tipo:" />
                   <ComboBox fx:id="tipoSalarioComboBox" prefWidth="100" />
-               </children>
-            </HBox>
-            <Label style="-fx-text-fill: #ffffff;" text="Nivel de Estudio:" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-            <ComboBox fx:id="nivelEstudioComboBox" prefWidth="350" GridPane.columnIndex="3" GridPane.rowIndex="7" />
-            <Label style="-fx-text-fill: #ffffff;" text="Experiencia:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
-            <TextField fx:id="experienciaField" prefWidth="350" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-            <Label style="-fx-text-fill: #ffffff;" text="Descripción del Puesto:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
-            <TextArea fx:id="descripcionArea" prefRowCount="4" prefWidth="350" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="9" />
-         </children>
-      </GridPane>
+               </HBox>
+               <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Nivel de Estudio:" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+               <ComboBox fx:id="nivelEstudioComboBox" prefWidth="290" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+
+               <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Experiencia:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+               <TextField fx:id="experienciaField" prefWidth="290" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+
+               <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Descripción del Puesto:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+               <TextArea fx:id="descripcionArea" prefRowCount="4" prefWidth="290" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="9" />
+            </children>
+         </GridPane>
+
+      </VBox>
+
+      <!-- TARJETA DERECHA -->
+      <VBox alignment="TOP_CENTER" layoutX="1240.0" layoutY="126.0" maxWidth="250.0" minWidth="250.0" prefHeight="674.0" prefWidth="250.0" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+         <padding><Insets bottom="28.0" left="22.0" right="22.0" top="28.0" /></padding>
+         <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;" text="Tips para la oferta" />
+         <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Describe claramente el puesto." wrapText="true" /></HBox>
+         <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Especifica el horario y sueldo." wrapText="true" /></HBox>
+         <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Indica el nivel de estudio requerido." wrapText="true" /></HBox>
+         <Label fx:id="mensajeLabel" style="-fx-text-fill: #27ae60; -fx-font-size: 14;" visible="false" />
+      </VBox>
+
    </children>
 </AnchorPane>

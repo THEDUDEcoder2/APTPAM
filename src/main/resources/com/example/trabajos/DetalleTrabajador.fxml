@@ -3,186 +3,73 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="844.0" prefWidth="1539.0" style="-fx-background-color: radial-gradient(center 50% 50%, radius 80%, #3a7bd5 0%, #001f3f 100%);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.trabajos.DetalleTrabajadorController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="839.0" prefWidth="1539.0" style="-fx-background-color: #dce8f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.trabajos.DetalleTrabajadorController">
    <children>
-      <Label alignment="CENTER" layoutX="241.0" layoutY="10.0" prefHeight="100.0" prefWidth="939.0" style="-fx-text-fill: #ffffff; -fx-font-size: 30; -fx-font-weight: bold;" text="PLATAFORMA DE EMPLEO TEMPORAL">
-         <font>
-            <Font size="32.0" />
-         </font>
-      </Label>
-      <VBox layoutX="291.0" layoutY="115.0" prefHeight="222.0" prefWidth="890.0" spacing="8" style="-fx-padding: 15; -fx-background-color: linear-gradient(to bottom right, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05)); -fx-background-radius: 5;">
+
+      <!-- TARJETA IZQUIERDA -->
+      <VBox alignment="TOP_CENTER" layoutX="28.0" layoutY="29.0" maxWidth="250.0" minWidth="250.0" prefHeight="746.0" prefWidth="250.0" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+         <padding><Insets bottom="28.0" left="16.0" right="16.0" top="28.0" /></padding>
          <children>
-            <Label style="-fx-text-fill: #ffffff; -fx-font-size: 14; -fx-font-weight: bold;" text="Información Personal" />
-            <HBox spacing="10">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 12; -fx-font-weight: bold; -fx-min-width: 150;" text="Nombre completo:" />
-                  <Label fx:id="nombreLabel" style="-fx-text-fill: #2c3e50; -fx-font-size: 12;" />
-               </children>
-            </HBox>
-            <HBox spacing="10">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 12; -fx-font-weight: bold; -fx-min-width: 150;" text="Email:" />
-                  <Label fx:id="emailLabel" style="-fx-text-fill: #2c3e50; -fx-font-size: 12;" />
-               </children>
-            </HBox>
-            <HBox spacing="10">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 12; -fx-font-weight: bold; -fx-min-width: 150;" text="Fecha de nacimiento:" />
-                  <Label fx:id="fechaNacimientoLabel" style="-fx-text-fill: #2c3e50; -fx-font-size: 12;" />
-               </children>
-            </HBox>
-            <HBox spacing="10">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 12; -fx-font-weight: bold; -fx-min-width: 150;" text="Género:" />
-                  <Label fx:id="generoLabel" style="-fx-text-fill: #2c3e50; -fx-font-size: 12;" />
-               </children>
-            </HBox>
-            <HBox spacing="10">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 12; -fx-font-weight: bold; -fx-min-width: 150;" text="Nacionalidad:" />
-                  <Label fx:id="nacionalidadLabel" style="-fx-text-fill: #2c3e50; -fx-font-size: 12;" />
-               </children>
-            </HBox>
-            <HBox spacing="10">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 12; -fx-font-weight: bold; -fx-min-width: 150;" text="Estado civil:" />
-                  <Label fx:id="estadoCivilLabel" style="-fx-text-fill: #2c3e50; -fx-font-size: 12;" />
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-      <VBox layoutX="287.0" layoutY="365.0" prefHeight="178.0" prefWidth="899.0" spacing="8" style="-fx-padding: 15; -fx-background-color: linear-gradient(to bottom right, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05)); -fx-background-radius: 5;">
-         <children>
-            <Label style="-fx-text-fill: #ffffff; -fx-font-size: 14; -fx-font-weight: bold;" text="Información de Contacto" />
-            <HBox spacing="10">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 12; -fx-font-weight: bold; -fx-min-width: 150;" text="RFC:" />
-                  <Label fx:id="rfcLabel" style="-fx-text-fill: #2c3e50; -fx-font-size: 12;" />
-               </children>
-            </HBox>
-            <HBox spacing="10">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 12; -fx-font-weight: bold; -fx-min-width: 150;" text="CURP:" />
-                  <Label fx:id="curpLabel" style="-fx-text-fill: #2c3e50; -fx-font-size: 12;" />
-               </children>
-            </HBox>
-            <HBox spacing="10">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 12; -fx-font-weight: bold; -fx-min-width: 150;" text="Domicilio:" />
-                  <Label fx:id="domicilioLabel" style="-fx-text-fill: #2c3e50; -fx-font-size: 12;" />
-               </children>
-            </HBox>
-            <HBox spacing="10">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 12; -fx-font-weight: bold; -fx-min-width: 150;" text="Código Postal:" />
-                  <Label fx:id="codigoPostalLabel" style="-fx-text-fill: #2c3e50; -fx-font-size: 12;" />
-               </children>
-            </HBox>
-            <HBox spacing="10">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 12; -fx-font-weight: bold; -fx-min-width: 150;" text="Teléfono:" />
-                  <Label fx:id="telefonoLabel" style="-fx-text-fill: #2c3e50; -fx-font-size: 12;" />
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-      <VBox layoutX="277.0" layoutY="573.0" prefHeight="278.0" prefWidth="917.0" spacing="8" style="-fx-padding: 15; -fx-background-color: linear-gradient(to bottom right, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05)); -fx-background-radius: 5;">
-         <children>
-            <Label style="-fx-text-fill: #ffffff; -fx-font-size: 14; -fx-font-weight: bold;" text="Información Profesional" />
-            <HBox spacing="10">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 12; -fx-font-weight: bold; -fx-min-width: 150;" text="Herramientas:" />
-                  <Label fx:id="herramientasLabel" style="-fx-text-fill: #2c3e50; -fx-font-size: 12;" />
-               </children>
-            </HBox>
-            <HBox spacing="10">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 12; -fx-font-weight: bold; -fx-min-width: 150;" text="Idiomas:" />
-                  <Label fx:id="idiomasLabel" style="-fx-text-fill: #2c3e50; -fx-font-size: 12;" />
-               </children>
-            </HBox>
-            <HBox spacing="10">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 12; -fx-font-weight: bold; -fx-min-width: 150;" text="Nivel de estudio:" />
-                  <Label fx:id="nivelEstudioLabel" style="-fx-text-fill: #2c3e50; -fx-font-size: 12;" />
-               </children>
-            </HBox>
-            <HBox spacing="10">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 12; -fx-font-weight: bold; -fx-min-width: 150;" text="Especialidad:" />
-                  <Label fx:id="especialidadLabel" style="-fx-text-fill: #2c3e50; -fx-font-size: 12;" />
-               </children>
-            </HBox>
-            <HBox spacing="10">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 12; -fx-font-weight: bold; -fx-min-width: 150;" text="Años de experiencia:" />
-                  <Label fx:id="anosExperienciaLabel" style="-fx-text-fill: #2c3e50; -fx-font-size: 12;" />
-               </children>
-            </HBox>
-            <HBox spacing="10">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 12; -fx-font-weight: bold; -fx-min-width: 150;" text="Discapacidad:" />
-                  <Label fx:id="discapacidadLabel" style="-fx-text-fill: #2c3e50; -fx-font-size: 12;" />
-               </children>
-            </HBox>
-            <HBox spacing="10">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 12; -fx-font-weight: bold; -fx-min-width: 150;" text="Experiencia:" />
-                  <Label fx:id="experienciaLabel" style="-fx-text-fill: #2c3e50; -fx-font-size: 12;" />
-               </children>
-            </HBox>
-            <VBox spacing="5">
-               <children>
-                  <Label style="-fx-text-fill: #ffffff; -fx-font-size: 12; -fx-font-weight: bold;" text="Habilidades:" />
-                  <Label fx:id="habilidadesLabel" style="-fx-text-fill: #2c3e50; -fx-font-size: 12; -fx-wrap-text: true;" wrapText="true" />
-               </children>
-            </VBox>
-         </children>
-      </VBox>
-      <VBox layoutX="-1.0" layoutY="-2.0" prefHeight="847.0" prefWidth="248.0" style="-fx-background-color: linear-gradient(to bottom right, rgba(26, 54, 104, 0.85), rgba(10, 25, 47, 0.5));">
-         <children>
-            <ImageView fitHeight="198.0" fitWidth="349.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@assets/imagen_2026-03-14_155500407-removebg-preview.png" />
+                  <Image url="@assets/WhatsApp_Image_2026-03-24_at_12.15.37-removebg-preview.png" />
                </image>
             </ImageView>
-            <Label prefHeight="86.0" prefWidth="256.0" style="-fx-text-fill: #ffffff; -fx-font-size: 22; -fx-font-weight: bold;" text="Perfil del Trabajador">
-               <font>
-                  <Font name="System Bold" size="24.0" />
-               </font>
-            </Label>
-            <VBox maxWidth="150.0" minWidth="250.0" prefHeight="76.0" prefWidth="150.0">
-               <children>
-                  <Button fx:id="volverButton" onAction="#onVolverClick" prefHeight="55.0" prefWidth="231.0" style="-fx-background-color: linear-gradient(to bottom right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1)); -fx-text-fill: white; -fx-font-weight: bold; -fx-border-color: rgba(255, 255, 255, 0.5); -fx-cursor: hand;" text="Volver">
-                     <VBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </VBox.margin>
-                     <graphic>
-                        <ImageView fitHeight="64.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@assets/imagen_2026-03-14_203506318-removebg-preview.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-               </children>
-            </VBox>
+            <Label alignment="CENTER" prefWidth="210.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;" text="Detalle del Trabajador" wrapText="true" />
+            <Region VBox.vgrow="ALWAYS" />
+            <Button fx:id="aceptarButton" onAction="#onAceptarClick" prefHeight="55.0" prefWidth="225.0" style="-fx-background-color: linear-gradient(to bottom right, #10b981, #065f46); -fx-text-fill: white; -fx-font-size: 17; -fx-font-weight: bold; -fx-border-color: rgba(255,255,255,0.5); -fx-border-radius: 4; -fx-background-radius: 4; -fx-cursor: hand;" text="✓ Aceptar" />
+            <Button fx:id="rechazarButton" onAction="#onRechazarClick" prefHeight="55.0" prefWidth="225.0" style="-fx-background-color: linear-gradient(to bottom right, #ef5350, #c62828); -fx-text-fill: white; -fx-font-size: 17; -fx-font-weight: bold; -fx-border-color: rgba(255,255,255,0.5); -fx-border-radius: 4; -fx-background-radius: 4; -fx-cursor: hand;" text="✗ Rechazar" />
+            <Button fx:id="volverButton" onAction="#onVolverClick" prefHeight="55.0" prefWidth="225.0" style="-fx-background-color: linear-gradient(to bottom right, #4a6fa5, #2c4a7c); -fx-text-fill: white; -fx-font-size: 17; -fx-font-weight: bold; -fx-border-color: rgba(255,255,255,0.5); -fx-border-radius: 4; -fx-background-radius: 4; -fx-cursor: hand;" text="← Volver" />
          </children>
       </VBox>
-      <VBox layoutX="1233.0" layoutY="-3.0" prefHeight="850.0" prefWidth="315.0" style="-fx-background-color: linear-gradient(to bottom right, rgba(26, 54, 104, 0.85), rgba(10, 25, 47, 0.5));">
-         <children>
-            <VBox maxHeight="76.0" maxWidth="150.0" minHeight="76.0" minWidth="150.0" prefHeight="76.0" prefWidth="150.0" />
-            <VBox maxWidth="150.0" minWidth="150.0" prefHeight="76.0" prefWidth="150.0" />
-            <VBox maxWidth="150.0" minWidth="150.0" prefHeight="76.0" prefWidth="150.0" />
-         </children>
+
+      <!-- TARJETA DERECHA -->
+      <VBox alignment="TOP_CENTER" layoutX="1234.0" layoutY="29.0" maxWidth="250.0" minWidth="250.0" prefHeight="746.0" prefWidth="250.0" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+         <padding><Insets bottom="28.0" left="22.0" right="22.0" top="28.0" /></padding>
+         <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;" text="Evaluación del candidato" />
+         <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Revisa el perfil completo del trabajador." wrapText="true" /></HBox>
+         <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Acepta si cumple los requisitos del puesto." wrapText="true" /></HBox>
+         <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Rechaza si no aplica al perfil requerido." wrapText="true" /></HBox>
       </VBox>
+
+      <!-- CONTENIDO CENTRAL -->
+      <VBox layoutX="299.0" layoutY="29.0" prefHeight="270.0" prefWidth="917.0" spacing="8.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4); -fx-padding: 20;">
+         <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;" text="Información Personal" />
+         <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Nombre completo:" /><Label fx:id="nombreLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
+         <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Email:" /><Label fx:id="emailLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
+         <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Fecha de nacimiento:" /><Label fx:id="fechaNacimientoLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
+         <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Género:" /><Label fx:id="generoLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
+         <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Nacionalidad:" /><Label fx:id="nacionalidadLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
+         <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Estado civil:" /><Label fx:id="estadoCivilLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
+      </VBox>
+
+      <VBox layoutX="298.0" layoutY="308.0" prefHeight="235.0" prefWidth="918.0" spacing="8.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4); -fx-padding: 20;">
+         <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;" text="Información de Contacto" />
+         <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="RFC:" /><Label fx:id="rfcLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
+         <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="CURP:" /><Label fx:id="curpLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
+         <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Domicilio:" /><Label fx:id="domicilioLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
+         <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Código Postal:" /><Label fx:id="codigoPostalLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
+         <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Teléfono:" /><Label fx:id="telefonoLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
+      </VBox>
+
+      <VBox layoutX="299.0" layoutY="553.0" prefHeight="358.0" prefWidth="918.0" spacing="8.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4); -fx-padding: 20;">
+         <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;" text="Información Profesional" />
+         <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Herramientas:" /><Label fx:id="herramientasLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
+         <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Idiomas:" /><Label fx:id="idiomasLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
+         <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Nivel de estudio:" /><Label fx:id="nivelEstudioLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
+         <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Especialidad:" /><Label fx:id="especialidadLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
+         <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Años de experiencia:" /><Label fx:id="anosExperienciaLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
+         <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Discapacidad:" /><Label fx:id="discapacidadLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
+         <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Experiencia:" /><Label fx:id="experienciaLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
+         <VBox spacing="4.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Habilidades:" /><Label fx:id="habilidadesLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" wrapText="true" /></VBox>
+      </VBox>
+
    </children>
 </AnchorPane>

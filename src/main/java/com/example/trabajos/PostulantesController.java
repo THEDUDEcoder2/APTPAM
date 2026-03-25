@@ -5,14 +5,14 @@ import com.example.trabajos.models.Oferta;
 import com.example.trabajos.models.Trabajador;
 import com.example.trabajos.services.PostulacionService;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.Label;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.HBox;
@@ -179,6 +179,7 @@ public class PostulantesController {
             DetalleTrabajadorController controller = loader.getController();
             controller.setPostulacion(postulacion);
             controller.setPostulantesController(this);
+
             Stage stage = (Stage) postulantesTable.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setMaximized(true);

@@ -19,8 +19,9 @@ public class FormularioPrivadoController {
 
     @FXML private Label trabajadorInfoLabel;
     @FXML private Label trabajadorEmailLabel;
-    @FXML private Label nombreEmpresaLabel;
     @FXML private TextField herramientasField;
+    @FXML private ComboBox<String> horarioEntradaComboBox;
+    @FXML private ComboBox<String> horarioSalidaComboBox;
     @FXML private TextField calleField;
     @FXML private TextField coloniaField;
     @FXML private TextField codigoPostalField;
@@ -29,14 +30,10 @@ public class FormularioPrivadoController {
     @FXML private ComboBox<String> tipoTrabajoComboBox;
     @FXML private TextField otroTrabajoField;
     @FXML private HBox otroTrabajoContainer;
-    @FXML private ComboBox<String> horarioEntradaComboBox;
-    @FXML private ComboBox<String> horarioSalidaComboBox;
     @FXML private TextField sueldoField;
     @FXML private ComboBox<String> tipoSalarioComboBox;
     @FXML private TextArea mensajePersonalArea;
     @FXML private Label mensajeLabel;
-    @FXML private Button enviarButton;
-    @FXML private Button cancelarButton;
 
     private com.example.trabajos.models.Trabajador trabajadorDestino;
     private com.example.trabajos.models.Empresa empresaActual;
@@ -85,18 +82,16 @@ public class FormularioPrivadoController {
             empresaActual = empresaService.obtenerEmpresaPorEmail(usuario.getEmail());
 
             if (empresaActual != null) {
-                nombreEmpresaLabel.setText(empresaActual.getNombreEmpresa());
-                calleField.setText(empresaActual.getCalle());
-                coloniaField.setText(empresaActual.getColonia());
-                codigoPostalField.setText(empresaActual.getCodigoPostal());
-                gmailField.setText(empresaActual.getCorreoElectronico());
-                telefonoField.setText(empresaActual.getNumTelefono());
+                calleField.setText(empresaActual.getCalle() != null ? empresaActual.getCalle() : "");
+                coloniaField.setText(empresaActual.getColonia() != null ? empresaActual.getColonia() : "");
+                codigoPostalField.setText(empresaActual.getCodigoPostal() != null ? empresaActual.getCodigoPostal() : "");
+                gmailField.setText(empresaActual.getCorreoElectronico() != null ? empresaActual.getCorreoElectronico() : "");
+                telefonoField.setText(empresaActual.getNumTelefono() != null ? empresaActual.getNumTelefono() : "");
             }
         }
     }
 
     private void configurarCombos() {
-        // Configurar tipos de trabajo
         tipoTrabajoComboBox.getItems().addAll(
                 "Asesor/Consultor", "Atención al cliente", "Vigilancia/Recepcionista",
                 "Tutor/Enseñanza", "Artesanías", "Jardinería", "Limpieza",
@@ -116,7 +111,6 @@ public class FormularioPrivadoController {
             }
         });
 
-        // Horarios
         List<String> horas = new ArrayList<>();
         for (int i = 7; i < 21; i++) {
             for (int j = 0; j < 60; j += 30) {
@@ -126,7 +120,6 @@ public class FormularioPrivadoController {
         horarioEntradaComboBox.getItems().addAll(horas);
         horarioSalidaComboBox.getItems().addAll(horas);
 
-        // Tipo salario
         tipoSalarioComboBox.getItems().addAll("Semanal", "Quincenal", "Mensual");
     }
 
@@ -137,25 +130,13 @@ public class FormularioPrivadoController {
             }
         });
 
-        codigoPostalField.textProperty().addListener((obs, old, newVal) -> {
-            if (!newVal.matches("\\d*")) {
-                codigoPostalField.setText(newVal.replaceAll("[^\\d]", ""));
-            }
-            if (newVal.length() > 5) {
-                codigoPostalField.setText(newVal.substring(0, 5));
-            }
-        });
-
         configurarCampoTexto(herramientasField);
+        configurarCampoTexto(otroTrabajoField);
         configurarTextArea(mensajePersonalArea);
-
-        // NOTA: No configuramos otroTrabajoField aquí porque su contenedor está invisible al inicio
-        // El validador se aplicará cuando se haga visible
     }
 
     private void configurarCampoTexto(TextField field) {
-        if (field == null) return; // Evitar NullPointerException
-
+        if (field == null) return;
         field.textProperty().addListener((obs, old, newVal) -> {
             if (newVal != null && !newVal.isEmpty()) {
                 if (newVal.startsWith(" ")) {
@@ -173,8 +154,7 @@ public class FormularioPrivadoController {
     }
 
     private void configurarTextArea(TextArea area) {
-        if (area == null) return; // Evitar NullPointerException
-
+        if (area == null) return;
         area.textProperty().addListener((obs, old, newVal) -> {
             if (newVal != null && !newVal.isEmpty()) {
                 if (newVal.startsWith(" ")) {
@@ -202,38 +182,27 @@ public class FormularioPrivadoController {
 
             String horarioCompleto = horarioEntradaComboBox.getValue() + " - " + horarioSalidaComboBox.getValue();
 
-            // Crear la oferta PRIVADA
             Oferta nuevaOferta = new Oferta();
             nuevaOferta.setEmpresa(empresaActual);
             nuevaOferta.setTrabajadorDestino(trabajadorDestino);
             nuevaOferta.setPuesto_trabajo(puestoFinal);
-            nuevaOferta.setDescripcion_trabajo("");
-            nuevaOferta.setExperiencia("");
+            nuevaOferta.setDescripcion_trabajo(formatearPrimeraLetraMayuscula(mensajePersonalArea.getText()));
+            nuevaOferta.setExperiencia("No especificada");
             nuevaOferta.setJornada_laboral(horarioCompleto);
-            nuevaOferta.setNivel_estudio("");
+            nuevaOferta.setNivel_estudio("No especificado");
             nuevaOferta.setCantidad(1);
             nuevaOferta.setFecha_publicacion(LocalDate.now());
             nuevaOferta.setMensajePersonal(formatearPrimeraLetraMayuscula(mensajePersonalArea.getText()));
             nuevaOferta.setTipoOferta("PRIVADA");
 
-            // Salario
             Salario salario = salarioService.obtenerSalarioPorTipo(tipoSalarioComboBox.getValue());
             if (salario == null) {
                 salario = new Salario(tipoSalarioComboBox.getValue());
             }
             nuevaOferta.setSalario(salario);
 
-            System.out.println("📝 Creando oferta privada:");
-            System.out.println("   - Empresa: " + empresaActual.getNombreEmpresa());
-            System.out.println("   - Trabajador destino: " + trabajadorDestino.getNombre() + " " +
-                    (trabajadorDestino.getApellidoPaterno() != null ? trabajadorDestino.getApellidoPaterno() : ""));
-            System.out.println("   - Puesto: " + puestoFinal);
-            System.out.println("   - Tipo: " + nuevaOferta.getTipoOferta());
-
-            // Guardar oferta
             Oferta ofertaPersistida = ofertaService.guardarOferta(nuevaOferta);
 
-            // Crear postulación automática
             com.example.trabajos.models.Postulacion postulacion = new com.example.trabajos.models.Postulacion();
             postulacion.setTrabajador(trabajadorDestino);
             postulacion.setOferta(ofertaPersistida);
@@ -242,43 +211,42 @@ public class FormularioPrivadoController {
             postulacion.setFechaPostulacion(LocalDateTime.now());
             postulacionService.guardarPostulacion(postulacion);
 
-            System.out.println("✅ OFERTA PRIVADA CREADA EXITOSAMENTE:");
-            System.out.println("   - ID Oferta: " + ofertaPersistida.getIdOferta());
-
             String nombreTrabajador = trabajadorDestino.getNombre();
             if (trabajadorDestino.getApellidoPaterno() != null && !trabajadorDestino.getApellidoPaterno().isEmpty()) {
                 nombreTrabajador += " " + trabajadorDestino.getApellidoPaterno();
             }
 
-            mostrarMensajeExito("✅ Oferta privada enviada correctamente a " + nombreTrabajador);
+            mostrarMensajeExito("✅ Oferta PRIVADA enviada correctamente a " + nombreTrabajador);
 
             new Thread(() -> {
                 try {
                     Thread.sleep(1500);
                     javafx.application.Platform.runLater(() -> {
-                        volverATrabajadoresDisponibles();
+                        Stage stage = (Stage) mensajeLabel.getScene().getWindow();
+                        // REGRESAR A LA MISMA VENTANA - REEMPLAZAR ESCENA
+                        volverATrabajadoresDisponibles(stage);
                     });
                 } catch (Exception e) {
-                    javafx.application.Platform.runLater(this::volverATrabajadoresDisponibles);
+                    javafx.application.Platform.runLater(() -> {
+                        Stage stage = (Stage) mensajeLabel.getScene().getWindow();
+                        volverATrabajadoresDisponibles(stage);
+                    });
                 }
             }).start();
 
         } catch (Exception e) {
-            mostrarError("Error al enviar la oferta: " + e.getMessage());
+            mostrarError("Error al enviar la oferta privada: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    private void volverATrabajadoresDisponibles() {
+    private void volverATrabajadoresDisponibles(Stage stage) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/TrabajadoresDisponibles.fxml"));
             Parent root = loader.load();
-
-            Stage stage = (Stage) mensajeLabel.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setMaximized(true);
             stage.setTitle("Trabajadores Disponibles");
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -290,7 +258,7 @@ public class FormularioPrivadoController {
                 tipoTrabajoComboBox.getValue() == null ||
                 horarioEntradaComboBox.getValue() == null ||
                 horarioSalidaComboBox.getValue() == null ||
-                tipoSalarioComboBox.getValue() == null) {
+                mensajePersonalArea.getText().isEmpty()) {
 
             mostrarError("Por favor, completa todos los campos obligatorios.");
             return false;
@@ -312,6 +280,7 @@ public class FormularioPrivadoController {
 
     @FXML
     private void onCancelarClick() {
-        volverATrabajadoresDisponibles();
+        Stage stage = (Stage) mensajeLabel.getScene().getWindow();
+        volverATrabajadoresDisponibles(stage);
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -8,110 +9,124 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="844.0" prefWidth="1539.0" style="-fx-background-color: radial-gradient(center 50% 50%, radius 80%, #3a7bd5 0%, #001f3f 100%);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.trabajos.FormularioPrivadoController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1539.0" style="-fx-background-color: #dce8f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.trabajos.FormularioPrivadoController">
     <children>
-        <VBox layoutX="153.0" prefHeight="115.0" prefWidth="1386.0" style="-fx-background-color: linear-gradient(to bottom right, rgba(26, 54, 104, 0.85), rgba(10, 25, 47, 0.5)); -fx-border-color: rgba(100, 149, 237, 0.4); -fx-border-width: 1.5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 20, 0, 0, 12);" />
-        <VBox layoutY="114.0" prefHeight="734.0" prefWidth="153.0" style="-fx-background-color: linear-gradient(to bottom right, rgba(26, 54, 104, 0.85), rgba(10, 25, 47, 0.5)); -fx-border-color: rgba(100, 149, 237, 0.4); -fx-border-width: 1.5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 20, 0, 0, 12);">
-         <children>
-            <Label style="-fx-font-size: 8; -fx-font-weight: bold; -fx-text-fill: #ffffff;" text="Llenar Formulario de Oferta Privada" />
-                <Button fx:id="enviarButton" alignment="CENTER" onAction="#onEnviarClick" prefHeight="77.0" prefWidth="150.0" style="-fx-background-color: #2e7d32; -fx-text-fill: white; -fx-border-color: rgba(255, 255, 255, 0.5); -fx-font-weight: bold; -fx-cursor: hand;" text="ENVIAR" />
-                <Button fx:id="cancelarButton" onAction="#onCancelarClick" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #C62828; -fx-text-fill: white; -fx-border-color: rgba(255, 255, 255, 0.5); -fx-font-weight: bold; -fx-cursor: hand;" text="CANCELAR" />
-         </children>
-        </VBox>
-        <Label alignment="CENTER" layoutX="157.0" layoutY="10.0" prefHeight="100.0" prefWidth="1422.0" style="-fx-text-fill: #ffffff; -fx-font-size: 30; -fx-font-weight: bold;" text="PLATAFORMA DE EMPLEO TEMPORAL">
-            <font>
-                <Font size="32.0" />
-            </font>
+
+        <Label alignment="CENTER" layoutX="392.0" layoutY="20.0" prefHeight="100.0" prefWidth="822.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 30; -fx-font-weight: bold;" text="PLATAFORMA DE EMPLEO TEMPORAL">
+            <font><Font size="32.0" /></font>
         </Label>
-        <ImageView fitHeight="115.0" fitWidth="172.0" layoutX="14.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@assets/imagen_2026-03-14_155500407-removebg-preview.png" />
-            </image>
-        </ImageView>
-      <VBox layoutX="155.0" layoutY="114.0" prefHeight="734.0" prefWidth="1399.0" spacing="20" style="-fx-background-color: linear-gradient(to bottom right, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.05)); -fx-border-color: #e0e0e0; -fx-padding: 30;">
-         <children>
-            <HBox spacing="10" style="-fx-background-color: #e8f4f8; -fx-padding: 15; -fx-background-radius: 5;">
-               <children>
-                  <VBox spacing="5" HBox.hgrow="ALWAYS">
-                     <children>
-                        <Label style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #2980b9;" text="Enviando oferta privada a:" />
-                        <Label fx:id="trabajadorInfoLabel" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Cargando información..." />
-                        <Label fx:id="trabajadorEmailLabel" style="-fx-font-size: 14; -fx-text-fill: #34495e;" text="cargando email..." />
-                     </children>
-                  </VBox>
-               </children>
+
+        <VBox alignment="TOP_CENTER" layoutX="28.0" layoutY="126.0" maxWidth="250.0" minWidth="250.0" prefHeight="674.0" prefWidth="250.0" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+            <padding><Insets bottom="28.0" left="16.0" right="16.0" top="28.0" /></padding>
+            <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/WhatsApp_Image_2026-03-24_at_12.15.37-removebg-preview.png" />
+               </image>
+            </ImageView>
+                <Label alignment="CENTER" prefWidth="210.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;" text="Oferta Privada" wrapText="true" />
+                <Button fx:id="enviarButton" onAction="#onEnviarClick" prefHeight="55.0" prefWidth="225.0" style="-fx-background-color: linear-gradient(to bottom right, #10b981, #065f46); -fx-text-fill: white; -fx-font-size: 17; -fx-font-weight: bold; -fx-border-color: rgba(255,255,255,0.5); -fx-border-radius: 4; -fx-background-radius: 4; -fx-cursor: hand;" text="✓ Enviar Oferta" />
+                <Button fx:id="cancelarButton" onAction="#onCancelarClick" prefHeight="55.0" prefWidth="225.0" style="-fx-background-color: linear-gradient(to bottom right, #4a6fa5, #2c4a7c); -fx-text-fill: white; -fx-font-size: 17; -fx-font-weight: bold; -fx-border-color: rgba(255,255,255,0.5); -fx-border-radius: 4; -fx-background-radius: 4; -fx-cursor: hand;" text="✗ Cancelar" />
+            </children>
+        </VBox>
+
+        <VBox layoutX="290.0" layoutY="126.0" prefHeight="674.0" prefWidth="980.0" spacing="16.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+            <padding><Insets bottom="28.0" left="28.0" right="28.0" top="28.0" /></padding>
+
+            <VBox spacing="6.0" style="-fx-background-color: #e8f4f8; -fx-background-radius: 8; -fx-padding: 14;">
+                <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #2980b9;" text="Enviando oferta privada a:" />
+                <Label fx:id="trabajadorInfoLabel" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #1a3a5c;" text="Cargando información..." />
+                <Label fx:id="trabajadorEmailLabel" style="-fx-font-size: 16; -fx-text-fill: #3a5070;" text="cargando email..." />
+            </VBox>
+
+            <HBox spacing="16.0">
+                <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Herramientas/Equipo:" />
+                    <TextField fx:id="herramientasField" promptText="Herramientas requeridas" />
+                </VBox>
+                <VBox spacing="4.0">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Horario:" />
+                    <HBox spacing="6.0">
+                        <ComboBox fx:id="horarioEntradaComboBox" prefWidth="120" promptText="Entrada" />
+                        <Label style="-fx-text-fill: #1a3a5c;" text="a" />
+                        <ComboBox fx:id="horarioSalidaComboBox" prefWidth="120" promptText="Salida" />
+                    </HBox>
+                </VBox>
             </HBox>
-            <GridPane hgap="20" vgap="15">
-               <columnConstraints>
-                  <ColumnConstraints halignment="RIGHT" minWidth="150.0" />
-                  <ColumnConstraints hgrow="ALWAYS" minWidth="400.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-               </rowConstraints>
-               <children>
-                  <Label style="-fx-font-weight: bold; -fx-text-fill: #ffffff;" text="Nombre Empresa:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                  <Label fx:id="nombreEmpresaLabel" style="-fx-background-color: #f0f0f0; -fx-padding: 5; -fx-text-fill: #000000;" text="Cargando..." GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                  <Label style="-fx-font-weight: bold; -fx-text-fill: #ffffff;" text="Herramientas/Equipo:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                  <TextField fx:id="herramientasField" promptText="Herramientas requeridas" style="-fx-text-fill: #000000;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label style="-fx-font-weight: bold; -fx-text-fill: #ffffff;" text="Horario:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                  <HBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <children>
-                        <ComboBox fx:id="horarioEntradaComboBox" prefWidth="120" promptText="Entrada" style="-fx-text-fill: #000000;" />
-                        <Label style="-fx-text-fill: #ffffff;" text="a" />
-                        <ComboBox fx:id="horarioSalidaComboBox" prefWidth="120" promptText="Salida" style="-fx-text-fill: #000000;" />
-                     </children>
-                  </HBox>
-                  <Label style="-fx-font-weight: bold; -fx-text-fill: #ffffff;" text="Calle:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                  <TextField fx:id="calleField" editable="false" prefHeight="26.0" prefWidth="683.0" style="-fx-background-color: #f0f0f0; -fx-text-fill: #000000;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Label style="-fx-font-weight: bold; -fx-text-fill: #ffffff;" text="Colonia:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                  <TextField fx:id="coloniaField" editable="false" style="-fx-background-color: #f0f0f0; -fx-text-fill: #000000;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Label style="-fx-font-weight: bold; -fx-text-fill: #ffffff;" text="Código Postal:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                  <TextField fx:id="codigoPostalField" editable="false" style="-fx-background-color: #f0f0f0; -fx-text-fill: #000000;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <Label style="-fx-font-weight: bold; -fx-text-fill: #ffffff;" text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-                  <TextField fx:id="gmailField" editable="false" style="-fx-background-color: #f0f0f0; -fx-text-fill: #000000;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                  <Label style="-fx-font-weight: bold; -fx-text-fill: #ffffff;" text="Teléfono:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
-                  <TextField fx:id="telefonoField" editable="false" style="-fx-background-color: #f0f0f0; -fx-text-fill: #000000;" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                  <Label style="-fx-font-weight: bold; -fx-text-fill: #ffffff;" text="Puesto/Tipo de Trabajo:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
-                  <ComboBox fx:id="tipoTrabajoComboBox" prefHeight="26.0" prefWidth="194.0" promptText="Selecciona tipo de trabajo" style="-fx-text-fill: #000000;" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                  <HBox fx:id="otroTrabajoContainer" managed="false" spacing="5" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="9">
-                     <children>
-                        <Label style="-fx-text-fill: #ffffff;" text="Especifique:" />
-                        <TextField fx:id="otroTrabajoField" prefWidth="250" promptText="Otro tipo de trabajo" style="-fx-text-fill: #000000;" />
-                     </children>
-                  </HBox>
-                  <Label style="-fx-font-weight: bold; -fx-text-fill: #ffffff;" text="Sueldo:" GridPane.rowIndex="10" />
-                  <HBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="10">
-                     <children>
-                        <TextField fx:id="sueldoField" prefWidth="150" promptText="Cantidad" style="-fx-text-fill: #000000;" />
-                        <Label style="-fx-text-fill: #ffffff;" text="Tipo:" />
-                        <ComboBox fx:id="tipoSalarioComboBox" prefWidth="120" promptText="Tipo" style="-fx-text-fill: #000000;" />
-                     </children>
-                  </HBox>
-                  <Label style="-fx-font-weight: bold; -fx-text-fill: #ffffff;" text="Mensaje Personal:" GridPane.columnIndex="0" GridPane.rowIndex="11" />
-                  <TextArea fx:id="mensajePersonalArea" prefRowCount="3" promptText="Escribe un mensaje personal para este trabajador..." style="-fx-text-fill: #000000;" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-               </children>
-            </GridPane>
-            <Label fx:id="mensajeLabel" style="-fx-font-size: 14; -fx-text-fill: #27ae60; -fx-alignment: center;" visible="false" />
-         </children>
-      </VBox>
+
+            <HBox spacing="16.0">
+                <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Calle:" />
+                    <TextField fx:id="calleField" editable="false" />
+                </VBox>
+                <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Colonia:" />
+                    <TextField fx:id="coloniaField" editable="false" />
+                </VBox>
+                <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Código Postal:" />
+                    <TextField fx:id="codigoPostalField" editable="false" />
+                </VBox>
+            </HBox>
+
+            <HBox spacing="16.0">
+                <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Email:" />
+                    <TextField fx:id="gmailField" editable="false" />
+                </VBox>
+                <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Teléfono:" />
+                    <TextField fx:id="telefonoField" editable="false" />
+                </VBox>
+            </HBox>
+
+            <HBox spacing="16.0">
+                <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Puesto/Tipo de Trabajo:" />
+                    <ComboBox fx:id="tipoTrabajoComboBox" promptText="Selecciona tipo de trabajo" />
+                </VBox>
+                <VBox spacing="4.0">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Sueldo:" />
+                    <HBox spacing="6.0">
+                        <TextField fx:id="sueldoField" prefWidth="130" promptText="Cantidad" />
+                        <ComboBox fx:id="tipoSalarioComboBox" prefWidth="130" promptText="Tipo" />
+                    </HBox>
+                </VBox>
+            </HBox>
+
+            <HBox fx:id="otroTrabajoContainer" managed="false" spacing="6.0" visible="false">
+                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Especifique:" />
+                <TextField fx:id="otroTrabajoField" prefWidth="260" promptText="Otro tipo de trabajo" />
+            </HBox>
+
+            <VBox spacing="4.0">
+                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Mensaje Personal:" />
+                <TextArea fx:id="mensajePersonalArea" prefHeight="90.0" promptText="Escribe un mensaje personal para este trabajador..." wrapText="true" />
+            </VBox>
+
+            <Label fx:id="mensajeLabel" style="-fx-font-size: 16; -fx-text-fill: #27ae60;" visible="false" />
+        </VBox>
+
+        <VBox alignment="TOP_CENTER" layoutX="1290.0" layoutY="126.0" maxWidth="250.0" minWidth="250.0" prefHeight="674.0" prefWidth="250.0" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+            <padding><Insets bottom="28.0" left="16.0" right="16.0" top="28.0" /></padding>
+            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;" text="Información" />
+            <HBox alignment="TOP_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Personaliza el mensaje para mayor impacto." wrapText="true" />
+            </HBox>
+            <HBox alignment="TOP_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Verifica el puesto y sueldo antes de enviar." wrapText="true" />
+            </HBox>
+            <HBox alignment="TOP_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="El trabajador recibirá la oferta por email." wrapText="true" />
+            </HBox>
+        </VBox>
+
     </children>
 </AnchorPane>

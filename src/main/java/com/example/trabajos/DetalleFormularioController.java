@@ -56,15 +56,17 @@ public class DetalleFormularioController {
 
     public void setEsDesdeEmpresas(boolean esDesdeEmpresas) {
         this.esDesdeEmpresas = esDesdeEmpresas;
-        if (verPostulantesButton != null) verPostulantesButton.setVisible(false);
 
         if (esDesdeEmpresas) {
             if (verPostulantesButton != null) {
-                verPostulantesButton.setText("Ver Postulantes");
+                verPostulantesButton.setText("👥 Ver Postulantes");
                 verPostulantesButton.setStyle("-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-weight: bold;");
                 verPostulantesButton.setVisible(true);
+                verPostulantesButton.setManaged(true);
             }
             if (verNotaButton != null) verNotaButton.setVisible(false);
+        } else {
+            if (verPostulantesButton != null) verPostulantesButton.setVisible(false);
         }
     }
 
@@ -179,9 +181,11 @@ public class DetalleFormularioController {
             Parent root = fxmlLoader.load();
             PostulantesController controller = fxmlLoader.getController();
             controller.setOferta(ofertaActual);
+
             Stage stage = (Stage) cerrarButton.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setMaximized(true);
+
         } catch (IOException e) {
             e.printStackTrace();
             mostrarError("No se pudo abrir la ventana de postulantes.");
