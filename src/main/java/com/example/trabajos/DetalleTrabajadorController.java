@@ -4,13 +4,13 @@ import com.example.trabajos.models.Trabajador;
 import com.example.trabajos.models.Postulacion;
 import com.example.trabajos.services.PostulacionService;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import java.io.IOException;
 
 public class DetalleTrabajadorController {
@@ -43,12 +43,12 @@ public class DetalleTrabajadorController {
     private Postulacion postulacion;
     private PostulacionService postulacionService = new PostulacionService();
     private PostulantesController postulantesController;
-    private String origen; // Para saber de dónde viene
+    private String origen; // "postulantes" o "trabajadoresDisponibles"
 
     public void setTrabajador(Trabajador trabajador) {
         this.trabajador = trabajador;
         this.postulacion = null;
-        this.origen = "trabajadoresDisponibles"; // Viene desde trabajadores disponibles
+        this.origen = "trabajadoresDisponibles";
         if (trabajador != null) {
             mostrarDetalles();
             if (aceptarButton != null) aceptarButton.setVisible(false);
@@ -58,7 +58,7 @@ public class DetalleTrabajadorController {
 
     public void setPostulacion(Postulacion postulacion) {
         this.postulacion = postulacion;
-        this.origen = "postulantes"; // Viene desde postulantes
+        this.origen = "postulantes";
         if (postulacion != null && postulacion.getTrabajador() != null) {
             this.trabajador = postulacion.getTrabajador();
             mostrarDetalles();
@@ -244,27 +244,34 @@ public class DetalleTrabajadorController {
             String titulo;
 
             if ("postulantes".equals(origen)) {
-                // Viene desde postulantes (ofertas públicas)
+                // Viene desde postulantes (ofertas públicas) - volver a Postulantes
                 fxmlDestino = "Postulantes.fxml";
                 titulo = "Postulantes";
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/" + fxmlDestino));
+                Parent root = loader.load();
+
+                // Si es Postulantes, pasar la oferta
+                if (postulacion != null && postulacion.getOferta() != null) {
+                    PostulantesController controller = loader.getController();
+                    controller.setOferta(postulacion.getOferta());
+                }
+
+                Stage stage = (Stage) volverButton.getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.setMaximized(true);
+                stage.setTitle(titulo);
+
             } else {
-                // Viene desde trabajadores disponibles (ofertas privadas)
-                fxmlDestino = "TrabajadoresDisponibles.fxml";
-                titulo = "Trabajadores Disponibles";
+                // Viene desde trabajadores disponibles (ofertas privadas) - volver a Empresas
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/Empresas.fxml"));
+                Parent root = loader.load();
+
+                Stage stage = (Stage) volverButton.getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.setMaximized(true);
+                stage.setTitle("Panel de Empresas");
             }
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/" + fxmlDestino));
-            Parent root = loader.load();
-
-            if ("postulantes".equals(origen) && postulacion != null && postulacion.getOferta() != null) {
-                PostulantesController controller = loader.getController();
-                controller.setOferta(postulacion.getOferta());
-            }
-
-            Stage stage = (Stage) volverButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setMaximized(true);
-            stage.setTitle(titulo);
 
         } catch (Exception e) {
             e.printStackTrace();

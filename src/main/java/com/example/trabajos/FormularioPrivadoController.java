@@ -223,13 +223,12 @@ public class FormularioPrivadoController {
                     Thread.sleep(1500);
                     javafx.application.Platform.runLater(() -> {
                         Stage stage = (Stage) mensajeLabel.getScene().getWindow();
-                        // REGRESAR A LA MISMA VENTANA - REEMPLAZAR ESCENA
-                        volverATrabajadoresDisponibles(stage);
+                        volverAEmpresas(stage);
                     });
                 } catch (Exception e) {
                     javafx.application.Platform.runLater(() -> {
                         Stage stage = (Stage) mensajeLabel.getScene().getWindow();
-                        volverATrabajadoresDisponibles(stage);
+                        volverAEmpresas(stage);
                     });
                 }
             }).start();
@@ -240,13 +239,13 @@ public class FormularioPrivadoController {
         }
     }
 
-    private void volverATrabajadoresDisponibles(Stage stage) {
+    private void volverAEmpresas(Stage stage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/TrabajadoresDisponibles.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/Empresas.fxml"));
             Parent root = loader.load();
             stage.setScene(new Scene(root));
             stage.setMaximized(true);
-            stage.setTitle("Trabajadores Disponibles");
+            stage.setTitle("Panel de Empresas");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -281,6 +280,6 @@ public class FormularioPrivadoController {
     @FXML
     private void onCancelarClick() {
         Stage stage = (Stage) mensajeLabel.getScene().getWindow();
-        volverATrabajadoresDisponibles(stage);
+        volverAEmpresas(stage);
     }
 }

@@ -1,25 +1,25 @@
 package com.example.trabajos;
 
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.Region;
-import javafx.stage.Stage;
-import java.io.IOException;
-
 import com.example.trabajos.models.Oferta;
 import com.example.trabajos.models.Trabajador;
 import com.example.trabajos.models.Postulacion;
 import com.example.trabajos.services.PostulacionService;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class DetalleFormularioController {
 
+    // Componentes del FXML
     @FXML private Label nombreEmpresaLabel;
     @FXML private Label herramientaLabel;
     @FXML private Label idiomasLabel;
@@ -29,13 +29,22 @@ public class DetalleFormularioController {
     @FXML private Label puestoLabel;
     @FXML private Label horarioLabel;
     @FXML private Label sueldoLabel;
+    @FXML private Label nivelEstudioLabel;
+    @FXML private Label experienciaLabel;
     @FXML private Label descripcionLabel;
-    @FXML private Label mensajePersonalLabel;
-    @FXML private Label estadoLabel;
 
-    @FXML private Button cerrarButton;
-    @FXML private Button verPostulantesButton;
-    @FXML private Button verNotaButton;
+    @FXML private TabPane tabPane;
+    @FXML private Tab detalleTab;
+    @FXML private Tab postulantesTab;
+
+    // Componentes de la tabla de postulantes
+    @FXML private TableView<Postulacion> postulantesTable;
+    @FXML private TableColumn<Postulacion, String> nombreColumn;
+    @FXML private TableColumn<Postulacion, String> telefonoColumn;
+    @FXML private TableColumn<Postulacion, String> estadoColumn;
+    @FXML private TableColumn<Postulacion, Void> accionesColumn;
+
+    @FXML private Button volverButton;
 
     private boolean soloLectura = false;
     private boolean esDesdeEmpresas = false;
@@ -43,42 +52,159 @@ public class DetalleFormularioController {
     private Trabajador trabajadorActual;
 
     private PostulacionService postulacionService = new PostulacionService();
+    private PostulantesController postulantesController;
+
+    @FXML
+    public void initialize() {
+        configurarTablaPostulantes();
+        configurarSeleccionTabla();
+
+        // Ocultar la pestaña de postulantes si no es empresa
+        if (!esDesdeEmpresas && postulantesTab != null) {
+            tabPane.getTabs().remove(postulantesTab);
+        }
+    }
+
+    private void configurarTablaPostulantes() {
+        if (nombreColumn != null) {
+            nombreColumn.setCellValueFactory(cellData -> {
+                String nombre = "No disponible";
+                if (cellData.getValue().getTrabajador() != null) {
+                    nombre = cellData.getValue().getTrabajador().getNombreCompleto();
+                }
+                return new javafx.beans.property.SimpleStringProperty(nombre);
+            });
+        }
+
+        if (telefonoColumn != null) {
+            telefonoColumn.setCellValueFactory(cellData -> {
+                String telefono = "No disponible";
+                if (cellData.getValue().getTrabajador() != null) {
+                    telefono = cellData.getValue().getTrabajador().getNumTelefono();
+                }
+                return new javafx.beans.property.SimpleStringProperty(telefono);
+            });
+        }
+
+        if (estadoColumn != null) {
+            estadoColumn.setCellValueFactory(cellData ->
+                    new javafx.beans.property.SimpleStringProperty(cellData.getValue().getEstado()));
+
+            estadoColumn.setCellFactory(column -> new TableCell<Postulacion, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                        setStyle("");
+                    } else {
+                        String estado = item.toUpperCase();
+                        switch (estado) {
+                            case "PENDIENTE":
+                                setText("⏳ EN ESPERA");
+                                setStyle("-fx-text-fill: #f39c12; -fx-font-weight: bold;");
+                                break;
+                            case "ACEPTADO":
+                                setText("✅ ACEPTADO");
+                                setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold;");
+                                break;
+                            case "RECHAZADO":
+                                setText("❌ RECHAZADO");
+                                setStyle("-fx-text-fill: #e74c3c; -fx-font-weight: bold;");
+                                break;
+                            default:
+                                setText(estado);
+                                setStyle("-fx-text-fill: #7f8c8d;");
+                                break;
+                        }
+                    }
+                }
+            });
+        }
+
+        if (accionesColumn != null) {
+            accionesColumn.setCellFactory(param -> new TableCell<>() {
+                private final Button verPerfilButton = new Button("👤 Ver Perfil");
+                private final Button notasButton = new Button("✏️ Agregar Nota");
+
+                {
+                    verPerfilButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 3;");
+                    verPerfilButton.setOnAction(event -> {
+                        Postulacion postulacion = getTableView().getItems().get(getIndex());
+                        abrirDetalleTrabajador(postulacion);
+                    });
+
+                    notasButton.setStyle("-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 3;");
+                    notasButton.setOnAction(event -> {
+                        Postulacion postulacion = getTableView().getItems().get(getIndex());
+                        abrirNotas(postulacion);
+                    });
+                }
+
+                @Override
+                protected void updateItem(Void item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        Postulacion postulacion = getTableView().getItems().get(getIndex());
+                        HBox hbox = new HBox(5);
+                        hbox.getChildren().add(verPerfilButton);
+
+                        if (postulacion != null && "ACEPTADO".equalsIgnoreCase(postulacion.getEstado())) {
+                            hbox.getChildren().add(notasButton);
+                        }
+
+                        setGraphic(hbox);
+                    }
+                }
+            });
+        }
+    }
+
+    private void configurarSeleccionTabla() {
+        if (postulantesTable != null) {
+            postulantesTable.setRowFactory(tv -> {
+                TableRow<Postulacion> row = new TableRow<>();
+                row.setOnMouseClicked(event -> {
+                    if (event.getClickCount() == 1 && !row.isEmpty()) {
+                        Postulacion postulacion = row.getItem();
+                        abrirDetalleTrabajador(postulacion);
+                    }
+                });
+                return row;
+            });
+        }
+    }
 
     public void setSoloLectura(boolean soloLectura) {
         this.soloLectura = soloLectura;
-        if (soloLectura) {
-            if (cerrarButton != null) cerrarButton.setText("Volver");
-            if (verPostulantesButton != null) verPostulantesButton.setVisible(false);
-        } else {
-            if (verPostulantesButton != null) verPostulantesButton.setVisible(false);
+        if (soloLectura && volverButton != null) {
+            volverButton.setText("Volver");
         }
     }
 
     public void setEsDesdeEmpresas(boolean esDesdeEmpresas) {
         this.esDesdeEmpresas = esDesdeEmpresas;
 
-        if (esDesdeEmpresas) {
-            if (verPostulantesButton != null) {
-                verPostulantesButton.setText("👥 Ver Postulantes");
-                verPostulantesButton.setStyle("-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-weight: bold;");
-                verPostulantesButton.setVisible(true);
-                verPostulantesButton.setManaged(true);
+        // Si es empresa, mostrar la pestaña de postulantes
+        if (esDesdeEmpresas && postulantesTab != null && tabPane != null) {
+            if (!tabPane.getTabs().contains(postulantesTab)) {
+                tabPane.getTabs().add(postulantesTab);
             }
-            if (verNotaButton != null) verNotaButton.setVisible(false);
-        } else {
-            if (verPostulantesButton != null) verPostulantesButton.setVisible(false);
         }
     }
 
     public void setTrabajadorActual(Trabajador trabajador) {
         this.trabajadorActual = trabajador;
-        actualizarEstadoPostulacion();
     }
 
     public void mostrarOferta(Oferta oferta) {
         this.ofertaActual = oferta;
 
-        if (nombreEmpresaLabel != null) nombreEmpresaLabel.setText(oferta.getEmpresa() != null ? oferta.getEmpresa().getNombreEmpresa() : "No especificado");
+        if (nombreEmpresaLabel != null) {
+            nombreEmpresaLabel.setText(oferta.getEmpresa() != null ? oferta.getEmpresa().getNombreEmpresa() : "No especificado");
+        }
         if (herramientaLabel != null) herramientaLabel.setText("No especificado");
         if (idiomasLabel != null) idiomasLabel.setText(oferta.getIdiomasRequeridos());
         if (domicilioLabel != null) domicilioLabel.setText(oferta.getEmpresa() != null ? oferta.getEmpresa().getDomicilioCompleto() : "No especificado");
@@ -87,165 +213,118 @@ public class DetalleFormularioController {
         if (puestoLabel != null) puestoLabel.setText(oferta.getPuesto_trabajo());
         if (horarioLabel != null) horarioLabel.setText(oferta.getJornada_laboral());
         if (sueldoLabel != null) sueldoLabel.setText(oferta.getSalario() != null ? oferta.getSalario().getTipoSalario() : "No especificado");
+        if (nivelEstudioLabel != null) nivelEstudioLabel.setText(oferta.getNivel_estudio());
+        if (experienciaLabel != null) experienciaLabel.setText(oferta.getExperiencia());
         if (descripcionLabel != null) descripcionLabel.setText(oferta.getDescripcion_trabajo());
 
-        if (oferta.esOfertaPrivada() && oferta.getMensajePersonal() != null && !oferta.getMensajePersonal().isEmpty()) {
-            if (mensajePersonalLabel != null) mensajePersonalLabel.setText(oferta.getMensajePersonal());
+        // Cargar postulantes si es empresa
+        if (esDesdeEmpresas && ofertaActual != null && postulantesTable != null) {
+            cargarPostulantes();
+        }
+    }
+
+    private void cargarPostulantes() {
+        if (ofertaActual == null) return;
+
+        List<Postulacion> postulaciones = postulacionService.obtenerPostulacionesPorOferta(ofertaActual);
+
+        if (postulaciones == null || postulaciones.isEmpty()) {
+            postulantesTable.setVisible(false);
+            // Agregar mensaje de que no hay postulantes
+            Label mensajeVacio = new Label("No hay postulantes para esta oferta");
+            mensajeVacio.setStyle("-fx-text-fill: #7f8c8d; -fx-font-style: italic; -fx-font-size: 14;");
+            // Aquí podrías agregar el label a un contenedor si lo tienes
         } else {
-            if (mensajePersonalLabel != null) mensajePersonalLabel.setText("Sin mensaje personal");
-        }
-
-        if (soloLectura && trabajadorActual != null) {
-            actualizarEstadoPostulacion();
+            postulantesTable.setVisible(true);
+            postulantesTable.getItems().setAll(postulaciones);
         }
     }
 
-    private void actualizarEstadoPostulacion() {
-        if (esDesdeEmpresas) return;
-
-        if (trabajadorActual != null && ofertaActual != null) {
-            Postulacion postulacion = obtenerPostulacionActual();
-
-            if (postulacion != null) {
-                String estado = postulacion.getEstado();
-                if (estadoLabel != null) {
-                    estadoLabel.setVisible(true);
-                    switch (estado) {
-                        case "PENDIENTE":
-                            estadoLabel.setText("⏳ Estado: EN ESPERA");
-                            estadoLabel.setStyle("-fx-text-fill: #f39c12; -fx-font-weight: bold;");
-                            break;
-                        case "ACEPTADO":
-                            estadoLabel.setText("✅ Estado: ACEPTADO");
-                            estadoLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold;");
-                            break;
-                        case "RECHAZADO":
-                            estadoLabel.setText("❌ Estado: RECHAZADO");
-                            estadoLabel.setStyle("-fx-text-fill: #e74c3c; -fx-font-weight: bold;");
-                            break;
-                        default:
-                            estadoLabel.setVisible(false);
-                            break;
-                    }
-                }
-                if (verNotaButton != null) verNotaButton.setVisible(postulacion.tieneNotaEmpresa());
-            } else {
-                if (estadoLabel != null) {
-                    estadoLabel.setText("⏳ Estado: PENDIENTE");
-                    estadoLabel.setStyle("-fx-text-fill: #f39c12; -fx-font-weight: bold;");
-                    estadoLabel.setVisible(true);
-                }
-                if (verNotaButton != null) verNotaButton.setVisible(false);
-            }
-        }
-    }
-
-    private Postulacion obtenerPostulacionActual() {
-        if (trabajadorActual == null || ofertaActual == null) return null;
-        return postulacionService.obtenerPostulacionPorTrabajadorYOferta(trabajadorActual, ofertaActual);
-    }
-
-    @FXML
-    private void onVerNotaClick() {
-        Postulacion postulacion = obtenerPostulacionActual();
-        if (postulacion == null || !postulacion.tieneNotaEmpresa()) return;
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("📝 Mensaje de la Empresa");
-        alert.setHeaderText("Mensaje de " + (ofertaActual.getEmpresa() != null ? ofertaActual.getEmpresa().getNombreEmpresa() : "la Empresa"));
-        alert.setContentText(postulacion.getNotaEmpresa());
-        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-        alert.getDialogPane().setMinWidth(400);
-        alert.showAndWait();
-    }
-
-    @FXML
-    private void onCerrarClick() {
-        if (esDesdeEmpresas || soloLectura) {
-            regresarATablaOfertas();
+    private void abrirDetalleTrabajador(Postulacion postulacion) {
+        if (postulacion == null || postulacion.getTrabajador() == null) {
+            mostrarAlerta("Información", "No hay información del trabajador disponible.");
             return;
         }
-        if (cerrarButton != null) {
-            Stage stage = (Stage) cerrarButton.getScene().getWindow();
-            stage.close();
-        }
-    }
 
-    @FXML
-    private void onVerPostulantesClick() {
-        abrirVentanaPostulantes();
-    }
-
-    private void abrirVentanaPostulantes() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/trabajos/Postulantes.fxml"));
-            Parent root = fxmlLoader.load();
-            PostulantesController controller = fxmlLoader.getController();
-            controller.setOferta(ofertaActual);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/DetalleTrabajador.fxml"));
+            Parent root = loader.load();
 
-            Stage stage = (Stage) cerrarButton.getScene().getWindow();
+            DetalleTrabajadorController controller = loader.getController();
+            controller.setPostulacion(postulacion);
+
+            Stage stage = (Stage) volverButton.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setMaximized(true);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            mostrarError("No se pudo abrir la ventana de postulantes.");
+            mostrarAlerta("Error", "No se pudo abrir el perfil del trabajador: " + e.getMessage());
         }
     }
 
-    private void regresarATablaOfertas() {
+    private void abrirNotas(Postulacion postulacion) {
+        try {
+            if (!"ACEPTADO".equalsIgnoreCase(postulacion.getEstado())) {
+                mostrarAlerta("Restricción",
+                        "Solo puedes agregar notas a postulaciones ACEPTADAS.\n" +
+                                "Estado actual: " + postulacion.getEstado());
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/Notas.fxml"));
+            Parent root = loader.load();
+
+            NotasController controller = loader.getController();
+            controller.setPostulacion(postulacion);
+
+            Stage stage = new Stage();
+            stage.setTitle("Agregar Nota - " +
+                    (postulacion.getTrabajador() != null ?
+                            postulacion.getTrabajador().getNombreCompleto() : "Postulante"));
+            stage.setScene(new Scene(root));
+            stage.setMaximized(true);
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlerta("Error", "No se pudo abrir la ventana de notas: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void onVolverClick() {
         try {
             String fxml;
             String titulo;
 
             if (soloLectura) {
+                // Trabajador - volver a Trabajos
                 fxml = "Trabajos.fxml";
                 titulo = "Buscar Trabajos";
             } else {
-                fxml = "FormulariosTable.fxml";
-                titulo = "Mis Ofertas de Trabajo";
+                // Empresa - volver a Empresas.fxml
+                fxml = "Empresas.fxml";
+                titulo = "Panel de Empresas";
             }
 
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/trabajos/" + fxml));
-            Parent root = fxmlLoader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/" + fxml));
+            Parent root = loader.load();
 
-            if (fxml.equals("Trabajos.fxml")) {
-                TrabajosController controller = fxmlLoader.getController();
-                controller.refrescarTabla();
-            } else if (fxml.equals("FormulariosTable.fxml")) {
-                FormulariosTableController controller = fxmlLoader.getController();
-                controller.refrescarTabla();
-            }
-
-            Stage stage = (Stage) cerrarButton.getScene().getWindow();
+            Stage stage = (Stage) volverButton.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setMaximized(true);
             stage.setTitle(titulo);
 
         } catch (IOException e) {
             e.printStackTrace();
-            mostrarError("Error al regresar: " + e.getMessage());
+            mostrarAlerta("Error", "Error al regresar: " + e.getMessage());
         }
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {
-        Alert alert = new Alert(AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
-    }
-
-    private void mostrarMensaje(String mensaje) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
-    }
-
-    private void mostrarError(String mensaje) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();

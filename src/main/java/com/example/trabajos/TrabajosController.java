@@ -532,17 +532,37 @@ public class TrabajosController {
 
     @FXML
     protected void onVolverClick() {
-        SesionManager.getInstancia().cerrarSesion();
+        System.out.println("=== CERRANDO SESIÓN DESDE TRABAJOS ===");
+
         try {
+            // Obtener el tipo de usuario antes de cerrar sesión (era trabajador)
+            boolean eraTrabajador = SesionManager.getInstancia().esTrabajador();
+
+            // Cerrar sesión
+            SesionManager.getInstancia().cerrarSesion();
+
+            // Cargar la pantalla de inicio de sesión
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/trabajos/Sesion.fxml"));
             Parent root = fxmlLoader.load();
+
+            SesionController controller = fxmlLoader.getController();
+            controller.setTipoUsuario(!eraTrabajador);
 
             Stage stage = (Stage) trabajosTable.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setMaximized(true);
             stage.setTitle("Iniciar Sesión");
+
+            System.out.println("✅ Sesión cerrada correctamente desde trabajos");
+
         } catch (IOException e) {
             e.printStackTrace();
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("No se pudo cerrar la sesión");
+            alert.setContentText("Error: " + e.getMessage());
+            alert.showAndWait();
         }
     }
 

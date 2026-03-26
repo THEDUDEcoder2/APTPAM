@@ -3,6 +3,11 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,66 +16,198 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1539.0" style="-fx-background-color: #dce8f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.trabajos.DetalleFormularioController">
-   <children>
+<AnchorPane
+        maxHeight="-Infinity" maxWidth="-Infinity"
+        minHeight="-Infinity" minWidth="-Infinity"
+        prefHeight="900.0" prefWidth="1539.0"
+        style="-fx-background-color: #dce8f5;"
+        xmlns="http://javafx.com/javafx/25"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="com.example.trabajos.DetalleFormularioController">
+    <children>
 
-      <!-- TÍTULO -->
-      <Label alignment="CENTER" layoutX="392.0" layoutY="20.0" prefHeight="100.0" prefWidth="822.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 30; -fx-font-weight: bold;" text="PLATAFORMA DE EMPLEO TEMPORAL">
-         <font><Font size="32.0" /></font>
-      </Label>
+        <!-- TÍTULO -->
+        <Label alignment="CENTER" layoutX="392.0" layoutY="20.0"
+               prefHeight="100.0" prefWidth="822.0"
+               style="-fx-text-fill: #1a3a5c; -fx-font-size: 30; -fx-font-weight: bold;"
+               text="PLATAFORMA DE EMPLEO TEMPORAL">
+            <font><Font size="32.0" /></font>
+        </Label>
 
-      <!-- TARJETA IZQUIERDA -->
-      <VBox alignment="TOP_CENTER" layoutX="28.0" layoutY="126.0" maxWidth="250.0" minWidth="250.0" prefHeight="674.0" prefWidth="250.0" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
-         <padding><Insets bottom="28.0" left="16.0" right="16.0" top="28.0" /></padding>
-         <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@assets/WhatsApp_Image_2026-03-24_at_12.15.37-removebg-preview.png" />
-               </image>
-            </ImageView>
-            <Label alignment="CENTER" prefWidth="210.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;" text="Detalle de Formulario" wrapText="true" />
-            <Region VBox.vgrow="ALWAYS" />
-            <Button fx:id="verPostulantesButton" onAction="#onVerPostulantesClick" prefHeight="55.0" prefWidth="225.0" style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-size: 17; -fx-font-weight: bold; -fx-border-color: rgba(255,255,255,0.5); -fx-border-radius: 4; -fx-background-radius: 4; -fx-cursor: hand;" text="👥 Ver Postulantes" visible="false" />
-            <Button fx:id="cerrarButton" onAction="#onCerrarClick" prefHeight="55.0" prefWidth="225.0" style="-fx-background-color: linear-gradient(to bottom right, #4a6fa5, #2c4a7c); -fx-text-fill: white; -fx-font-size: 17; -fx-font-weight: bold; -fx-border-color: rgba(255,255,255,0.5); -fx-border-radius: 4; -fx-background-radius: 4; -fx-cursor: hand;" text="← Volver" />
-         </children>
-      </VBox>
+        <!-- TARJETA LATERAL IZQUIERDA -->
+        <VBox alignment="TOP_CENTER" layoutX="28.0" layoutY="126.0"
+              maxWidth="250.0" minWidth="250.0" prefHeight="674.0" prefWidth="250.0"
+              spacing="18.0"
+              style="-fx-background-color: white; -fx-background-radius: 16;
+                   -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+            <padding><Insets bottom="28.0" left="16.0" right="16.0" top="28.0" /></padding>
+            <children>
+                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@assets/logo_petam.jpg" />
+                </ImageView>
+                <Label alignment="CENTER" prefWidth="210.0"
+                       style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;"
+                       text="Detalle de Formulario" wrapText="true" />
+                <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="volverButton" onAction="#onVolverClick"
+                        prefHeight="55.0" prefWidth="225.0"
+                        style="-fx-background-color: linear-gradient(to bottom right, #4a6fa5, #2c4a7c);
+                           -fx-text-fill: white; -fx-font-size: 17; -fx-font-weight: bold;
+                           -fx-border-color: rgba(255,255,255,0.5);
+                           -fx-border-radius: 4; -fx-background-radius: 4; -fx-cursor: hand;"
+                        text="← Volver" />
+            </children>
+        </VBox>
 
-      <!-- HBox: Detalles + Tarjeta info -->
-      <VBox layoutX="290.0" layoutY="126.0" prefHeight="740.0" prefWidth="930.0" spacing="16.0">
+        <!-- TARJETA DERECHA -->
+        <VBox alignment="TOP_CENTER" layoutX="1274.0" layoutY="126.0"
+              maxWidth="250.0" minWidth="250.0" prefHeight="674.0" prefWidth="250.0"
+              spacing="18.0"
+              style="-fx-background-color: white; -fx-background-radius: 16;
+                   -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+            <padding><Insets bottom="28.0" left="22.0" right="22.0" top="28.0" /></padding>
+            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;"
+                   text="Información" />
+            <HBox alignment="TOP_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;"
+                       text="Verifica los datos antes de continuar." wrapText="true" />
+            </HBox>
+            <HBox alignment="TOP_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;"
+                       text="Revisa la vacante publicada." wrapText="true" />
+            </HBox>
+            <HBox alignment="TOP_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;"
+                       text="Acepta o rechaza según el perfil requerido." wrapText="true" />
+            </HBox>
+            <HBox alignment="TOP_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;"
+                       text="Contacta al candidato seleccionado." wrapText="true" />
+            </HBox>
+        </VBox>
 
-         <!-- Tarjeta Empresa -->
-         <VBox spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4); -fx-padding: 24;">
-            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 19; -fx-font-weight: bold;" text="Información de la Empresa" />
-            <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 200;" text="Nombre de la empresa:" /><Label fx:id="nombreEmpresaLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
-            <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 200;" text="Conocimiento de herramienta:" /><Label fx:id="herramientaLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
-            <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 200;" text="Idiomas requeridos:" /><Label fx:id="idiomasLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
-            <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 200;" text="Domicilio:" /><Label fx:id="domicilioLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
-            <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 200;" text="Email:" /><Label fx:id="gmailLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
-            <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 200;" text="Teléfono:" /><Label fx:id="telefonoLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
-         </VBox>
+        <!-- CONTENIDO CENTRAL con TabPane -->
+        <VBox layoutX="290.0" layoutY="126.0"
+              prefHeight="674.0" prefWidth="970.0" spacing="16.0"
+              style="-fx-background-color: white; -fx-background-radius: 16;
+                   -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+            <padding><Insets bottom="28.0" left="28.0" right="28.0" top="28.0" /></padding>
 
-         <!-- Tarjeta Vacante -->
-         <VBox spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4); -fx-padding: 24;">
-            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 19; -fx-font-weight: bold;" text="Información de la Vacante" />
-            <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 200;" text="Puesto:" /><Label fx:id="puestoLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
-            <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 200;" text="Horario:" /><Label fx:id="horarioLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
-            <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 200;" text="Sueldo:" /><Label fx:id="sueldoLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" /></HBox>
-            <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 200;" text="Mensaje personal de la empresa:" />
-            <Label fx:id="mensajePersonalLabel" style="-fx-text-fill: #9b59b6; -fx-font-size: 16;" wrapText="true" />
-            <HBox spacing="10.0"><Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 200;" text="Descripción:" /><Label fx:id="descripcionLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" wrapText="true" /></HBox>
-            <Label fx:id="estadoLabel" style="-fx-text-fill: #f39c12; -fx-font-size: 16; -fx-font-weight: bold;" />
-         </VBox>
-      </VBox>
+            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 21; -fx-font-weight: bold;"
+                   text="📋 Detalle de Oferta Laboral" />
 
-      <!-- TARJETA DERECHA -->
-      <VBox alignment="TOP_CENTER" layoutX="1240.0" layoutY="126.0" maxWidth="250.0" minWidth="250.0" prefHeight="674.0" prefWidth="250.0" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
-         <padding><Insets bottom="28.0" left="22.0" right="22.0" top="28.0" /></padding>
-         <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;" text="Información del formulario" />
-         <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Verifica los datos antes de continuar." wrapText="true" /></HBox>
-         <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Revisa la vacante publicada." wrapText="true" /></HBox>
-         <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Contacta candidatos adecuados." wrapText="true" /></HBox>
-         <Button fx:id="verNotaButton" onAction="#onVerNotaClick" prefHeight="55.0" prefWidth="225.0" style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 4; -fx-background-radius: 4; -fx-cursor: hand;" text="📝 Ver Nota" visible="false" />
-      </VBox>
+            <TabPane fx:id="tabPane" prefHeight="540.0" prefWidth="920.0"
+                     tabClosingPolicy="UNAVAILABLE">
+                <tabs>
 
-   </children>
+                    <!-- ══ TAB 1: Detalle del Formulario ══ -->
+                    <Tab fx:id="detalleTab" text="🔍 Detalle del formulario">
+                        <content>
+                            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                                        style="-fx-background-color: transparent; -fx-background: transparent;">
+                                <content>
+                                    <VBox spacing="16.0" style="-fx-padding: 14;">
+
+                                        <!-- Tarjeta Empresa -->
+                                        <VBox spacing="12.0"
+                                              style="-fx-background-color: #f8fafd; -fx-background-radius: 12;
+                                                   -fx-border-color: #d0dce8; -fx-border-radius: 12;
+                                                   -fx-padding: 20;">
+                                            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;"
+                                                   text="Información de la Empresa" />
+                                            <VBox spacing="4.0">
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Nombre de la empresa:" />
+                                                <Label fx:id="nombreEmpresaLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 15;" />
+                                            </VBox>
+                                            <VBox spacing="4.0">
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Conocimiento de herramienta:" />
+                                                <Label fx:id="herramientaLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 15;" />
+                                            </VBox>
+                                            <VBox spacing="4.0">
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Idiomas requeridos:" />
+                                                <Label fx:id="idiomasLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 15;" />
+                                            </VBox>
+                                            <VBox spacing="4.0">
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Domicilio:" />
+                                                <Label fx:id="domicilioLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 15;" wrapText="true" />
+                                            </VBox>
+                                            <VBox spacing="4.0">
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Email:" />
+                                                <Label fx:id="gmailLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 15;" />
+                                            </VBox>
+                                            <VBox spacing="4.0">
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Teléfono:" />
+                                                <Label fx:id="telefonoLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 15;" />
+                                            </VBox>
+                                        </VBox>
+
+                                        <!-- Tarjeta Vacante -->
+                                        <VBox spacing="12.0"
+                                              style="-fx-background-color: #f8fafd; -fx-background-radius: 12;
+                                                   -fx-border-color: #d0dce8; -fx-border-radius: 12;
+                                                   -fx-padding: 20;">
+                                            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;"
+                                                   text="Información de la Vacante" />
+                                            <VBox spacing="4.0">
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Puesto:" />
+                                                <Label fx:id="puestoLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 15;" />
+                                            </VBox>
+                                            <VBox spacing="4.0">
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Horario:" />
+                                                <Label fx:id="horarioLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 15;" />
+                                            </VBox>
+                                            <VBox spacing="4.0">
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Sueldo:" />
+                                                <Label fx:id="sueldoLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 15;" />
+                                            </VBox>
+                                            <VBox spacing="4.0">
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Nivel de estudio:" />
+                                                <Label fx:id="nivelEstudioLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 15;" />
+                                            </VBox>
+                                            <VBox spacing="4.0">
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Experiencia:" />
+                                                <Label fx:id="experienciaLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 15;" wrapText="true" />
+                                            </VBox>
+                                            <VBox spacing="4.0">
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Descripción:" />
+                                                <Label fx:id="descripcionLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 15;" wrapText="true" />
+                                            </VBox>
+                                        </VBox>
+
+                                    </VBox>
+                                </content>
+                            </ScrollPane>
+                        </content>
+                    </Tab>
+
+                    <!-- ══ TAB 2: Postulantes ══ -->
+                    <Tab fx:id="postulantesTab" text="👥 Postulantes">
+                        <content>
+                            <VBox spacing="12.0" style="-fx-padding: 14;">
+                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;"
+                                       text="Lista de Postulantes" />
+                                <TableView fx:id="postulantesTable" prefHeight="430.0" prefWidth="890.0"
+                                           style="-fx-background-color: transparent; -fx-border-color: #e0eaf4;
+                                           -fx-border-radius: 8; -fx-background-radius: 8;"
+                                           VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="nombreColumn" prefWidth="300" text="Nombre" />
+                                        <TableColumn fx:id="telefonoColumn" prefWidth="200" text="Teléfono" />
+                                        <TableColumn fx:id="estadoColumn" prefWidth="200" text="Estado" />
+                                        <TableColumn fx:id="accionesColumn" prefWidth="200" text="Acciones" />
+                                    </columns>
+                                </TableView>
+                            </VBox>
+                        </content>
+                    </Tab>
+
+                </tabs>
+            </TabPane>
+        </VBox>
+
+    </children>
 </AnchorPane>
