@@ -4,6 +4,7 @@ import com.example.trabajos.models.Empresa;
 import com.example.trabajos.models.Oferta;
 import com.example.trabajos.models.Trabajador;
 import com.example.trabajos.services.EmpresaService;
+import com.example.trabajos.services.MatchService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,6 +25,7 @@ public class EmpresasController {
     @FXML private Tab llenarFormularioTab;
     @FXML private Tab abrirFormularioTab;
     @FXML private Tab trabajadoresTab;
+    @FXML private Tab matchTalentoTab;
 
     // Componentes del Tab 1 - Llenar Formulario
     @FXML private TextField nombreEmpresaField;
@@ -68,6 +70,30 @@ public class EmpresasController {
     @FXML private TableColumn<Trabajador, Void> accionesColumn2;
     @FXML private Label totalTrabajadoresLabel;
 
+    // Componentes del Tab 4 - Match de Talento
+    @FXML private TextField puestoField;
+    @FXML private TextField herramientasMatchField;
+    @FXML private ComboBox<String> cantidadIdiomasMatchComboBox;
+    @FXML private VBox idiomasMatchContainer;
+    @FXML private ComboBox<String> nivelEstudioMatchComboBox;
+    @FXML private TextField anosExperienciaMatchField;
+    @FXML private TextField edadMinField;
+    @FXML private TextField edadMaxField;
+    @FXML private ComboBox<String> generoMatchComboBox;
+    @FXML private ComboBox<String> municipioMatchComboBox;
+    @FXML private ComboBox<String> ciudadMatchComboBox;
+    @FXML private Button buscarMatchButton;
+    @FXML private Button limpiarMatchButton;
+    @FXML private TableView<MatchService.MatchResult> resultadosMatchTable;
+    @FXML private TableColumn<MatchService.MatchResult, String> nombreMatchColumn;
+    @FXML private TableColumn<MatchService.MatchResult, String> puntajeMatchColumn;
+    @FXML private TableColumn<MatchService.MatchResult, String> edadMatchColumn;
+    @FXML private TableColumn<MatchService.MatchResult, String> especialidadMatchColumn;
+    @FXML private TableColumn<MatchService.MatchResult, String> experienciaMatchColumn;
+    @FXML private TableColumn<MatchService.MatchResult, String> ubicacionMatchColumn;
+    @FXML private TableColumn<MatchService.MatchResult, Void> accionesMatchColumn;
+    @FXML private Label mensajeMatchLabel;
+
     private Empresa empresaActual;
     private EmpresaService empresaService = new EmpresaService();
 
@@ -75,6 +101,7 @@ public class EmpresasController {
     private FormularioController formularioController;
     private FormulariosTableController formulariosTableController;
     private TrabajadoresDisponiblesController trabajadoresDisponiblesController;
+    private MatchTrabajadoresController matchTrabajadoresController;
 
     @FXML
     public void initialize() {
@@ -82,6 +109,7 @@ public class EmpresasController {
         inicializarTabLlenarFormulario();
         inicializarTabAbrirFormulario();
         inicializarTabTrabajadoresDisponibles();
+        inicializarTabMatchTalento();
     }
 
     private void cargarEmpresaActual() {
@@ -161,6 +189,35 @@ public class EmpresasController {
         trabajadoresDisponiblesController.setTotalTrabajadoresLabel(totalTrabajadoresLabel);
 
         trabajadoresDisponiblesController.initialize();
+    }
+
+    @SuppressWarnings("unchecked")
+    private void inicializarTabMatchTalento() {
+        matchTrabajadoresController = new MatchTrabajadoresController();
+        matchTrabajadoresController.setPuestoField(puestoField);
+        matchTrabajadoresController.setHerramientasField(herramientasMatchField);
+        matchTrabajadoresController.setCantidadIdiomasComboBox(cantidadIdiomasMatchComboBox);
+        matchTrabajadoresController.setIdiomasContainer(idiomasMatchContainer);
+        matchTrabajadoresController.setNivelEstudioComboBox(nivelEstudioMatchComboBox);
+        matchTrabajadoresController.setAnosExperienciaField(anosExperienciaMatchField);
+        matchTrabajadoresController.setEdadMinField(edadMinField);
+        matchTrabajadoresController.setEdadMaxField(edadMaxField);
+        matchTrabajadoresController.setGeneroComboBox(generoMatchComboBox);
+        matchTrabajadoresController.setMunicipioComboBox(municipioMatchComboBox);
+        matchTrabajadoresController.setCiudadComboBox(ciudadMatchComboBox);
+        matchTrabajadoresController.setResultadosTable(resultadosMatchTable);
+        matchTrabajadoresController.setNombreColumn(nombreMatchColumn);
+        matchTrabajadoresController.setPuntajeColumn(puntajeMatchColumn);
+        matchTrabajadoresController.setEdadColumn(edadMatchColumn);
+        matchTrabajadoresController.setEspecialidadColumn(especialidadMatchColumn);
+        matchTrabajadoresController.setExperienciaColumn(experienciaMatchColumn);
+        matchTrabajadoresController.setUbicacionColumn(ubicacionMatchColumn);
+        matchTrabajadoresController.setAccionesColumn(accionesMatchColumn);
+        matchTrabajadoresController.setMensajeLabel(mensajeMatchLabel);
+        matchTrabajadoresController.setBuscarButton(buscarMatchButton);
+        matchTrabajadoresController.setLimpiarButton(limpiarMatchButton);
+
+        matchTrabajadoresController.initialize();
     }
 
     @FXML

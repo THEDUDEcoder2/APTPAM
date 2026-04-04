@@ -4,95 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="efe55322-380b-4ea4-ae23-9ee7b554477c" name="Changes" comment="Dan gey">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/DetalleTrabajoPrivadoController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/EditarPerfilEmpresaController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/EditarPerfilTrabajadorController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/NuevaContrasenaController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/RecuperarContrasenaController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/ValidarCodigoController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/services/EmailService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/services/RecuperacionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/DetalleTrabajoPrivado.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/EditarPerfilEmpresa.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/EditarPerfilTrabajador.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/NuevaContrasena.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/RecuperarContrasena.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/ValidarCodigo.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/desktop.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/detalleFormulario.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/detalleTrabajador.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/empresas.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/styles.css" afterDir="false" />
+    <list default="true" id="efe55322-380b-4ea4-ae23-9ee7b554477c" name="Changes" comment="Dan tremendo homosexual">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/MatchTrabajadoresController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/services/MatchService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/DetalleFormularioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/DetalleFormularioController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/DetalleTrabajadorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/DetalleTrabajadorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/DetalleTrabajoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/DetalleTrabajoController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/EmpresasController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/EmpresasController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/FormularioPrivadoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/FormularioPrivadoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/FormulariosTableController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/FormulariosTableController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/NotasController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/NotasController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/RegistroTrabajadorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/RegistroTrabajadorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/SesionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/SesionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/TrabajosController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/TrabajosController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/services/OfertaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/services/OfertaService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/DetalleFormulario.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/DetalleFormulario.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/DetalleTrabajador.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/DetalleTrabajo.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/Empresas.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/Formulario.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/FormularioPrivado.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/FormulariosTable.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/Notas.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/Notas.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/Postulantes.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/Registro.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/RegistroTrabajador.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/Sesion.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/TrabajadoresDisponibles.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/Trabajos.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/Trabajos.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/TrabajosDisponibles.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/hello-view.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/imagenes/chat.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/styles/styles.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/styles/texto.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/DetalleFormulario.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/DetalleFormulario.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/DetalleFormularioController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/DetalleFormularioController$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/DetalleFormularioController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/DetalleFormularioController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/DetalleTrabajadorController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/DetalleTrabajadorController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/DetalleTrabajo.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/DetalleTrabajo.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/DetalleTrabajoController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/DetalleTrabajoController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/Empresas.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/Empresas.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/Empresas.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/Empresas.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/EmpresasController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/EmpresasController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/Formulario.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/FormularioPrivado.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/FormularioPrivado.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/FormularioPrivadoController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/FormularioPrivadoController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/FormulariosTable.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/FormulariosTableController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/FormulariosTableController$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/FormulariosTableController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/FormulariosTableController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/Notas.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/Notas.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/NotasController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/NotasController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/Postulantes.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/Registro.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/Registro.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/RegistroTrabajador.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/RegistroTrabajador.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/RegistroTrabajadorController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/RegistroTrabajadorController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/Sesion.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/Sesion.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/SesionController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/SesionController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/TrabajadoresDisponibles.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/Trabajos.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/Trabajos.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/TrabajosController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/TrabajosController$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/TrabajosController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/TrabajosController$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/TrabajosController$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/TrabajosController$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/TrabajosController$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/TrabajosController$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/TrabajosController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/TrabajosController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/TrabajosDisponibles.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/hello-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/imagenes/chat.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/services/OfertaService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/services/OfertaService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/styles/styles.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/styles/texto.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -408,7 +327,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774502078375</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Dan tremendo homosexual">
+      <option name="closed" value="true" />
+      <created>1775274220965</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1775274220965</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -420,6 +347,7 @@
     <MESSAGE value="git pull origin main --allow-unrelated-histories" />
     <MESSAGE value="git branch -m master main" />
     <MESSAGE value="Dan gey" />
-    <option name="LAST_COMMIT_MESSAGE" value="Dan gey" />
+    <MESSAGE value="Dan tremendo homosexual" />
+    <option name="LAST_COMMIT_MESSAGE" value="Dan tremendo homosexual" />
   </component>
 </project>

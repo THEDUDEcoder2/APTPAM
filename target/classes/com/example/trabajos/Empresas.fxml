@@ -63,6 +63,10 @@
             </HBox>
             <HBox alignment="TOP_LEFT" spacing="10.0">
                 <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Usa el Match de Talento para encontrar al candidato ideal." wrapText="true" />
+            </HBox>
+            <HBox alignment="TOP_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
                 <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Puedes editar tu perfil cuando lo necesites." wrapText="true" />
             </HBox>
         </VBox>
@@ -203,6 +207,108 @@
                                     <Label fx:id="totalTrabajadoresLabel" style="-fx-text-fill: #1a3a5c; -fx-font-size: 16;" text="Total de trabajadores: 0" />
                                 </HBox>
                             </VBox>
+                        </content>
+                    </Tab>
+
+                    <!-- TAB 4 - Match de Talento -->
+                    <Tab fx:id="matchTalentoTab" text="🎯 Match de Talento">
+                        <content>
+                            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: transparent; -fx-background: transparent;" vbarPolicy="AS_NEEDED">
+                                <content>
+                                    <VBox spacing="12.0" style="-fx-padding: 14;">
+
+                                        <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;" text="🎯 Encuentra el Talento Perfecto" />
+                                        <Label style="-fx-text-fill: #3a5070; -fx-font-size: 14;" text="Define el perfil que buscas y nuestro algoritmo encontrará a los candidatos más compatibles" />
+
+                                        <!-- CRITERIOS DE BÚSQUEDA -->
+                                        <VBox spacing="10.0" style="-fx-background-color: #f0f4fa; -fx-background-radius: 10; -fx-padding: 15;">
+                                            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 15; -fx-font-weight: bold;" text="📋 Define el perfil del candidato ideal" />
+
+                                            <HBox spacing="15.0">
+                                                <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Puesto / Especialidad:" />
+                                                    <TextField fx:id="puestoField" promptText="Ej: Asesor/Consultor, Administrativo..." styleClass="campo-form" />
+                                                </VBox>
+                                                <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Herramientas/Software:" />
+                                                    <TextField fx:id="herramientasMatchField" promptText="Ej: Excel, AutoCAD, Word..." styleClass="campo-form" />
+                                                </VBox>
+                                            </HBox>
+
+                                            <HBox spacing="15.0">
+                                                <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Idiomas requeridos:" />
+                                                    <ComboBox fx:id="cantidadIdiomasMatchComboBox" prefWidth="150" promptText="Cantidad de idiomas" styleClass="combo-form" />
+                                                    <VBox fx:id="idiomasMatchContainer" spacing="4.0" />
+                                                </VBox>
+                                                <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Nivel de estudio mínimo:" />
+                                                    <ComboBox fx:id="nivelEstudioMatchComboBox" prefWidth="180" promptText="Selecciona nivel" styleClass="combo-form" />
+                                                </VBox>
+                                            </HBox>
+
+                                            <HBox spacing="15.0">
+                                                <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Años de experiencia:" />
+                                                    <TextField fx:id="anosExperienciaMatchField" promptText="Ej: 5" styleClass="campo-form" />
+                                                </VBox>
+                                                <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Edad ideal:" />
+                                                    <HBox spacing="5.0">
+                                                        <TextField fx:id="edadMinField" prefWidth="80" promptText="Mín" styleClass="campo-form" />
+                                                        <Label style="-fx-text-fill: #1a3a5c;" text="a" />
+                                                        <TextField fx:id="edadMaxField" prefWidth="80" promptText="Máx" styleClass="campo-form" />
+                                                    </HBox>
+                                                </VBox>
+                                                <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Género:" />
+                                                    <ComboBox fx:id="generoMatchComboBox" prefWidth="120" styleClass="combo-form">
+                                                        <items>
+                                                            <String fx:value="AMBOS" />
+                                                            <String fx:value="MASCULINO" />
+                                                            <String fx:value="FEMENINO" />
+                                                        </items>
+                                                    </ComboBox>
+                                                </VBox>
+                                            </HBox>
+
+                                            <HBox spacing="15.0">
+                                                <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Municipio:" />
+                                                    <ComboBox fx:id="municipioMatchComboBox" prefWidth="180" promptText="Todos" styleClass="combo-form" />
+                                                </VBox>
+                                                <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Ciudad:" />
+                                                    <ComboBox fx:id="ciudadMatchComboBox" prefWidth="180" promptText="Todas" styleClass="combo-form" />
+                                                </VBox>
+                                            </HBox>
+
+                                            <HBox spacing="15.0">
+                                                <Button fx:id="buscarMatchButton" onAction="#onBuscarMatchClick" styleClass="btn-verde" text="🎯 Buscar candidatos compatibles" />
+                                                <Button fx:id="limpiarMatchButton" onAction="#onLimpiarMatchClick" styleClass="btn-gris" text="🗑️ Limpiar criterios" />
+                                            </HBox>
+                                        </VBox>
+
+                                        <!-- RESULTADOS -->
+                                        <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 16; -fx-font-weight: bold;" text="🏆 Candidatos encontrados (ordenados por compatibilidad)" />
+
+                                        <TableView fx:id="resultadosMatchTable" prefHeight="320.0" prefWidth="890.0" style="-fx-background-radius: 8; -fx-border-color: #bdc3c7; -fx-border-radius: 8;" VBox.vgrow="ALWAYS">
+                                            <columns>
+                                                <TableColumn fx:id="nombreMatchColumn" prefWidth="180" text="Candidato" />
+                                                <TableColumn fx:id="puntajeMatchColumn" prefWidth="80" text="Match" />
+                                                <TableColumn fx:id="edadMatchColumn" prefWidth="70" text="Edad" />
+                                                <TableColumn fx:id="especialidadMatchColumn" prefWidth="150" text="Especialidad" />
+                                                <TableColumn fx:id="experienciaMatchColumn" prefWidth="100" text="Experiencia" />
+                                                <TableColumn fx:id="ubicacionMatchColumn" prefWidth="130" text="Ubicación" />
+                                                <TableColumn fx:id="accionesMatchColumn" prefWidth="180" text="Acciones" />
+                                            </columns>
+                                        </TableView>
+
+                                        <Label fx:id="mensajeMatchLabel" style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;" text="Completa los criterios y haz clic en 'Buscar candidatos'" visible="false" />
+
+                                    </VBox>
+                                </content>
+                            </ScrollPane>
                         </content>
                     </Tab>
 
