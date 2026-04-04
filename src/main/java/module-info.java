@@ -7,6 +7,7 @@ module com.example.trabajos {
     // Hibernate y JPA
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
+    requires java.mail;
 
     // Abrir paquetes para Hibernate
     opens com.example.trabajos.models to org.hibernate.orm.core, javafx.base;

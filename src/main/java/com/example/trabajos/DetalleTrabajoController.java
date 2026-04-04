@@ -17,7 +17,6 @@ import javafx.scene.control.Alert;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class DetalleTrabajoController {
 
@@ -35,6 +34,7 @@ public class DetalleTrabajoController {
     @FXML private Label experienciaLabel;
     @FXML private Label descripcionLabel;
     @FXML private Label estadoLabel;
+
     @FXML private Button contactarButton;
     @FXML private Button cerrarButton;
 
@@ -42,6 +42,7 @@ public class DetalleTrabajoController {
     private Trabajador trabajadorActual;
     private Postulacion postulacionExistente;
     private String emailUsuario;
+
     private PostulacionService postulacionService = new PostulacionService();
     private TrabajadorService trabajadorService = new TrabajadorService();
     private OfertaService ofertaService = new OfertaService();
@@ -63,23 +64,52 @@ public class DetalleTrabajoController {
         if (oferta == null) return;
 
         mostrarDetallesOferta();
-
         cargarTrabajadorSiEsNecesario();
-
         verificarEstadoPostulacion();
     }
 
     private void mostrarDetallesOferta() {
-        nombreEmpresaLabel.setText(oferta.getEmpresa().getNombreEmpresa());
-        herramientaLabel.setText("No especificado");
-        idiomasLabel.setText(oferta.getIdiomasRequeridos());
-        domicilioLabel.setText(oferta.getEmpresa().getDomicilioCompleto());
-        gmailLabel.setText(oferta.getEmpresa().getCorreoElectronico());
-        telefonoLabel.setText(oferta.getEmpresa().getNumTelefono());
+        if (oferta == null) return;
 
-        puestoLabel.setText(oferta.getPuesto_trabajo());
+        // Información de la Empresa
+        if (oferta.getEmpresa() != null) {
+            nombreEmpresaLabel.setText(oferta.getEmpresa().getNombreEmpresa() != null ?
+                    oferta.getEmpresa().getNombreEmpresa() : "No especificado");
+            domicilioLabel.setText(oferta.getEmpresa().getDomicilioCompleto());
+            gmailLabel.setText(oferta.getEmpresa().getCorreoElectronico() != null ?
+                    oferta.getEmpresa().getCorreoElectronico() : "No especificado");
+            telefonoLabel.setText(oferta.getEmpresa().getNumTelefono() != null ?
+                    oferta.getEmpresa().getNumTelefono() : "No especificado");
+        } else {
+            nombreEmpresaLabel.setText("No especificado");
+            domicilioLabel.setText("No especificado");
+            gmailLabel.setText("No especificado");
+            telefonoLabel.setText("No especificado");
+        }
+
+        // Herramientas - mostrar desde la empresa si está disponible
+        if (oferta.getEmpresa() != null && oferta.getEmpresa().getSectorActividad() != null) {
+            herramientaLabel.setText(oferta.getEmpresa().getSectorActividad().getTipoSectorActividad() != null ?
+                    oferta.getEmpresa().getSectorActividad().getTipoSectorActividad() : "No especificado");
+        } else {
+            herramientaLabel.setText("No especificado");
+        }
+
+        // Idiomas requeridos
+        idiomasLabel.setText(oferta.getIdiomasRequeridos() != null && !oferta.getIdiomasRequeridos().isEmpty() ?
+                oferta.getIdiomasRequeridos() : "No especificado");
+
+        // Información de la Vacante
+        puestoLabel.setText(oferta.getPuesto_trabajo() != null ? oferta.getPuesto_trabajo() : "No especificado");
         horarioLabel.setText(oferta.getJornada_laboral() != null ? oferta.getJornada_laboral() : "No especificado");
-        sueldoLabel.setText(oferta.getSalario() != null ? oferta.getSalario().getTipoSalario() : "No especificado");
+
+        // Sueldo - mostrar el tipo de salario
+        if (oferta.getSalario() != null && oferta.getSalario().getTipoSalario() != null) {
+            sueldoLabel.setText(oferta.getSalario().getTipoSalario());
+        } else {
+            sueldoLabel.setText("No especificado");
+        }
+
         nivelEstudioLabel.setText(oferta.getNivel_estudio() != null ? oferta.getNivel_estudio() : "No especificado");
         experienciaLabel.setText(oferta.getExperiencia() != null ? oferta.getExperiencia() : "No especificado");
         descripcionLabel.setText(oferta.getDescripcion_trabajo() != null ? oferta.getDescripcion_trabajo() : "No especificado");
@@ -113,8 +143,8 @@ public class DetalleTrabajoController {
     private void actualizarInterfazSegunEstado() {
         if (postulacionExistente == null) {
             estadoLabel.setText("NO POSTULADO");
-            estadoLabel.setStyle("-fx-text-fill: #7f8c8d;");
-            contactarButton.setText("Aceptar Vacante");
+            estadoLabel.setStyle("-fx-text-fill: #7f8c8d; -fx-font-size: 17; -fx-font-weight: bold;");
+            contactarButton.setText("✓ Postularme");
             contactarButton.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white;");
             contactarButton.setDisable(false);
         } else {
@@ -122,24 +152,24 @@ public class DetalleTrabajoController {
 
             switch (estado) {
                 case "PENDIENTE":
-                    estadoLabel.setText("⏳ EN ESPERA");
-                    estadoLabel.setStyle("-fx-text-fill: #f39c12; -fx-font-weight: bold;");
-                    contactarButton.setText("En Espera");
+                    estadoLabel.setText("⏳ EN ESPERA - La empresa revisará tu solicitud");
+                    estadoLabel.setStyle("-fx-text-fill: #f39c12; -fx-font-size: 17; -fx-font-weight: bold;");
+                    contactarButton.setText("Postulación Enviada");
                     contactarButton.setStyle("-fx-background-color: #f39c12; -fx-text-fill: white;");
                     contactarButton.setDisable(true);
                     break;
 
                 case "ACEPTADO":
-                    estadoLabel.setText("✅ ACEPTADO");
-                    estadoLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold;");
+                    estadoLabel.setText("✅ ACEPTADO - ¡Felicidades! La empresa te contactará pronto");
+                    estadoLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-size: 17; -fx-font-weight: bold;");
                     contactarButton.setText("Aceptado");
                     contactarButton.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white;");
                     contactarButton.setDisable(true);
                     break;
 
                 case "RECHAZADO":
-                    estadoLabel.setText("❌ RECHAZADO");
-                    estadoLabel.setStyle("-fx-text-fill: #e74c3c; -fx-font-weight: bold;");
+                    estadoLabel.setText("❌ RECHAZADO - No fuiste seleccionado para esta vacante");
+                    estadoLabel.setStyle("-fx-text-fill: #e74c3c; -fx-font-size: 17; -fx-font-weight: bold;");
                     contactarButton.setText("Rechazado");
                     contactarButton.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
                     contactarButton.setDisable(true);
@@ -147,7 +177,7 @@ public class DetalleTrabajoController {
 
                 default:
                     estadoLabel.setText(estado);
-                    estadoLabel.setStyle("-fx-text-fill: #7f8c8d;");
+                    estadoLabel.setStyle("-fx-text-fill: #7f8c8d; -fx-font-size: 17; -fx-font-weight: bold;");
                     contactarButton.setText("Ver Detalles");
                     contactarButton.setDisable(false);
                     break;
@@ -193,10 +223,11 @@ public class DetalleTrabajoController {
                 return;
             }
 
+            // Crear nueva postulación - CORREGIDO: sin setEmpresa
             Postulacion nuevaPostulacion = new Postulacion();
             nuevaPostulacion.setTrabajador(trabajadorActual);
             nuevaPostulacion.setOferta(ofertaBD);
-            nuevaPostulacion.setEmpresa(ofertaBD.getEmpresa());
+            // La empresa se obtiene automáticamente de la oferta
             nuevaPostulacion.setEstado("PENDIENTE");
             nuevaPostulacion.setFechaPostulacion(LocalDateTime.now());
 
@@ -207,17 +238,18 @@ public class DetalleTrabajoController {
 
             mostrarAlerta("✅ Postulación Exitosa",
                     "¡Te has postulado exitosamente!\n\n" +
-                            "📋 Detalles:\n" +
+                            "📋 Detalles de tu postulación:\n" +
                             "• Puesto: " + ofertaBD.getPuesto_trabajo() + "\n" +
                             "• Empresa: " + ofertaBD.getEmpresa().getNombreEmpresa() + "\n" +
                             "• Estado: PENDIENTE ⏳\n\n" +
-                            "La empresa revisará tu solicitud pronto.\n" +
-                            "Puedes ver el estado en tu lista de postulaciones.");
+                            "La empresa revisará tu solicitud y te notificará su decisión.\n" +
+                            "Puedes ver el estado actualizado en la lista de ofertas.");
 
         } catch (Exception e) {
             mostrarAlerta("❌ Error",
                     "No se pudo completar la postulación.\n" +
                             "Error: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -234,6 +266,9 @@ public class DetalleTrabajoController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/trabajos/Trabajos.fxml"));
             Parent root = fxmlLoader.load();
+
+            TrabajosController controller = fxmlLoader.getController();
+            controller.refrescarTabla();
 
             Stage stage = (Stage) cerrarButton.getScene().getWindow();
             stage.setScene(new Scene(root));

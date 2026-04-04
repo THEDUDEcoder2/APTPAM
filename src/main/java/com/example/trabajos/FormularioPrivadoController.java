@@ -62,15 +62,11 @@ public class FormularioPrivadoController {
 
     private void actualizarInfoTrabajador() {
         if (trabajadorDestino != null) {
-            String nombreCompleto = trabajadorDestino.getNombre();
-            if (trabajadorDestino.getApellidoPaterno() != null && !trabajadorDestino.getApellidoPaterno().isEmpty()) {
-                nombreCompleto += " " + trabajadorDestino.getApellidoPaterno();
-            }
-            if (trabajadorDestino.getApellidoMaterno() != null && !trabajadorDestino.getApellidoMaterno().isEmpty()) {
-                nombreCompleto += " " + trabajadorDestino.getApellidoMaterno();
-            }
+            String nombreCompleto = trabajadorDestino.getNombre() + " " +
+                    (trabajadorDestino.getApellidoPaterno() != null ? trabajadorDestino.getApellidoPaterno() : "") + " " +
+                    (trabajadorDestino.getApellidoMaterno() != null ? trabajadorDestino.getApellidoMaterno() : "");
 
-            trabajadorInfoLabel.setText(nombreCompleto);
+            trabajadorInfoLabel.setText(nombreCompleto.trim());
             trabajadorEmailLabel.setText(trabajadorDestino.getCorreoElectronico() != null ?
                     trabajadorDestino.getCorreoElectronico() : "No especificado");
         }
@@ -206,7 +202,6 @@ public class FormularioPrivadoController {
             com.example.trabajos.models.Postulacion postulacion = new com.example.trabajos.models.Postulacion();
             postulacion.setTrabajador(trabajadorDestino);
             postulacion.setOferta(ofertaPersistida);
-            postulacion.setEmpresa(empresaActual);
             postulacion.setEstado("PENDIENTE");
             postulacion.setFechaPostulacion(LocalDateTime.now());
             postulacionService.guardarPostulacion(postulacion);

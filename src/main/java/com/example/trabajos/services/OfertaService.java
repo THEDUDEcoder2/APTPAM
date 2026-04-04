@@ -106,11 +106,26 @@ public class OfertaService {
     public List<Oferta> obtenerOfertasPorEmpresa(Empresa empresa) {
         EntityManager em = HibernateUtil.getEntityManagerFactory().createEntityManager();
         try {
-            return em.createQuery(
+            List<Oferta> ofertas = em.createQuery(
                             "SELECT o FROM Oferta o WHERE o.empresa = :empresa ORDER BY o.fecha_publicacion DESC",
                             Oferta.class)
                     .setParameter("empresa", empresa)
                     .getResultList();
+
+            // DEBUG - Imprimir información de cada oferta
+            System.out.println("=== OFERTAS PARA EMPRESA: " + (empresa != null ? empresa.getNombreEmpresa() : "null") + " ===");
+            System.out.println("Total de ofertas encontradas: " + ofertas.size());
+
+            for (Oferta o : ofertas) {
+                System.out.println("  - ID: " + o.getIdOferta() +
+                        " | Puesto: " + o.getPuesto_trabajo() +
+                        " | TipoOferta: " + o.getTipoOferta() +
+                        " | esPublica: " + o.esOfertaPublica() +
+                        " | esPrivada: " + o.esOfertaPrivada());
+            }
+            System.out.println("=====================================");
+
+            return ofertas;
         } finally {
             em.close();
         }

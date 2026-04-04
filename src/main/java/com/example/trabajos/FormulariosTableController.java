@@ -2,8 +2,11 @@ package com.example.trabajos;
 
 import com.example.trabajos.models.Oferta;
 import com.example.trabajos.models.Empresa;
+import com.example.trabajos.models.Postulacion;
 import com.example.trabajos.services.OfertaService;
 import com.example.trabajos.services.EmpresaService;
+import com.example.trabajos.services.PostulacionService;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,20 +24,29 @@ public class FormulariosTableController {
     private TableColumn<Oferta, String> fechaColumn;
     private TableColumn<Oferta, Void> accionesColumn;
     private Label mensajeVacioLabel;
+    private TableColumn<Oferta, String> tipoOfertaColumn;
+    private TableColumn<Oferta, String> estadoPostulacionColumn;
 
     private final OfertaService ofertaService = new OfertaService();
     private final EmpresaService empresaService = new EmpresaService();
+    private final PostulacionService postulacionService = new PostulacionService();
 
-    // Setters para inyección desde EmpresasController
+    // Setters
     public void setFormulariosTable(TableView<Oferta> table) { this.formulariosTable = table; }
     public void setTituloColumn(TableColumn<Oferta, String> col) { this.tituloColumn = col; }
     public void setFechaColumn(TableColumn<Oferta, String> col) { this.fechaColumn = col; }
     public void setAccionesColumn(TableColumn<Oferta, Void> col) { this.accionesColumn = col; }
     public void setMensajeVacioLabel(Label label) { this.mensajeVacioLabel = label; }
+    public void setTipoOfertaColumn(TableColumn<Oferta, String> col) { this.tipoOfertaColumn = col; }
+    public void setEstadoPostulacionColumn(TableColumn<Oferta, String> col) { this.estadoPostulacionColumn = col; }
 
     public void initialize() {
+        System.out.println("=== INICIALIZANDO FormulariosTableController ===");
+
+        // Configurar columnas
         if (tituloColumn != null) {
             tituloColumn.setCellValueFactory(new PropertyValueFactory<>("puesto_trabajo"));
+            System.out.println("✅ tituloColumn configurada");
         }
 
         if (fechaColumn != null) {
@@ -44,39 +56,84 @@ public class FormulariosTableController {
                                     .format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
                     )
             );
+            System.out.println("✅ fechaColumn configurada");
         }
 
+        // Columna TIPO
+        if (tipoOfertaColumn != null) {
+            tipoOfertaColumn.setCellValueFactory(cellData -> {
+                Oferta oferta = cellData.getValue();
+                String tipo = oferta.getTipoOferta();
+                if ("PRIVADA".equals(tipo)) {
+                    return new javafx.beans.property.SimpleStringProperty("🔷 PRIVADA");
+                } else {
+                    return new javafx.beans.property.SimpleStringProperty("🌐 PÚBLICA");
+                }
+            });
+            System.out.println("✅ tipoOfertaColumn configurada");
+        } else {
+            System.out.println("❌ tipoOfertaColumn es NULL");
+        }
+
+        // Columna ESTADO
+        if (estadoPostulacionColumn != null) {
+            estadoPostulacionColumn.setCellValueFactory(cellData -> {
+                Oferta oferta = cellData.getValue();
+                String tipo = oferta.getTipoOferta();
+
+                if ("PUBLICA".equals(tipo)) {
+                    return new javafx.beans.property.SimpleStringProperty("📋 PÚBLICA");
+                } else if ("PRIVADA".equals(tipo) && oferta.getTrabajadorDestino() != null) {
+                    Postulacion postulacion = postulacionService.obtenerPostulacionPorTrabajadorYOferta(
+                            oferta.getTrabajadorDestino(), oferta);
+                    if (postulacion != null) {
+                        String estado = postulacion.getEstado();
+                        if ("ACEPTADO".equals(estado)) {
+                            return new javafx.beans.property.SimpleStringProperty("✅ ACEPTADO");
+                        } else if ("RECHAZADO".equals(estado)) {
+                            return new javafx.beans.property.SimpleStringProperty("❌ RECHAZADO");
+                        } else {
+                            return new javafx.beans.property.SimpleStringProperty("⏳ EN ESPERA");
+                        }
+                    }
+                    return new javafx.beans.property.SimpleStringProperty("⏳ SIN RESPUESTA");
+                }
+                return new javafx.beans.property.SimpleStringProperty("📋 PÚBLICA");
+            });
+            System.out.println("✅ estadoPostulacionColumn configurada");
+        } else {
+            System.out.println("❌ estadoPostulacionColumn es NULL");
+        }
+
+        // Columna ACCIONES
         if (accionesColumn != null) {
-            agregarBotonAbrir();
+            accionesColumn.setCellFactory(col -> new TableCell<>() {
+                private final Button btn = new Button("Abrir");
+                {
+                    btn.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 3;");
+                    btn.setOnAction(e -> {
+                        Oferta oferta = getTableView().getItems().get(getIndex());
+                        if (oferta != null) {
+                            abrirDetalleEmpresa(oferta);
+                        }
+                    });
+                }
+                @Override
+                protected void updateItem(Void item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) setGraphic(null);
+                    else setGraphic(btn);
+                }
+            });
+            System.out.println("✅ accionesColumn configurada");
         }
 
+        // Cargar datos
         cargarOfertas();
     }
 
-    // Método para refrescar la tabla desde otros controladores
     public void refrescarTabla() {
         cargarOfertas();
-    }
-
-    private void agregarBotonAbrir() {
-        accionesColumn.setCellFactory(col -> new TableCell<>() {
-            private final Button btn = new Button("Abrir");
-            {
-                btn.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 3;");
-                btn.setOnAction(e -> {
-                    Oferta oferta = getTableRow().getItem();
-                    if (oferta != null) {
-                        abrirDetalleEmpresa(oferta);
-                    }
-                });
-            }
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) setGraphic(null);
-                else setGraphic(btn);
-            }
-        });
     }
 
     private void abrirDetalleEmpresa(Oferta oferta) {
@@ -84,8 +141,7 @@ public class FormulariosTableController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/DetalleFormulario.fxml"));
             Parent root = loader.load();
 
-            // Importante: usar el nombre completo de la clase
-            com.example.trabajos.DetalleFormularioController controller = loader.getController();
+            DetalleFormularioController controller = loader.getController();
             controller.setEsDesdeEmpresas(true);
             controller.mostrarOferta(oferta);
 
@@ -96,14 +152,16 @@ public class FormulariosTableController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            mostrarAlerta("Error", "No se pudo abrir el detalle de la oferta: " + e.getMessage());
+            mostrarAlerta("Error", "No se pudo abrir el detalle: " + e.getMessage());
         }
     }
 
     private void cargarOfertas() {
-        Usuario usuarioActual = SesionManager.getInstancia().getUsuarioActual();
+        System.out.println("=== CARGANDO OFERTAS ===");
 
+        Usuario usuarioActual = SesionManager.getInstancia().getUsuarioActual();
         if (usuarioActual == null || !usuarioActual.isEsEmpresa()) {
+            System.out.println("❌ No hay sesión de empresa activa");
             if (formulariosTable != null) formulariosTable.setVisible(false);
             if (mensajeVacioLabel != null) {
                 mensajeVacioLabel.setText("No hay sesión de empresa activa.");
@@ -113,8 +171,8 @@ public class FormulariosTableController {
         }
 
         Empresa empresa = empresaService.obtenerEmpresaPorEmail(usuarioActual.getEmail());
-
         if (empresa == null) {
+            System.out.println("❌ Empresa no encontrada");
             if (formulariosTable != null) formulariosTable.setVisible(false);
             if (mensajeVacioLabel != null) {
                 mensajeVacioLabel.setText("No se encontraron datos de la empresa.");
@@ -123,7 +181,11 @@ public class FormulariosTableController {
             return;
         }
 
+        System.out.println("✅ Empresa encontrada: " + empresa.getNombreEmpresa());
+
         List<Oferta> ofertas = ofertaService.obtenerOfertasPorEmpresa(empresa);
+
+        System.out.println("📊 Ofertas encontradas: " + (ofertas != null ? ofertas.size() : 0));
 
         if (ofertas == null || ofertas.isEmpty()) {
             if (formulariosTable != null) formulariosTable.setVisible(false);
@@ -134,11 +196,23 @@ public class FormulariosTableController {
             return;
         }
 
-        if (formulariosTable != null) {
-            formulariosTable.getItems().setAll(ofertas);
-            formulariosTable.setVisible(true);
+        // Mostrar debug de cada oferta
+        for (Oferta o : ofertas) {
+            System.out.println("  - " + o.getPuesto_trabajo() + " | Tipo: " + o.getTipoOferta());
         }
-        if (mensajeVacioLabel != null) mensajeVacioLabel.setVisible(false);
+
+        // Limpiar y agregar datos
+        if (formulariosTable != null) {
+            formulariosTable.getItems().clear();
+            formulariosTable.getItems().addAll(ofertas);
+            formulariosTable.setVisible(true);
+            formulariosTable.refresh();
+            System.out.println("✅ Tabla actualizada con " + ofertas.size() + " ofertas");
+        }
+
+        if (mensajeVacioLabel != null) {
+            mensajeVacioLabel.setVisible(false);
+        }
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {

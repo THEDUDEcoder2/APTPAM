@@ -1,0 +1,309 @@
+/* ════════════════════════════════════════
+   empresas.css
+   Paleta: fondo #dce8f5 · texto #1a3a5c
+   ════════════════════════════════════════ */
+
+/* ── Campos de texto ── */
+.campo-form {
+    -fx-background-color: #f0f4fa;
+    -fx-border-color: #b8cfe8;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 6 10 6 10;
+    -fx-font-size: 14;
+    -fx-text-fill: #1a3a5c;
+}
+
+.campo-form:focused {
+    -fx-border-color: #3a7bd5;
+    -fx-background-color: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(58,123,213,0.18), 6, 0, 0, 0);
+}
+
+.campo-form:hover {
+    -fx-background-color: #eaf1fb;
+    -fx-border-color: #3a7bd5;
+    -fx-cursor: text;
+}
+
+/* ── ComboBox ── */
+.combo-form {
+    -fx-background-color: #f0f4fa;
+    -fx-border-color: #b8cfe8;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-font-size: 14;
+    -fx-text-fill: #1a3a5c;
+}
+
+.combo-form:hover {
+    -fx-background-color: #eaf1fb;
+    -fx-border-color: #3a7bd5;
+    -fx-cursor: hand;
+}
+
+.combo-form:focused {
+    -fx-border-color: #3a7bd5;
+}
+
+/* ── TextArea ── */
+.area-form {
+    -fx-background-color: #f0f4fa;
+    -fx-border-color: #b8cfe8;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-font-size: 14;
+    -fx-text-fill: #1a3a5c;
+    -fx-padding: 8;
+}
+
+.area-form:focused {
+    -fx-border-color: #3a7bd5;
+    -fx-background-color: #ffffff;
+}
+
+.area-form:hover {
+    -fx-background-color: #eaf1fb;
+    -fx-border-color: #3a7bd5;
+}
+
+/* ── Botón Guardar — verde ── */
+.btn-guardar {
+    -fx-background-color: linear-gradient(to bottom, #27ae60, #1e8449);
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(39,174,96,0.30), 8, 0, 0, 3);
+}
+
+.btn-guardar:hover {
+    -fx-background-color: linear-gradient(to bottom, #2ecc71, #27ae60);
+    -fx-effect: dropshadow(gaussian, rgba(39,174,96,0.55), 12, 0, 0, 4);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+.btn-guardar:pressed {
+    -fx-background-color: linear-gradient(to bottom, #1e8449, #196f3d);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.20), 4, 0, 0, 1);
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
+}
+
+/* ── Botón Limpiar — rojo ── */
+.btn-limpiar {
+    -fx-background-color: linear-gradient(to bottom, #e74c3c, #c0392b);
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(231,76,60,0.30), 8, 0, 0, 3);
+}
+
+.btn-limpiar:hover {
+    -fx-background-color: linear-gradient(to bottom, #f15a4a, #e74c3c);
+    -fx-effect: dropshadow(gaussian, rgba(231,76,60,0.55), 12, 0, 0, 4);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+.btn-limpiar:pressed {
+    -fx-background-color: linear-gradient(to bottom, #c0392b, #a93226);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.20), 4, 0, 0, 1);
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
+}
+
+/* ── Botón Cerrar sesión — azul oscuro ── */
+.btn-cerrar {
+    -fx-background-color: linear-gradient(to bottom, #3a7bd5, #1a3a5c);
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(26,58,92,0.30), 8, 0, 0, 3);
+}
+
+.btn-cerrar:hover {
+    -fx-background-color: linear-gradient(to bottom, #5a9be8, #3a7bd5);
+    -fx-effect: dropshadow(gaussian, rgba(58,123,213,0.55), 12, 0, 0, 4);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+.btn-cerrar:pressed {
+    -fx-background-color: linear-gradient(to bottom, #1a3a5c, #0f2240);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.20), 4, 0, 0, 1);
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
+}
+
+/* ── Botón para acciones en tabla (Ver Perfil, Enviar Oferta, Abrir) ── */
+.button-table {
+    -fx-background-color: linear-gradient(to bottom, #3498db, #2980b9);
+    -fx-text-fill: white;
+    -fx-font-size: 12;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-cursor: hand;
+    -fx-padding: 5 10 5 10;
+}
+
+.button-table:hover {
+    -fx-background-color: linear-gradient(to bottom, #5dade2, #3498db);
+    -fx-effect: dropshadow(gaussian, rgba(52,152,219,0.40), 6, 0, 0, 2);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+.button-table:pressed {
+    -fx-background-color: linear-gradient(to bottom, #2980b9, #1f618d);
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
+}
+
+/* ── Botón Ver Perfil específico ── */
+.btn-ver-perfil {
+    -fx-background-color: linear-gradient(to bottom, #3498db, #2980b9);
+    -fx-text-fill: white;
+    -fx-font-size: 12;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-cursor: hand;
+}
+
+.btn-ver-perfil:hover {
+    -fx-background-color: linear-gradient(to bottom, #5dade2, #3498db);
+    -fx-effect: dropshadow(gaussian, rgba(52,152,219,0.40), 6, 0, 0, 2);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+/* ── Botón Enviar Oferta Exclusiva ── */
+.btn-enviar-oferta {
+    -fx-background-color: linear-gradient(to bottom, #27ae60, #1e8449);
+    -fx-text-fill: white;
+    -fx-font-size: 12;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-cursor: hand;
+}
+
+.btn-enviar-oferta:hover {
+    -fx-background-color: linear-gradient(to bottom, #2ecc71, #27ae60);
+    -fx-effect: dropshadow(gaussian, rgba(39,174,96,0.40), 6, 0, 0, 2);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+/* ── Botón Abrir (en ofertas guardadas) ── */
+.btn-abrir {
+    -fx-background-color: linear-gradient(to bottom, #3498db, #2980b9);
+    -fx-text-fill: white;
+    -fx-font-size: 12;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-cursor: hand;
+}
+
+.btn-abrir:hover {
+    -fx-background-color: linear-gradient(to bottom, #5dade2, #3498db);
+    -fx-effect: dropshadow(gaussian, rgba(52,152,219,0.40), 6, 0, 0, 2);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+/* ── TabPane ── */
+.tab-pane .tab {
+    -fx-background-color: #dce8f5;
+    -fx-text-fill: #1a3a5c;
+    -fx-font-size: 14;
+    -fx-padding: 8 16 8 16;
+    -fx-cursor: hand;
+}
+
+.tab-pane .tab .tab-label {
+    -fx-text-fill: #1a3a5c;
+    -fx-font-size: 14;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: white;
+}
+
+.tab-pane .tab:selected .tab-label {
+    -fx-text-fill: #3a7bd5;
+    -fx-font-weight: bold;
+}
+
+.tab-pane .tab:hover {
+    -fx-background-color: #c8daf0;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #dce8f5;
+}
+
+/* ── Tabla ── */
+.table-view {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header {
+    -fx-background-color: #dce8f5;
+    -fx-border-color: #b8cfe8;
+    -fx-text-fill: #1a3a5c;
+    -fx-font-weight: bold;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #1a3a5c;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell {
+    -fx-background-color: white;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #f8fafd;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #eaf1fb;
+    -fx-cursor: hand;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #c8daf0;
+}
+
+/* ── ScrollBar ── */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #b8cfe8;
+    -fx-background-radius: 6;
+}
+
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #3a7bd5;
+}

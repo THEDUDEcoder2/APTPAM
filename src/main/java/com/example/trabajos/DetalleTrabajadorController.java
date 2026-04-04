@@ -43,7 +43,7 @@ public class DetalleTrabajadorController {
     private Postulacion postulacion;
     private PostulacionService postulacionService = new PostulacionService();
     private PostulantesController postulantesController;
-    private String origen; // "postulantes" o "trabajadoresDisponibles"
+    private String origen;
 
     public void setTrabajador(Trabajador trabajador) {
         this.trabajador = trabajador;
@@ -77,24 +77,24 @@ public class DetalleTrabajadorController {
                 (trabajador.getApellidoPaterno() != null ? trabajador.getApellidoPaterno() : "") + " " +
                 (trabajador.getApellidoMaterno() != null ? trabajador.getApellidoMaterno() : "");
 
-        nombreLabel.setText(nombreCompleto.trim());
-        emailLabel.setText(trabajador.getCorreoElectronico() != null ? trabajador.getCorreoElectronico() : "No especificado");
+        if (nombreLabel != null) nombreLabel.setText(nombreCompleto.trim());
+        if (emailLabel != null) emailLabel.setText(trabajador.getCorreoElectronico() != null ? trabajador.getCorreoElectronico() : "No especificado");
 
         if (trabajador.getFechaNacimiento() != null) {
-            fechaNacimientoLabel.setText(trabajador.getFechaNacimiento().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+            if (fechaNacimientoLabel != null) fechaNacimientoLabel.setText(trabajador.getFechaNacimiento().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         } else {
-            fechaNacimientoLabel.setText("No especificado");
+            if (fechaNacimientoLabel != null) fechaNacimientoLabel.setText("No especificado");
         }
 
-        generoLabel.setText(trabajador.getGenero() != null ? trabajador.getGenero().getTipoGenero() : "No especificado");
-        nacionalidadLabel.setText(trabajador.getNacionalidad() != null ? trabajador.getNacionalidad().getNombreNacionalidad() : "No especificado");
-        estadoCivilLabel.setText(trabajador.getEstadoCivil() != null ? trabajador.getEstadoCivil().getEstadoCivil() : "No especificado");
-        rfcLabel.setText(trabajador.getRfc() != null ? trabajador.getRfc() : "No especificado");
-        curpLabel.setText(trabajador.getCurp() != null ? trabajador.getCurp() : "No especificado");
-        domicilioLabel.setText(trabajador.getDomicilioCompleto());
-        codigoPostalLabel.setText(trabajador.getCodigoPostal() != null ? trabajador.getCodigoPostal() : "No especificado");
-        telefonoLabel.setText(trabajador.getNumTelefono() != null ? trabajador.getNumTelefono() : "No especificado");
-        herramientasLabel.setText(trabajador.getConocimientosHerramientas() != null ? trabajador.getConocimientosHerramientas() : "No especificado");
+        if (generoLabel != null) generoLabel.setText(trabajador.getGenero() != null ? trabajador.getGenero().getTipoGenero() : "No especificado");
+        if (nacionalidadLabel != null) nacionalidadLabel.setText(trabajador.getNacionalidad() != null ? trabajador.getNacionalidad().getNombreNacionalidad() : "No especificado");
+        if (estadoCivilLabel != null) estadoCivilLabel.setText(trabajador.getEstadoCivil() != null ? trabajador.getEstadoCivil().getEstadoCivil() : "No especificado");
+        if (rfcLabel != null) rfcLabel.setText(trabajador.getRfc() != null ? trabajador.getRfc() : "No especificado");
+        if (curpLabel != null) curpLabel.setText(trabajador.getCurp() != null ? trabajador.getCurp() : "No especificado");
+        if (domicilioLabel != null) domicilioLabel.setText(trabajador.getDomicilioCompleto());
+        if (codigoPostalLabel != null) codigoPostalLabel.setText(trabajador.getCodigoPostal() != null ? trabajador.getCodigoPostal() : "No especificado");
+        if (telefonoLabel != null) telefonoLabel.setText(trabajador.getNumTelefono() != null ? trabajador.getNumTelefono() : "No especificado");
+        if (herramientasLabel != null) herramientasLabel.setText(trabajador.getConocimientosHerramientas() != null ? trabajador.getConocimientosHerramientas() : "No especificado");
 
         String idiomasStr = "No especificado";
         if (trabajador.getTrabajadorIdiomas() != null && !trabajador.getTrabajadorIdiomas().isEmpty()) {
@@ -105,14 +105,14 @@ public class DetalleTrabajadorController {
             }
             idiomasStr = idiomasBuilder.toString();
         }
-        idiomasLabel.setText(idiomasStr);
+        if (idiomasLabel != null) idiomasLabel.setText(idiomasStr);
 
-        nivelEstudioLabel.setText(trabajador.getNivelEstudio() != null ? trabajador.getNivelEstudio() : "No especificado");
-        especialidadLabel.setText(trabajador.getEspecialidad() != null ? trabajador.getEspecialidad() : "No especificado");
-        anosExperienciaLabel.setText(trabajador.getAnosExperiencia() != null ? trabajador.getAnosExperiencia().toString() + " años" : "No especificado");
-        discapacidadLabel.setText(trabajador.getDiscapacidad() != null ? trabajador.getDiscapacidad() : "No especificado");
-        experienciaLabel.setText(trabajador.getExperienciaLaboral() != null ? trabajador.getExperienciaLaboral() : "No especificado");
-        habilidadesLabel.setText(trabajador.getHabilidades() != null ? trabajador.getHabilidades() : "No especificado");
+        if (nivelEstudioLabel != null) nivelEstudioLabel.setText(trabajador.getNivelEstudio() != null ? trabajador.getNivelEstudio() : "No especificado");
+        if (especialidadLabel != null) especialidadLabel.setText(trabajador.getEspecialidad() != null ? trabajador.getEspecialidad() : "No especificado");
+        if (anosExperienciaLabel != null) anosExperienciaLabel.setText(trabajador.getAnosExperiencia() != null ? trabajador.getAnosExperiencia().toString() + " años" : "No especificado");
+        if (discapacidadLabel != null) discapacidadLabel.setText(trabajador.getDiscapacidad() != null ? trabajador.getDiscapacidad() : "No especificado");
+        if (experienciaLabel != null) experienciaLabel.setText(trabajador.getExperienciaLaboral() != null ? trabajador.getExperienciaLaboral() : "No especificado");
+        if (habilidadesLabel != null) habilidadesLabel.setText(trabajador.getHabilidades() != null ? trabajador.getHabilidades() : "No especificado");
     }
 
     private void actualizarEstadoBotones() {
@@ -240,30 +240,23 @@ public class DetalleTrabajadorController {
     @FXML
     private void onVolverClick() {
         try {
-            String fxmlDestino;
-            String titulo;
-
             if ("postulantes".equals(origen)) {
-                // Viene desde postulantes (ofertas públicas) - volver a Postulantes
-                fxmlDestino = "Postulantes.fxml";
-                titulo = "Postulantes";
-
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/" + fxmlDestino));
+                // Volver a DetalleFormulario (que contiene el botón de postulantes)
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/DetalleFormulario.fxml"));
                 Parent root = loader.load();
 
-                // Si es Postulantes, pasar la oferta
                 if (postulacion != null && postulacion.getOferta() != null) {
-                    PostulantesController controller = loader.getController();
-                    controller.setOferta(postulacion.getOferta());
+                    DetalleFormularioController controller = loader.getController();
+                    controller.setEsDesdeEmpresas(true);
+                    controller.mostrarOferta(postulacion.getOferta());
                 }
 
                 Stage stage = (Stage) volverButton.getScene().getWindow();
                 stage.setScene(new Scene(root));
                 stage.setMaximized(true);
-                stage.setTitle(titulo);
+                stage.setTitle("Detalle de Oferta");
 
             } else {
-                // Viene desde trabajadores disponibles (ofertas privadas) - volver a Empresas
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/Empresas.fxml"));
                 Parent root = loader.load();
 

@@ -126,6 +126,7 @@ public class DetalleFormularioController {
             accionesColumn.setCellFactory(param -> new TableCell<>() {
                 private final Button verPerfilButton = new Button("👤 Ver Perfil");
                 private final Button notasButton = new Button("✏️ Agregar Nota");
+                private final Button verNotaTrabajadorButton = new Button("📝 Ver Nota");
 
                 {
                     verPerfilButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 3;");
@@ -138,6 +139,12 @@ public class DetalleFormularioController {
                     notasButton.setOnAction(event -> {
                         Postulacion postulacion = getTableView().getItems().get(getIndex());
                         abrirNotas(postulacion);
+                    });
+
+                    verNotaTrabajadorButton.setStyle("-fx-background-color: #e67e22; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 3;");
+                    verNotaTrabajadorButton.setOnAction(event -> {
+                        Postulacion postulacion = getTableView().getItems().get(getIndex());
+                        mostrarNotaTrabajador(postulacion);
                     });
                 }
 
@@ -153,6 +160,12 @@ public class DetalleFormularioController {
 
                         if (postulacion != null && "ACEPTADO".equalsIgnoreCase(postulacion.getEstado())) {
                             hbox.getChildren().add(notasButton);
+                        }
+
+                        // Mostrar botón de ver nota del trabajador si existe nota
+                        if (postulacion != null && postulacion.tieneNotaEmpresa() &&
+                                postulacion.getNotaEmpresa().contains("RAZÓN DEL TRABAJADOR")) {
+                            hbox.getChildren().add(verNotaTrabajadorButton);
                         }
 
                         setGraphic(hbox);
@@ -174,6 +187,36 @@ public class DetalleFormularioController {
                 });
                 return row;
             });
+        }
+    }
+
+    /**
+     * Muestra la nota que el trabajador escribió al aceptar o rechazar la oferta
+     */
+    private void mostrarNotaTrabajador(Postulacion postulacion) {
+        if (postulacion != null && postulacion.tieneNotaEmpresa()) {
+            String nota = postulacion.getNotaEmpresa();
+            if (nota.contains("RAZÓN DEL TRABAJADOR")) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("📝 Nota del Trabajador");
+                alert.setHeaderText("Razón proporcionada por el candidato");
+
+                // Limpiar el prefijo para mostrar solo la nota
+                String notaLimpia = nota.replace("📝 RAZÓN DEL TRABAJADOR (ACEPTADO):\n", "")
+                        .replace("📝 RAZÓN DEL TRABAJADOR (RECHAZADO):\n", "");
+
+                // Determinar el estado para mostrar en el encabezado
+                if (nota.contains("ACEPTADO")) {
+                    alert.setHeaderText("✅ Razón de ACEPTACIÓN del candidato");
+                } else if (nota.contains("RECHAZADO")) {
+                    alert.setHeaderText("❌ Razón de RECHAZO del candidato");
+                }
+
+                alert.setContentText(notaLimpia);
+                alert.getDialogPane().setMinHeight(400);
+                alert.getDialogPane().setMinWidth(500);
+                alert.showAndWait();
+            }
         }
     }
 
@@ -265,30 +308,21 @@ public class DetalleFormularioController {
 
     private void abrirNotas(Postulacion postulacion) {
         try {
-            if (!"ACEPTADO".equalsIgnoreCase(postulacion.getEstado())) {
-                mostrarAlerta("Restricción",
-                        "Solo puedes agregar notas a postulaciones ACEPTADAS.\n" +
-                                "Estado actual: " + postulacion.getEstado());
-                return;
-            }
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/Notas.fxml"));
             Parent root = loader.load();
 
             NotasController controller = loader.getController();
             controller.setPostulacion(postulacion);
+            controller.setModoRespuesta(false); // false = empresa → trabajador
 
             Stage stage = new Stage();
-            stage.setTitle("Agregar Nota - " +
-                    (postulacion.getTrabajador() != null ?
-                            postulacion.getTrabajador().getNombreCompleto() : "Postulante"));
+            stage.setTitle("Enviar Nota - " + postulacion.getTrabajador().getNombreCompleto());
             stage.setScene(new Scene(root));
             stage.setMaximized(true);
             stage.show();
 
         } catch (Exception e) {
             e.printStackTrace();
-            mostrarAlerta("Error", "No se pudo abrir la ventana de notas: " + e.getMessage());
         }
     }
 

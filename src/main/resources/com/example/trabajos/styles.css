@@ -1,0 +1,328 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   styles.css — CSS global PETAM
+   Cubre todas las vistas:
+     hello-view · Sesion · RegistroTrabajador · Trabajos
+     TrabajadoresDisponibles · TrabajosDisponibles · FormularioPrivado
+     Empresas · DetalleFormulario · DetalleTrabajador
+   ═══════════════════════════════════════════════════════════════════════ */
+
+
+/* ── BOTÓN AZUL — btn-azul · btn-cerrar · btn-volver ─────────────────── */
+.btn-azul, .btn-cerrar, .btn-volver {
+    -fx-background-color: linear-gradient(to bottom right, #4a6fa5, #2c4a7c);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: rgba(255,255,255,0.30);
+    -fx-border-width: 1;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(44,74,124,0.35), 8, 0, 0, 3);
+}
+.btn-azul:hover, .btn-cerrar:hover, .btn-volver:hover {
+    -fx-background-color: linear-gradient(to bottom right, #5c82bc, #3a5d9a);
+    -fx-effect: dropshadow(gaussian, rgba(44,74,124,0.55), 14, 0, 0, 5);
+    -fx-scale-x: 1.03; -fx-scale-y: 1.03;
+}
+.btn-azul:pressed, .btn-cerrar:pressed, .btn-volver:pressed {
+    -fx-background-color: linear-gradient(to bottom right, #2c4a7c, #1a3260);
+    -fx-scale-x: 0.97; -fx-scale-y: 0.97;
+    -fx-effect: dropshadow(gaussian, rgba(44,74,124,0.20), 4, 0, 0, 1);
+}
+
+
+/* ── BOTÓN VERDE — btn-verde · btn-guardar · btn-aceptar ─────────────── */
+.btn-verde, .btn-guardar, .btn-aceptar {
+    -fx-background-color: linear-gradient(to bottom right, #10b981, #065f46);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: rgba(255,255,255,0.30);
+    -fx-border-width: 1;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(6,95,70,0.35), 8, 0, 0, 3);
+}
+.btn-verde:hover, .btn-guardar:hover, .btn-aceptar:hover {
+    -fx-background-color: linear-gradient(to bottom right, #34d399, #0a7a5a);
+    -fx-effect: dropshadow(gaussian, rgba(6,95,70,0.55), 14, 0, 0, 5);
+    -fx-scale-x: 1.03; -fx-scale-y: 1.03;
+}
+.btn-verde:pressed, .btn-guardar:pressed, .btn-aceptar:pressed {
+    -fx-background-color: linear-gradient(to bottom right, #065f46, #033d2c);
+    -fx-scale-x: 0.97; -fx-scale-y: 0.97;
+    -fx-effect: dropshadow(gaussian, rgba(6,95,70,0.20), 4, 0, 0, 1);
+}
+
+
+/* ── BOTÓN ROJO — btn-rojo · btn-limpiar · btn-rechazar ──────────────── */
+.btn-rojo, .btn-limpiar, .btn-rechazar {
+    -fx-background-color: linear-gradient(to bottom right, #ef5350, #c62828);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: rgba(255,255,255,0.30);
+    -fx-border-width: 1;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(198,40,40,0.35), 8, 0, 0, 3);
+}
+.btn-rojo:hover, .btn-limpiar:hover, .btn-rechazar:hover {
+    -fx-background-color: linear-gradient(to bottom right, #f47c7a, #d93838);
+    -fx-effect: dropshadow(gaussian, rgba(198,40,40,0.55), 14, 0, 0, 5);
+    -fx-scale-x: 1.03; -fx-scale-y: 1.03;
+}
+.btn-rojo:pressed, .btn-limpiar:pressed, .btn-rechazar:pressed {
+    -fx-background-color: linear-gradient(to bottom right, #c62828, #8e1a1a);
+    -fx-scale-x: 0.97; -fx-scale-y: 0.97;
+    -fx-effect: dropshadow(gaussian, rgba(198,40,40,0.20), 4, 0, 0, 1);
+}
+
+
+/* ── BOTÓN AZUL OSCURO — btn-azul-oscuro (hello-view) ────────────────── */
+.btn-azul-oscuro {
+    -fx-background-color: linear-gradient(to bottom right, #2b568e, #1a3a5c);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: rgba(255,255,255,0.30);
+    -fx-border-width: 1;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(26,58,92,0.35), 8, 0, 0, 3);
+}
+.btn-azul-oscuro:hover {
+    -fx-background-color: linear-gradient(to bottom right, #3d6eaa, #25527a);
+    -fx-effect: dropshadow(gaussian, rgba(26,58,92,0.55), 14, 0, 0, 5);
+    -fx-scale-x: 1.03; -fx-scale-y: 1.03;
+}
+.btn-azul-oscuro:pressed {
+    -fx-background-color: linear-gradient(to bottom right, #1a3a5c, #0f2340);
+    -fx-scale-x: 0.97; -fx-scale-y: 0.97;
+    -fx-effect: dropshadow(gaussian, rgba(26,58,92,0.20), 4, 0, 0, 1);
+}
+
+
+/* ── BOTÓN GRIS — btn-gris (Trabajos: limpiar filtros) ───────────────── */
+.btn-gris {
+    -fx-background-color: #95a5a6;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 5, 0, 0, 2);
+}
+.btn-gris:hover {
+    -fx-background-color: #b2bec3;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.30), 8, 0, 0, 3);
+    -fx-scale-x: 1.03; -fx-scale-y: 1.03;
+}
+.btn-gris:pressed {
+    -fx-background-color: #7f8c8d;
+    -fx-scale-x: 0.97; -fx-scale-y: 0.97;
+}
+
+
+/* ── TEXTFIELD global ─────────────────────────────────────────────────── */
+.text-field {
+    -fx-background-color: white;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-border-width: 1.5;
+    -fx-text-fill: #2c3e50;
+    -fx-prompt-text-fill: #aab0b8;
+}
+.text-field:hover {
+    -fx-border-color: #4a6fa5;
+    -fx-background-color: #f4f8ff;
+    -fx-effect: dropshadow(gaussian, rgba(74,111,165,0.18), 6, 0, 0, 2);
+}
+.text-field:focused {
+    -fx-border-color: #3a7bd5;
+    -fx-border-width: 2;
+    -fx-background-color: #eef4ff;
+    -fx-effect: dropshadow(gaussian, rgba(58,123,213,0.30), 8, 0, 0, 0);
+}
+
+
+/* ── PASSWORDFIELD global ─────────────────────────────────────────────── */
+.password-field {
+    -fx-background-color: white;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-border-width: 1.5;
+    -fx-text-fill: #2c3e50;
+}
+.password-field:hover {
+    -fx-border-color: #4a6fa5;
+    -fx-background-color: #f4f8ff;
+    -fx-effect: dropshadow(gaussian, rgba(74,111,165,0.18), 6, 0, 0, 2);
+}
+.password-field:focused {
+    -fx-border-color: #3a7bd5;
+    -fx-border-width: 2;
+    -fx-background-color: #eef4ff;
+    -fx-effect: dropshadow(gaussian, rgba(58,123,213,0.30), 8, 0, 0, 0);
+}
+
+
+/* ── TEXTAREA global ──────────────────────────────────────────────────── */
+.text-area {
+    -fx-background-color: white;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-border-width: 1.5;
+    -fx-text-fill: #2c3e50;
+    -fx-prompt-text-fill: #aab0b8;
+}
+.text-area .content {
+    -fx-background-color: white;
+    -fx-background-radius: 6;
+}
+.text-area:hover {
+    -fx-border-color: #4a6fa5;
+    -fx-effect: dropshadow(gaussian, rgba(74,111,165,0.18), 6, 0, 0, 2);
+}
+.text-area:hover .content { -fx-background-color: #f4f8ff; }
+.text-area:focused {
+    -fx-border-color: #3a7bd5;
+    -fx-border-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(58,123,213,0.30), 8, 0, 0, 0);
+}
+.text-area:focused .content { -fx-background-color: #eef4ff; }
+
+
+/* ── COMBOBOX global ──────────────────────────────────────────────────── */
+.combo-box {
+    -fx-background-color: white;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-border-width: 1.5;
+    -fx-text-fill: #2c3e50;
+}
+.combo-box:hover {
+    -fx-border-color: #4a6fa5;
+    -fx-background-color: #f4f8ff;
+    -fx-effect: dropshadow(gaussian, rgba(74,111,165,0.18), 6, 0, 0, 2);
+}
+.combo-box:focused, .combo-box:showing {
+    -fx-border-color: #3a7bd5;
+    -fx-border-width: 2;
+    -fx-background-color: #eef4ff;
+    -fx-effect: dropshadow(gaussian, rgba(58,123,213,0.30), 8, 0, 0, 0);
+}
+
+
+/* ── DATEPICKER global (RegistroTrabajador) ───────────────────────────── */
+.date-picker {
+    -fx-background-color: white;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-border-width: 1.5;
+}
+.date-picker:hover {
+    -fx-border-color: #4a6fa5;
+    -fx-background-color: #f4f8ff;
+    -fx-effect: dropshadow(gaussian, rgba(74,111,165,0.18), 6, 0, 0, 2);
+}
+.date-picker:focused {
+    -fx-border-color: #3a7bd5;
+    -fx-border-width: 2;
+    -fx-background-color: #eef4ff;
+    -fx-effect: dropshadow(gaussian, rgba(58,123,213,0.30), 8, 0, 0, 0);
+}
+.date-picker .text-field {
+    -fx-border-width: 0;
+    -fx-background-color: transparent;
+}
+.date-picker .text-field:hover,
+.date-picker .text-field:focused {
+    -fx-border-width: 0;
+    -fx-background-color: transparent;
+    -fx-effect: none;
+}
+
+
+/* ── CAMPO-FORM (TextField con styleClass explícito — Empresas) ──────── */
+.campo-form {
+    -fx-background-color: white;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-border-width: 1.5;
+    -fx-font-size: 13px;
+    -fx-text-fill: #2c3e50;
+    -fx-prompt-text-fill: #aab0b8;
+}
+.campo-form:hover {
+    -fx-border-color: #4a6fa5;
+    -fx-background-color: #f4f8ff;
+    -fx-effect: dropshadow(gaussian, rgba(74,111,165,0.18), 6, 0, 0, 2);
+}
+.campo-form:focused {
+    -fx-border-color: #3a7bd5;
+    -fx-border-width: 2;
+    -fx-background-color: #eef4ff;
+    -fx-effect: dropshadow(gaussian, rgba(58,123,213,0.30), 8, 0, 0, 0);
+}
+
+
+/* ── COMBO-FORM (ComboBox con styleClass explícito — Empresas) ───────── */
+.combo-form {
+    -fx-background-color: white;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-border-width: 1.5;
+    -fx-font-size: 13px;
+}
+.combo-form:hover {
+    -fx-border-color: #4a6fa5;
+    -fx-background-color: #f4f8ff;
+    -fx-effect: dropshadow(gaussian, rgba(74,111,165,0.18), 6, 0, 0, 2);
+}
+.combo-form:focused, .combo-form:showing {
+    -fx-border-color: #3a7bd5;
+    -fx-border-width: 2;
+    -fx-background-color: #eef4ff;
+    -fx-effect: dropshadow(gaussian, rgba(58,123,213,0.30), 8, 0, 0, 0);
+}
+
+
+/* ── AREA-FORM (TextArea con styleClass explícito — Empresas) ────────── */
+.area-form {
+    -fx-background-color: white;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-border-width: 1.5;
+    -fx-font-size: 13px;
+    -fx-text-fill: #2c3e50;
+    -fx-prompt-text-fill: #aab0b8;
+}
+.area-form .content {
+    -fx-background-color: white;
+    -fx-background-radius: 6;
+}
+.area-form:hover {
+    -fx-border-color: #4a6fa5;
+    -fx-effect: dropshadow(gaussian, rgba(74,111,165,0.18), 6, 0, 0, 2);
+}
+.area-form:hover .content { -fx-background-color: #f4f8ff; }
+.area-form:focused {
+    -fx-border-color: #3a7bd5;
+    -fx-border-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(58,123,213,0.30), 8, 0, 0, 0);
+}
+.area-form:focused .content { -fx-background-color: #eef4ff; }

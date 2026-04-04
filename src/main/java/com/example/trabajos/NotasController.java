@@ -33,7 +33,7 @@ public class NotasController {
 
     private Postulacion postulacionActual;
     private PostulacionService postulacionService = new PostulacionService();
-    private boolean modoRespuesta = false;
+    private boolean modoRespuesta = false; // true = trabajador responde a empresa, false = empresa envía nota a trabajador
 
     private String formatearPrimeraLetraMayuscula(String texto) {
         if (texto == null || texto.isEmpty()) {
@@ -49,40 +49,95 @@ public class NotasController {
 
     public void setModoRespuesta(boolean modo) {
         this.modoRespuesta = modo;
+        actualizarVista();
     }
 
     private void actualizarVista() {
-        if (postulacionActual != null) {
-            if (modoRespuesta) {
-                String info = String.format(
-                        "Responder a oferta de: %s\nPuesto: %s\nEstado actual: %s\n\nEscribe tu respuesta (opcional):",
-                        postulacionActual.getOferta().getEmpresa().getNombreEmpresa(),
-                        postulacionActual.getOferta().getPuesto_trabajo(),
-                        postulacionActual.getEstadoFormateado()
-                );
-                infoTrabajadorLabel.setText(info);
+        if (postulacionActual == null) return;
 
-                if (enviarButton != null) enviarButton.setText("Enviar Respuesta");
-                if (notaExistenteLabel != null) notaExistenteLabel.setVisible(false);
-            } else {
-                String info = String.format(
-                        "Trabajador: %s\nVacante: %s - %s\nEstado actual: %s",
-                        postulacionActual.getTrabajador().getNombreCompleto(),
-                        postulacionActual.getOferta().getPuesto_trabajo(),
-                        postulacionActual.getOferta().getEmpresa().getNombreEmpresa(),
-                        postulacionActual.getEstadoFormateado()
-                );
-                infoTrabajadorLabel.setText(info);
-
-                if (postulacionActual.tieneNotaEmpresa()) {
-                    notaTextArea.setText(postulacionActual.getNotaEmpresa());
-                    notaExistenteLabel.setText("📝 Ya existe una nota. Puedes modificarla.");
-                    notaExistenteLabel.setVisible(true);
-                    enviarButton.setText("Actualizar Nota");
+        if (modoRespuesta) {
+            // TRABAJADOR → EMPRESA (respondiendo a una oferta privada)
+            if (infoTrabajadorLabel != null) {
+                if (postulacionActual.getOferta() != null && postulacionActual.getOferta().getEmpresa() != null) {
+                    String nombreEmpresa = postulacionActual.getOferta().getEmpresa().getNombreEmpresa();
+                    String puesto = postulacionActual.getOferta().getPuesto_trabajo();
+                    infoTrabajadorLabel.setText("Respondiendo a: " + nombreEmpresa + " - Puesto: " + puesto);
                 } else {
+                    infoTrabajadorLabel.setText("Respondiendo a la empresa");
+                }
+            }
+            if (enviarButton != null) {
+                enviarButton.setText("Enviar Respuesta");
+            }
+            if (notaExistenteLabel != null) {
+                notaExistenteLabel.setVisible(false);
+            }
+            if (notaTextArea != null) {
+                notaTextArea.clear();
+                notaTextArea.setPromptText("Escribe tu respuesta para la empresa...");
+            }
+        } else {
+            // EMPRESA → TRABAJADOR (enviando nota a trabajador aceptado)
+            if (infoTrabajadorLabel != null) {
+                if (postulacionActual.getTrabajador() != null) {
+                    String nombreTrabajador = postulacionActual.getTrabajador().getNombreCompleto();
+                    String email = postulacionActual.getTrabajador().getCorreoElectronico() != null ?
+                            postulacionActual.getTrabajador().getCorreoElectronico() : "Email no disponible";
+                    infoTrabajadorLabel.setText("Trabajador: " + nombreTrabajador + " - " + email);
+                } else {
+                    infoTrabajadorLabel.setText("Cargando información del trabajador...");
+                }
+            }
+
+            // Verificar si ya existe una nota
+            if (postulacionActual.tieneNotaEmpresa()) {
+                String nota = postulacionActual.getNotaEmpresa();
+                // Si es nota del trabajador (respuesta), mostrarla pero no editable
+                if (nota.contains("RESPUESTA DEL TRABAJADOR") || nota.contains("RAZÓN DEL TRABAJADOR")) {
+                    String notaLimpia = nota.replace("📝 RESPUESTA DEL TRABAJADOR:\n", "")
+                            .replace("📝 RAZÓN DEL TRABAJADOR (ACEPTADO):\n", "")
+                            .replace("📝 RAZÓN DEL TRABAJADOR (RECHAZADO):\n", "");
+                    if (notaTextArea != null) {
+                        notaTextArea.setText(notaLimpia);
+                        notaTextArea.setEditable(false);
+                    }
+                    if (enviarButton != null) {
+                        enviarButton.setVisible(false);
+                        enviarButton.setManaged(false);
+                    }
+                    if (notaExistenteLabel != null) {
+                        notaExistenteLabel.setText("📝 Esta es la respuesta del trabajador. No puedes modificarla.");
+                        notaExistenteLabel.setVisible(true);
+                    }
+                } else {
+                    // Nota existente de la empresa - editable
+                    if (notaTextArea != null) {
+                        notaTextArea.setText(nota);
+                        notaTextArea.setEditable(true);
+                    }
+                    if (notaExistenteLabel != null) {
+                        notaExistenteLabel.setText("📝 Ya existe una nota. Puedes modificarla.");
+                        notaExistenteLabel.setVisible(true);
+                    }
+                    if (enviarButton != null) {
+                        enviarButton.setText("Actualizar Nota");
+                        enviarButton.setVisible(true);
+                        enviarButton.setManaged(true);
+                    }
+                }
+            } else {
+                if (notaTextArea != null) {
                     notaTextArea.clear();
+                    notaTextArea.setEditable(true);
+                    notaTextArea.setPromptText("Escribe una nota para el trabajador...");
+                }
+                if (notaExistenteLabel != null) {
                     notaExistenteLabel.setVisible(false);
+                }
+                if (enviarButton != null) {
                     enviarButton.setText("Enviar Nota");
+                    enviarButton.setVisible(true);
+                    enviarButton.setManaged(true);
                 }
             }
         }
@@ -105,12 +160,14 @@ public class NotasController {
         String notaFormateada = formatearPrimeraLetraMayuscula(nota);
 
         if (modoRespuesta) {
-            String respuestaCompleta = "RESPUESTA DEL TRABAJADOR:\n" + notaFormateada;
+            // TRABAJADOR responde a EMPRESA
+            String respuestaCompleta = "📝 RESPUESTA DEL TRABAJADOR:\n" + notaFormateada;
             postulacionService.actualizarNotaEmpresa(postulacionActual, respuestaCompleta);
             mostrarMensajeExito("✅ Respuesta enviada correctamente.\n\nLa empresa recibirá tu mensaje.");
         } else {
+            // EMPRESA envía nota a TRABAJADOR
             postulacionService.actualizarNotaEmpresa(postulacionActual, notaFormateada);
-            mostrarMensajeExito("✅ Nota guardada correctamente.");
+            mostrarMensajeExito("✅ Nota enviada correctamente al trabajador.");
         }
 
         new Thread(() -> {

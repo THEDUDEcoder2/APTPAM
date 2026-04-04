@@ -16,10 +16,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1539.0" style="-fx-background-color: #dce8f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.trabajos.TrabajosController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1539.0" style="-fx-background-color: #dce8f5;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.trabajos.TrabajosController">
    <children>
 
-      <!-- TÍTULO -->
       <Label alignment="CENTER" layoutX="392.0" layoutY="20.0" prefHeight="100.0" prefWidth="822.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 30; -fx-font-weight: bold;" text="PLATAFORMA DE EMPLEO TEMPORAL">
          <font><Font size="32.0" /></font>
       </Label>
@@ -29,23 +28,25 @@
          <padding><Insets bottom="28.0" left="16.0" right="16.0" top="28.0" /></padding>
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@assets/WhatsApp_Image_2026-03-24_at_12.15.37-removebg-preview.png" />
-               </image>
+               <Image url="@assets/WhatsApp_Image_2026-03-24_at_12.15.37-removebg-preview.png" />
             </ImageView>
             <Label alignment="CENTER" prefWidth="210.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;" text="Buscar Trabajos" wrapText="true" />
+
+            <Button fx:id="editarPerfilButton" onAction="#onEditarPerfilClick" prefHeight="40.0" prefWidth="225.0" styleClass="btn-azul" text="✏️ Editar mi perfil" />
+
             <Region VBox.vgrow="ALWAYS" />
-            <Button fx:id="cerrarSesionButton" onAction="#onVolverClick" prefHeight="55.0" prefWidth="225.0" style="-fx-background-color: linear-gradient(to bottom right, #ef5350, #c62828); -fx-text-fill: white; -fx-font-size: 17; -fx-font-weight: bold; -fx-border-color: rgba(255,255,255,0.5); -fx-border-radius: 4; -fx-background-radius: 4; -fx-cursor: hand;" text="✗ Cerrar sesión" />
+            <Button fx:id="cerrarSesionButton" onAction="#onVolverClick" prefHeight="55.0" prefWidth="225.0" styleClass="btn-rojo" text="✗ Cerrar sesión" />
          </children>
       </VBox>
 
-      <!-- TARJETA DERECHA -->
+      <!-- TARJETA DERECHA - Información -->
       <VBox alignment="TOP_CENTER" layoutX="1274.0" layoutY="126.0" maxWidth="250.0" minWidth="250.0" prefHeight="674.0" prefWidth="250.0" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
          <padding><Insets bottom="28.0" left="16.0" right="16.0" top="28.0" /></padding>
          <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;" text="Información" />
          <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Revisa las ofertas exclusivas." wrapText="true" /></HBox>
-         <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Filtra por tipo de trabajo." wrapText="true" /></HBox>
+         <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Filtra por tipo de trabajo, ubicación y sueldo." wrapText="true" /></HBox>
          <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Contacta a la empresa desde Acciones." wrapText="true" /></HBox>
+         <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Puedes editar tu perfil cuando lo necesites." wrapText="true" /></HBox>
       </VBox>
 
       <!-- CONTENIDO CENTRAL -->
@@ -53,25 +54,64 @@
          <padding><Insets bottom="28.0" left="28.0" right="28.0" top="28.0" /></padding>
          <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 21; -fx-font-weight: bold;" text="🔍 Buscar Trabajos" />
          <Label style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Encuentra la oportunidad laboral que se ajusta a tu perfil" />
+
          <TabPane fx:id="tabPane" prefHeight="520.0" prefWidth="920.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
                <Tab fx:id="ofertasPublicasTab" text="📋 Ofertas Públicas">
                   <content>
                      <VBox spacing="12.0" style="-fx-padding: 14;">
-                        <HBox fx:id="filtrosContainer" alignment="CENTER_LEFT" spacing="10.0">
-                           <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Filtrar por tipo:" />
-                           <ComboBox fx:id="tipoTrabajoComboBox" prefWidth="200" />
-                           <Button fx:id="limpiarFiltrosButton" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-background-radius: 4; -fx-cursor: hand;" text="Limpiar filtros" />
+
+                        <!-- Filtros en una sola línea horizontal -->
+                        <HBox spacing="15.0" alignment="CENTER_LEFT" style="-fx-background-color: #f0f4fa; -fx-background-radius: 10; -fx-padding: 12;">
+
+                           <!-- Tipo de trabajo -->
+                           <VBox spacing="5.0">
+                              <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 12; -fx-font-weight: bold;" text="Tipo de trabajo" />
+                              <ComboBox fx:id="tipoTrabajoComboBox" prefWidth="150" />
+                           </VBox>
+
+                           <!-- Tipo de sueldo -->
+                           <VBox spacing="5.0">
+                              <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 12; -fx-font-weight: bold;" text="Tipo de sueldo" />
+                              <ComboBox fx:id="tipoSueldoComboBox" prefWidth="130" />
+                           </VBox>
+
+                           <!-- Municipio -->
+                           <VBox spacing="5.0">
+                              <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 12; -fx-font-weight: bold;" text="Municipio" />
+                              <ComboBox fx:id="municipioComboBox" prefWidth="140" />
+                           </VBox>
+
+                           <!-- Ciudad -->
+                           <VBox spacing="5.0">
+                              <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 12; -fx-font-weight: bold;" text="Ciudad" />
+                              <ComboBox fx:id="ciudadComboBox" prefWidth="140" />
+                           </VBox>
+
+                           <!-- Botones -->
+                           <VBox spacing="5.0">
+                              <Label style="-fx-text-fill: transparent; -fx-font-size: 12; -fx-font-weight: bold;" text=" " />
+                              <Button fx:id="aplicarFiltrosButton" styleClass="btn-verde" text="🔍 Aplicar" />
+                           </VBox>
+
+                           <VBox spacing="5.0">
+                              <Label style="-fx-text-fill: transparent; -fx-font-size: 12; -fx-font-weight: bold;" text=" " />
+                              <Button fx:id="limpiarFiltrosButton" styleClass="btn-gris" text="🗑️ Limpiar" />
+                           </VBox>
+
                         </HBox>
+
                         <TableView fx:id="trabajosTable" prefHeight="380.0" prefWidth="890.0" style="-fx-background-radius: 8; -fx-border-color: #bdc3c7; -fx-border-radius: 8;" VBox.vgrow="ALWAYS">
                            <columns>
                               <TableColumn fx:id="empresaColumn" prefWidth="200" text="Empresa" />
                               <TableColumn fx:id="vacanteColumn" prefWidth="200" text="Vacante" />
                               <TableColumn fx:id="sueldoColumn" prefWidth="100" text="Sueldo" />
+                              <TableColumn fx:id="ubicacionColumn" prefWidth="150" text="Ubicación" />
                               <TableColumn fx:id="estadoColumn" prefWidth="120" text="Estado" />
                               <TableColumn fx:id="accionesColumn" prefWidth="150" text="Acciones" />
                            </columns>
                         </TableView>
+
                         <HBox alignment="CENTER_RIGHT">
                            <Label fx:id="totalOfertasLabel" style="-fx-text-fill: #1a3a5c; -fx-font-size: 16;" text="Ofertas públicas disponibles: 0" />
                         </HBox>
@@ -79,15 +119,17 @@
                      </VBox>
                   </content>
                </Tab>
+
                <Tab fx:id="ofertasPrivadasTab" text="🔷 Ofertas Exclusivas">
                   <content>
                      <VBox spacing="12.0" style="-fx-padding: 14;">
                         <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 16; -fx-font-weight: bold;" text="Estas ofertas han sido creadas especialmente para ti por empresas interesadas en tu perfil" />
-                        <TableView fx:id="ofertasPrivadasTable" prefHeight="380.0" prefWidth="890.0" style="-fx-background-radius: 8; -fx-border-color: #bdc3c7; -fx-border-radius: 8;" VBox.vgrow="ALWAYS">
+                        <TableView fx:id="ofertasPrivadasTable" prefHeight="400.0" prefWidth="890.0" style="-fx-background-radius: 8; -fx-border-color: #bdc3c7; -fx-border-radius: 8;" VBox.vgrow="ALWAYS">
                            <columns>
                               <TableColumn fx:id="empresaPrivColumn" prefWidth="200" text="Empresa" />
                               <TableColumn fx:id="puestoPrivColumn" prefWidth="180" text="Puesto" />
                               <TableColumn fx:id="fechaPrivColumn" prefWidth="100" text="Fecha" />
+                              <TableColumn fx:id="ubicacionPrivColumn" prefWidth="150" text="Ubicación" />
                               <TableColumn fx:id="estadoPrivColumn" prefWidth="100" text="Estado" />
                               <TableColumn fx:id="accionesPrivColumn" prefWidth="180" text="Acciones" />
                            </columns>

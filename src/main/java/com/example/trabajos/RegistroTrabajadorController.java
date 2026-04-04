@@ -402,8 +402,6 @@ public class RegistroTrabajadorController {
             System.out.println("  Apellido Paterno: " + apellidoPaterno);
             System.out.println("  Apellido Materno: " + apellidoMaterno);
             System.out.println("  Email: " + email);
-            System.out.println("  Municipio: " + municipioComboBox.getValue());
-            System.out.println("  Ciudad: " + ciudadComboBox.getValue());
 
             System.out.println("🔍 Verificando si el email ya existe...");
             if (trabajadorService.existeEmail(email)) {
@@ -419,12 +417,6 @@ public class RegistroTrabajadorController {
             EstadoCivil estadoCivil = estadoCivilService.obtenerEstadoCivilPorNombre(estadoCivilComboBox.getValue());
             Municipio municipio = municipioService.obtenerMunicipioPorNombre(municipioComboBox.getValue());
             Ciudad ciudad = ciudadService.obtenerCiudadPorNombre(ciudadComboBox.getValue());
-
-            System.out.println("  Género obtenido: " + (genero != null ? genero.getTipoGenero() : "null"));
-            System.out.println("  Nacionalidad obtenida: " + (nacionalidad != null ? nacionalidad.getNombreNacionalidad() : "null"));
-            System.out.println("  Estado civil obtenido: " + (estadoCivil != null ? estadoCivil.getEstadoCivil() : "null"));
-            System.out.println("  Municipio obtenido: " + (municipio != null ? municipio.getNombreMunicipio() : "null"));
-            System.out.println("  Ciudad obtenida: " + (ciudad != null ? ciudad.getNombreCiudad() : "null"));
 
             System.out.println("🔄 Creando objeto Trabajador...");
             Trabajador trabajador = new Trabajador();
@@ -459,7 +451,7 @@ public class RegistroTrabajadorController {
 
             trabajador.setDiscapacidad(discapacidadComboBox.getValue());
             trabajador.setExperienciaLaboral(experienciaField.getText());
-            trabajador.setHabilidades(habilidadesArea.getText());
+            trabajador.setHabilidades(habilidadesArea != null ? habilidadesArea.getText() : "");
 
             System.out.println("💾 Guardando trabajador en la base de datos...");
             try {
@@ -599,7 +591,7 @@ public class RegistroTrabajadorController {
         resumen.append("• Discapacidad: ").append(discapacidadComboBox.getValue() != null ?
                 discapacidadComboBox.getValue() : "No especificada").append("\n");
         resumen.append("• Experiencia: ").append(experienciaField.getText()).append("\n");
-        resumen.append("• Habilidades: ").append(habilidadesArea.getText()).append("\n");
+        resumen.append("• Habilidades: ").append(habilidadesArea != null ? habilidadesArea.getText() : "").append("\n");
 
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
         confirmacion.setTitle("Confirmar Registro");
@@ -860,4 +852,4 @@ public class RegistroTrabajadorController {
             mostrarError("Error al navegar a la pantalla de sesión");
         }
     }
-}
+}   

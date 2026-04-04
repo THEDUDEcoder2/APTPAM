@@ -16,109 +16,63 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane
-        maxHeight="-Infinity" maxWidth="-Infinity"
-        minHeight="-Infinity" minWidth="-Infinity"
-        prefHeight="900.0" prefWidth="1539.0"
-        style="-fx-background-color: #dce8f5;"
-        xmlns="http://javafx.com/javafx/25"
-        xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="com.example.trabajos.DetalleFormularioController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1539.0" style="-fx-background-color: #dce8f5;" stylesheets="@detalleFormulario.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.trabajos.DetalleFormularioController">
     <children>
 
-        <!-- TÍTULO -->
-        <Label alignment="CENTER" layoutX="392.0" layoutY="20.0"
-               prefHeight="100.0" prefWidth="822.0"
-               style="-fx-text-fill: #1a3a5c; -fx-font-size: 30; -fx-font-weight: bold;"
-               text="PLATAFORMA DE EMPLEO TEMPORAL">
+        <Label alignment="CENTER" layoutX="392.0" layoutY="20.0" prefHeight="100.0" prefWidth="822.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 30; -fx-font-weight: bold;" text="PLATAFORMA DE EMPLEO TEMPORAL">
             <font><Font size="32.0" /></font>
         </Label>
 
-        <!-- TARJETA LATERAL IZQUIERDA -->
-        <VBox alignment="TOP_CENTER" layoutX="28.0" layoutY="126.0"
-              maxWidth="250.0" minWidth="250.0" prefHeight="674.0" prefWidth="250.0"
-              spacing="18.0"
-              style="-fx-background-color: white; -fx-background-radius: 16;
-                   -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+        <VBox alignment="TOP_CENTER" layoutX="28.0" layoutY="126.0" maxWidth="250.0" minWidth="250.0" prefHeight="674.0" prefWidth="250.0" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 16;                    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
             <padding><Insets bottom="28.0" left="16.0" right="16.0" top="28.0" /></padding>
             <children>
                 <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@assets/logo_petam.jpg" />
+                    <Image url="@assets/WhatsApp_Image_2026-03-24_at_12.15.37-removebg-preview.png" />
                 </ImageView>
-                <Label alignment="CENTER" prefWidth="210.0"
-                       style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;"
-                       text="Detalle de Formulario" wrapText="true" />
+                <Label alignment="CENTER" prefWidth="210.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;" text="Detalle de Formulario" wrapText="true" />
                 <Region VBox.vgrow="ALWAYS" />
-                <Button fx:id="volverButton" onAction="#onVolverClick"
-                        prefHeight="55.0" prefWidth="225.0"
-                        style="-fx-background-color: linear-gradient(to bottom right, #4a6fa5, #2c4a7c);
-                           -fx-text-fill: white; -fx-font-size: 17; -fx-font-weight: bold;
-                           -fx-border-color: rgba(255,255,255,0.5);
-                           -fx-border-radius: 4; -fx-background-radius: 4; -fx-cursor: hand;"
-                        text="← Volver" />
+                <Button fx:id="volverButton" onAction="#onVolverClick" prefHeight="55.0" prefWidth="225.0" styleClass="btn-volver" text="← Volver" />
             </children>
         </VBox>
 
-        <!-- TARJETA DERECHA -->
-        <VBox alignment="TOP_CENTER" layoutX="1274.0" layoutY="126.0"
-              maxWidth="250.0" minWidth="250.0" prefHeight="674.0" prefWidth="250.0"
-              spacing="18.0"
-              style="-fx-background-color: white; -fx-background-radius: 16;
-                   -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+        <VBox alignment="TOP_CENTER" layoutX="1274.0" layoutY="126.0" maxWidth="250.0" minWidth="250.0" prefHeight="674.0" prefWidth="250.0" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 16;                    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
             <padding><Insets bottom="28.0" left="22.0" right="22.0" top="28.0" /></padding>
-            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;"
-                   text="Información" />
+            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;" text="Información" />
             <HBox alignment="TOP_LEFT" spacing="10.0">
                 <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
-                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;"
-                       text="Verifica los datos antes de continuar." wrapText="true" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Verifica los datos antes de continuar." wrapText="true" />
             </HBox>
             <HBox alignment="TOP_LEFT" spacing="10.0">
                 <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
-                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;"
-                       text="Revisa la vacante publicada." wrapText="true" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Revisa la vacante publicada." wrapText="true" />
             </HBox>
             <HBox alignment="TOP_LEFT" spacing="10.0">
                 <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
-                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;"
-                       text="Acepta o rechaza según el perfil requerido." wrapText="true" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Acepta o rechaza según el perfil requerido." wrapText="true" />
             </HBox>
             <HBox alignment="TOP_LEFT" spacing="10.0">
                 <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
-                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;"
-                       text="Contacta al candidato seleccionado." wrapText="true" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Contacta al candidato seleccionado." wrapText="true" />
             </HBox>
+
         </VBox>
 
-        <!-- CONTENIDO CENTRAL con TabPane -->
-        <VBox layoutX="290.0" layoutY="126.0"
-              prefHeight="674.0" prefWidth="970.0" spacing="16.0"
-              style="-fx-background-color: white; -fx-background-radius: 16;
-                   -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+        <VBox layoutX="290.0" layoutY="126.0" prefHeight="674.0" prefWidth="970.0" spacing="16.0" style="-fx-background-color: white; -fx-background-radius: 16;                    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
             <padding><Insets bottom="28.0" left="28.0" right="28.0" top="28.0" /></padding>
 
-            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 21; -fx-font-weight: bold;"
-                   text="📋 Detalle de Oferta Laboral" />
+            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 21; -fx-font-weight: bold;" text="📋 Detalle de Oferta Laboral" />
 
-            <TabPane fx:id="tabPane" prefHeight="540.0" prefWidth="920.0"
-                     tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="tabPane" prefHeight="540.0" prefWidth="920.0" tabClosingPolicy="UNAVAILABLE">
                 <tabs>
 
-                    <!-- ══ TAB 1: Detalle del Formulario ══ -->
                     <Tab fx:id="detalleTab" text="🔍 Detalle del formulario">
                         <content>
-                            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
-                                        style="-fx-background-color: transparent; -fx-background: transparent;">
+                            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: transparent; -fx-background: transparent;" vbarPolicy="AS_NEEDED">
                                 <content>
                                     <VBox spacing="16.0" style="-fx-padding: 14;">
 
-                                        <!-- Tarjeta Empresa -->
-                                        <VBox spacing="12.0"
-                                              style="-fx-background-color: #f8fafd; -fx-background-radius: 12;
-                                                   -fx-border-color: #d0dce8; -fx-border-radius: 12;
-                                                   -fx-padding: 20;">
-                                            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;"
-                                                   text="Información de la Empresa" />
+                                        <VBox spacing="12.0" style="-fx-background-color: #f8fafd; -fx-background-radius: 12;                                            -fx-border-color: #d0dce8; -fx-border-radius: 12;                                            -fx-padding: 20;">
+                                            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;" text="Información de la Empresa" />
                                             <VBox spacing="4.0">
                                                 <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Nombre de la empresa:" />
                                                 <Label fx:id="nombreEmpresaLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 15;" />
@@ -145,13 +99,8 @@
                                             </VBox>
                                         </VBox>
 
-                                        <!-- Tarjeta Vacante -->
-                                        <VBox spacing="12.0"
-                                              style="-fx-background-color: #f8fafd; -fx-background-radius: 12;
-                                                   -fx-border-color: #d0dce8; -fx-border-radius: 12;
-                                                   -fx-padding: 20;">
-                                            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;"
-                                                   text="Información de la Vacante" />
+                                        <VBox spacing="12.0" style="-fx-background-color: #f8fafd; -fx-background-radius: 12;                                            -fx-border-color: #d0dce8; -fx-border-radius: 12;                                            -fx-padding: 20;">
+                                            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;" text="Información de la Vacante" />
                                             <VBox spacing="4.0">
                                                 <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Puesto:" />
                                                 <Label fx:id="puestoLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 15;" />
@@ -184,16 +133,11 @@
                         </content>
                     </Tab>
 
-                    <!-- ══ TAB 2: Postulantes ══ -->
                     <Tab fx:id="postulantesTab" text="👥 Postulantes">
                         <content>
                             <VBox spacing="12.0" style="-fx-padding: 14;">
-                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;"
-                                       text="Lista de Postulantes" />
-                                <TableView fx:id="postulantesTable" prefHeight="430.0" prefWidth="890.0"
-                                           style="-fx-background-color: transparent; -fx-border-color: #e0eaf4;
-                                           -fx-border-radius: 8; -fx-background-radius: 8;"
-                                           VBox.vgrow="ALWAYS">
+                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;" text="Lista de Postulantes" />
+                                <TableView fx:id="postulantesTable" prefHeight="430.0" prefWidth="890.0" style="-fx-background-color: transparent; -fx-border-color: #e0eaf4;                                            -fx-border-radius: 8; -fx-background-radius: 8;" VBox.vgrow="ALWAYS">
                                     <columns>
                                         <TableColumn fx:id="nombreColumn" prefWidth="300" text="Nombre" />
                                         <TableColumn fx:id="telefonoColumn" prefWidth="200" text="Teléfono" />

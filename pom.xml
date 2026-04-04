@@ -132,6 +132,20 @@
             <version>${jakarta.transaction.version}</version>
         </dependency>
 
+        <!-- JavaMail para envío de correos -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+
+        <!-- Activation Framework (necesario para JavaMail) -->
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
         <!-- Dependencias de JUnit -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

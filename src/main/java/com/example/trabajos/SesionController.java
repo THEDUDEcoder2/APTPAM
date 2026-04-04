@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
@@ -18,23 +19,14 @@ import com.example.trabajos.services.EmpresaService;
 import com.example.trabajos.services.TrabajadorService;
 
 public class SesionController {
-    @FXML
-    private TextField emailField;
 
-    @FXML
-    private PasswordField passwordField;
-
-    @FXML
-    private TextField passwordVisibleField;
-
-    @FXML
-    private CheckBox mostrarPasswordCheckBox;
-
-    @FXML
-    private Label mensajeLabel;
-
-    @FXML
-    private Label tipoUsuarioLabel;
+    @FXML private TextField emailField;
+    @FXML private PasswordField passwordField;
+    @FXML private TextField passwordVisibleField;
+    @FXML private CheckBox mostrarPasswordCheckBox;
+    @FXML private Label mensajeLabel;
+    @FXML private Label tipoUsuarioLabel;
+    @FXML private Hyperlink olvidePasswordLink;
 
     private EmpresaService empresaService = new EmpresaService();
     private TrabajadorService trabajadorService = new TrabajadorService();
@@ -100,7 +92,6 @@ public class SesionController {
                     );
 
                     SesionManager.getInstancia().iniciarSesion(usuario);
-                    // Ir directamente a la pantalla de empresas sin mostrar mensaje
                     abrirPantallaEmpresas();
                 } else {
                     mostrarMensaje("Email o contraseña incorrectos. Verifica tus datos.");
@@ -117,7 +108,6 @@ public class SesionController {
                     );
 
                     SesionManager.getInstancia().iniciarSesion(usuario);
-                    // Ir directamente a la pantalla de trabajos sin mostrar mensaje
                     abrirPantallaTrabajos();
                 } else {
                     mostrarMensaje("Email o contraseña incorrectos. Verifica tus datos.");
@@ -136,6 +126,24 @@ public class SesionController {
             abrirRegistroEmpresa();
         } else {
             abrirRegistroTrabajador();
+        }
+    }
+
+    @FXML
+    protected void onOlvidePasswordClick() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/RecuperarContrasena.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Recuperar Contraseña");
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            mostrarMensaje("Error al abrir la ventana de recuperación.");
         }
     }
 

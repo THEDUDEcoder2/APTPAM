@@ -4,9 +4,13 @@ import com.example.trabajos.models.Postulacion;
 import com.example.trabajos.models.Oferta;
 import com.example.trabajos.models.Trabajador;
 import com.example.trabajos.models.Empresa;
+import com.example.trabajos.models.Ciudad;
+import com.example.trabajos.models.Municipio;
 import com.example.trabajos.services.OfertaService;
 import com.example.trabajos.services.TrabajadorService;
 import com.example.trabajos.services.PostulacionService;
+import com.example.trabajos.services.MunicipioService;
+import com.example.trabajos.services.CiudadService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -31,6 +35,7 @@ public class TrabajosController {
     @FXML private TableColumn<Oferta, String> empresaColumn;
     @FXML private TableColumn<Oferta, String> vacanteColumn;
     @FXML private TableColumn<Oferta, String> sueldoColumn;
+    @FXML private TableColumn<Oferta, String> ubicacionColumn;
     @FXML private TableColumn<Oferta, String> estadoColumn;
     @FXML private TableColumn<Oferta, Void> accionesColumn;
 
@@ -38,12 +43,17 @@ public class TrabajosController {
     @FXML private TableColumn<Oferta, String> empresaPrivColumn;
     @FXML private TableColumn<Oferta, String> puestoPrivColumn;
     @FXML private TableColumn<Oferta, String> fechaPrivColumn;
+    @FXML private TableColumn<Oferta, String> ubicacionPrivColumn;
     @FXML private TableColumn<Oferta, String> estadoPrivColumn;
     @FXML private TableColumn<Oferta, Void> accionesPrivColumn;
 
+    // Filtros
     @FXML private ComboBox<String> tipoTrabajoComboBox;
+    @FXML private ComboBox<String> tipoSueldoComboBox;
+    @FXML private ComboBox<String> municipioComboBox;
+    @FXML private ComboBox<String> ciudadComboBox;
+    @FXML private Button aplicarFiltrosButton;
     @FXML private Button limpiarFiltrosButton;
-    @FXML private HBox filtrosContainer;
 
     @FXML private Label mensajeLabel;
     @FXML private Label mensajePrivadasLabel;
@@ -58,6 +68,8 @@ public class TrabajosController {
     private OfertaService ofertaService = new OfertaService();
     private TrabajadorService trabajadorService = new TrabajadorService();
     private PostulacionService postulacionService = new PostulacionService();
+    private MunicipioService municipioService = new MunicipioService();
+    private CiudadService ciudadService = new CiudadService();
 
     @FXML
     public void initialize() {
@@ -66,6 +78,90 @@ public class TrabajosController {
         configurarFiltros();
         cargarTrabajadorActual();
         refrescarTabla();
+    }
+
+    private void configurarFiltros() {
+        // Tipo de trabajo
+        tipoTrabajoComboBox.getItems().clear();
+        tipoTrabajoComboBox.getItems().add("Todos los trabajos");
+        tipoTrabajoComboBox.getItems().addAll(
+                "Asesor/Consultor", "Atención al cliente", "Vigilancia/Recepcionista",
+                "Tutor/Enseñanza", "Artesanías", "Jardinería", "Limpieza",
+                "Repartidor", "Cuidado de personas", "Trabajo administrativo",
+                "Telemercadeo", "Guardia de seguridad", "Conductor", "Cocina ayudante"
+        );
+        tipoTrabajoComboBox.setValue("Todos los trabajos");
+
+        // Tipo de sueldo
+        tipoSueldoComboBox.getItems().clear();
+        tipoSueldoComboBox.getItems().add("Todos");
+        tipoSueldoComboBox.getItems().addAll("Semanal", "Quincenal", "Mensual");
+        tipoSueldoComboBox.setValue("Todos");
+
+        // Municipio
+        municipioComboBox.getItems().clear();
+        municipioComboBox.getItems().add("Todos");
+        try {
+            for (Municipio m : municipioService.obtenerTodosMunicipios()) {
+                municipioComboBox.getItems().add(m.getNombreMunicipio());
+            }
+        } catch (Exception e) {
+            municipioComboBox.getItems().addAll("Comondú", "La Paz", "Loreto", "Los Cabos", "Mulegé");
+        }
+        municipioComboBox.setValue("Todos");
+
+        // Ciudad - se carga dinámicamente al seleccionar municipio
+        ciudadComboBox.getItems().clear();
+        ciudadComboBox.getItems().add("Todas");
+        ciudadComboBox.setValue("Todas");
+
+        // Listener para cargar ciudades según municipio
+        municipioComboBox.valueProperty().addListener((obs, old, newVal) -> {
+            cargarCiudadesPorMunicipio(newVal);
+        });
+
+        // Botones
+        aplicarFiltrosButton.setOnAction(e -> aplicarFiltros());
+        limpiarFiltrosButton.setOnAction(e -> limpiarFiltros());
+    }
+
+    private void cargarCiudadesPorMunicipio(String nombreMunicipio) {
+        ciudadComboBox.getItems().clear();
+        ciudadComboBox.getItems().add("Todas");
+
+        if (nombreMunicipio == null || "Todos".equals(nombreMunicipio)) {
+            ciudadComboBox.setValue("Todas");
+            return;
+        }
+
+        try {
+            Municipio municipio = municipioService.obtenerMunicipioPorNombre(nombreMunicipio);
+            if (municipio != null) {
+                for (Ciudad c : ciudadService.obtenerCiudadesPorMunicipio(municipio)) {
+                    ciudadComboBox.getItems().add(c.getNombreCiudad());
+                }
+            }
+        } catch (Exception e) {
+            // Ciudades por defecto según municipio
+            switch (nombreMunicipio) {
+                case "Comondú":
+                    ciudadComboBox.getItems().addAll("Ciudad Constitución", "Puerto San Carlos", "Puerto Adolfo López Mateos");
+                    break;
+                case "La Paz":
+                    ciudadComboBox.getItems().addAll("La Paz", "El Centenario", "El Sargento", "La Ventana", "La Ribera");
+                    break;
+                case "Loreto":
+                    ciudadComboBox.getItems().addAll("Loreto", "Puerto Agua Verde", "Ensenada Blanca", "Ligüí", "San Javier");
+                    break;
+                case "Los Cabos":
+                    ciudadComboBox.getItems().addAll("Cabo San Lucas", "San José del Cabo", "Santiago", "Miraflores", "Todos Santos");
+                    break;
+                case "Mulegé":
+                    ciudadComboBox.getItems().addAll("Santa Rosalía", "Mulegé", "Guerrero Negro", "San Ignacio", "Bahía Tortugas");
+                    break;
+            }
+        }
+        ciudadComboBox.setValue("Todas");
     }
 
     private void configurarColumnasPublicas() {
@@ -81,6 +177,22 @@ public class TrabajosController {
             String tipoSalario = cellData.getValue().getSalario() != null ?
                     cellData.getValue().getSalario().getTipoSalario() : "No especificado";
             return new javafx.beans.property.SimpleStringProperty(tipoSalario);
+        });
+
+        ubicacionColumn.setCellValueFactory(cellData -> {
+            Empresa empresa = cellData.getValue().getEmpresa();
+            if (empresa != null) {
+                String ubicacion = "";
+                if (empresa.getMunicipio() != null) {
+                    ubicacion = empresa.getMunicipio().getNombreMunicipio();
+                }
+                if (empresa.getCiudad() != null) {
+                    if (!ubicacion.isEmpty()) ubicacion += " - ";
+                    ubicacion += empresa.getCiudad().getNombreCiudad();
+                }
+                return new javafx.beans.property.SimpleStringProperty(ubicacion.isEmpty() ? "No especificada" : ubicacion);
+            }
+            return new javafx.beans.property.SimpleStringProperty("No especificada");
         });
 
         estadoColumn.setCellValueFactory(cellData -> {
@@ -188,6 +300,22 @@ public class TrabajosController {
             return new javafx.beans.property.SimpleStringProperty("Fecha no especificada");
         });
 
+        ubicacionPrivColumn.setCellValueFactory(cellData -> {
+            Empresa empresa = cellData.getValue().getEmpresa();
+            if (empresa != null) {
+                String ubicacion = "";
+                if (empresa.getMunicipio() != null) {
+                    ubicacion = empresa.getMunicipio().getNombreMunicipio();
+                }
+                if (empresa.getCiudad() != null) {
+                    if (!ubicacion.isEmpty()) ubicacion += " - ";
+                    ubicacion += empresa.getCiudad().getNombreCiudad();
+                }
+                return new javafx.beans.property.SimpleStringProperty(ubicacion.isEmpty() ? "No especificada" : ubicacion);
+            }
+            return new javafx.beans.property.SimpleStringProperty("No especificada");
+        });
+
         estadoPrivColumn.setCellValueFactory(cellData -> {
             String estado = obtenerEstadoPostulacion(cellData.getValue());
             return new javafx.beans.property.SimpleStringProperty(estado);
@@ -284,32 +412,10 @@ public class TrabajosController {
         });
     }
 
-    private void configurarFiltros() {
-        tipoTrabajoComboBox.getItems().clear();
-        tipoTrabajoComboBox.getItems().add("Todos los trabajos");
-        tipoTrabajoComboBox.getItems().addAll(
-                "Asesor/Consultor", "Atención al cliente", "Vigilancia/Recepcionista",
-                "Tutor/Enseñanza", "Artesanías", "Jardinería", "Limpieza",
-                "Repartidor", "Cuidado de personas", "Trabajo administrativo",
-                "Telemercadeo", "Guardia de seguridad", "Conductor", "Cocina ayudante"
-        );
-        tipoTrabajoComboBox.setValue("Todos los trabajos");
-
-        tipoTrabajoComboBox.valueProperty().addListener((obs, oldVal, newVal) -> aplicarFiltros());
-        limpiarFiltrosButton.setOnAction(event -> limpiarFiltros());
-    }
-
     private void cargarTrabajadorActual() {
         Usuario usuarioActual = SesionManager.getInstancia().getUsuarioActual();
         if (usuarioActual != null && !usuarioActual.isEsEmpresa()) {
             trabajadorActual = trabajadorService.obtenerTrabajadorPorEmail(usuarioActual.getEmail());
-            if (usuarioInfoLabel != null && trabajadorActual != null) {
-                String nombreCompleto = trabajadorActual.getNombre();
-                if (trabajadorActual.getApellidoPaterno() != null && !trabajadorActual.getApellidoPaterno().isEmpty()) {
-                    nombreCompleto += " " + trabajadorActual.getApellidoPaterno();
-                }
-                usuarioInfoLabel.setText("Sesión iniciada como: " + nombreCompleto);
-            }
         }
     }
 
@@ -319,82 +425,86 @@ public class TrabajosController {
         }
 
         ofertasPublicas = ofertaService.obtenerOfertasPublicas();
-        System.out.println("📋 Ofertas públicas: " + (ofertasPublicas != null ? ofertasPublicas.size() : 0));
 
         if (trabajadorActual != null) {
-            System.out.println("🔍 Buscando ofertas privadas para trabajador ID: " + trabajadorActual.getIdTrabajador());
             ofertasPrivadas = ofertaService.obtenerOfertasPrivadasPorTrabajador(trabajadorActual);
-            System.out.println("🔷 Resultado: " + (ofertasPrivadas != null ? ofertasPrivadas.size() : 0) + " ofertas privadas");
         } else {
             ofertasPrivadas = List.of();
         }
 
-        List<Oferta> publicasFiltradas = ofertasPublicas.stream()
-                .filter(o -> !o.esOfertaPrivada())
-                .collect(Collectors.toList());
-
-        if (publicasFiltradas != null && !publicasFiltradas.isEmpty()) {
-            trabajosTable.setVisible(true);
-            filtrosContainer.setVisible(true);
-            mensajeLabel.setVisible(false);
-            trabajosTable.getItems().setAll(publicasFiltradas);
-        } else {
-            trabajosTable.setVisible(false);
-            filtrosContainer.setVisible(false);
-            mensajeLabel.setVisible(true);
-            mensajeLabel.setText("No hay trabajos públicos disponibles en este momento.");
-        }
-
+        actualizarVistaPublicas();
         actualizarVistaPrivadas();
         actualizarContadores();
     }
 
+    private void actualizarVistaPublicas() {
+        List<Oferta> publicas = ofertasPublicas.stream()
+                .filter(o -> !o.esOfertaPrivada())
+                .collect(Collectors.toList());
+
+        if (publicas != null && !publicas.isEmpty()) {
+            trabajosTable.setVisible(true);
+            trabajosTable.getItems().setAll(publicas);
+            mensajeLabel.setVisible(false);
+        } else {
+            trabajosTable.setVisible(false);
+            mensajeLabel.setVisible(true);
+            mensajeLabel.setText("No hay trabajos públicos disponibles en este momento.");
+        }
+        aplicarFiltros();
+    }
+
     private void actualizarVistaPrivadas() {
         if (ofertasPrivadas == null || ofertasPrivadas.isEmpty()) {
-            if (mensajePrivadasLabel != null) {
-                mensajePrivadasLabel.setText("No tienes ofertas privadas en este momento.");
-                mensajePrivadasLabel.setVisible(true);
-            }
+            mensajePrivadasLabel.setText("No tienes ofertas privadas en este momento.");
+            mensajePrivadasLabel.setVisible(true);
             ofertasPrivadasTable.setVisible(false);
-            System.out.println("🔷 No hay ofertas privadas para mostrar");
         } else {
-            if (mensajePrivadasLabel != null) {
-                mensajePrivadasLabel.setVisible(false);
-            }
+            mensajePrivadasLabel.setVisible(false);
             ofertasPrivadasTable.setVisible(true);
             ofertasPrivadasTable.getItems().setAll(ofertasPrivadas);
-            System.out.println("🔷 Mostrando " + ofertasPrivadas.size() + " ofertas privadas");
         }
     }
 
     private void actualizarContadores() {
-        if (totalOfertasLabel != null) {
-            totalOfertasLabel.setText("Ofertas públicas disponibles: " +
-                    (ofertasPublicas != null ? ofertasPublicas.size() : 0));
-        }
-        if (totalPrivadasLabel != null) {
-            totalPrivadasLabel.setText("Ofertas privadas para ti: " +
-                    (ofertasPrivadas != null ? ofertasPrivadas.size() : 0));
-        }
+        totalOfertasLabel.setText("Ofertas públicas disponibles: " +
+                (ofertasPublicas != null ? ofertasPublicas.size() : 0));
+        totalPrivadasLabel.setText("Ofertas exclusivas para ti: " +
+                (ofertasPrivadas != null ? ofertasPrivadas.size() : 0));
     }
 
     private void aplicarFiltros() {
         if (ofertasPublicas == null || ofertasPublicas.isEmpty()) return;
 
         String tipoSeleccionado = tipoTrabajoComboBox.getValue();
+        String sueldoSeleccionado = tipoSueldoComboBox.getValue();
+        String municipioSeleccionado = municipioComboBox.getValue();
+        String ciudadSeleccionada = ciudadComboBox.getValue();
 
-        List<Oferta> ofertasFiltradas;
-
-        if (tipoSeleccionado == null || "Todos los trabajos".equals(tipoSeleccionado)) {
-            ofertasFiltradas = ofertasPublicas.stream()
-                    .filter(o -> !o.esOfertaPrivada())
-                    .collect(Collectors.toList());
-        } else {
-            ofertasFiltradas = ofertasPublicas.stream()
-                    .filter(o -> !o.esOfertaPrivada())
-                    .filter(o -> tipoSeleccionado.equals(o.getPuesto_trabajo()))
-                    .collect(Collectors.toList());
-        }
+        List<Oferta> ofertasFiltradas = ofertasPublicas.stream()
+                .filter(o -> !o.esOfertaPrivada())
+                .filter(o -> {
+                    if (tipoSeleccionado == null || "Todos los trabajos".equals(tipoSeleccionado)) return true;
+                    return tipoSeleccionado.equals(o.getPuesto_trabajo());
+                })
+                .filter(o -> {
+                    if (sueldoSeleccionado == null || "Todos".equals(sueldoSeleccionado)) return true;
+                    String tipoSalario = o.getSalario() != null ? o.getSalario().getTipoSalario() : "";
+                    return sueldoSeleccionado.equals(tipoSalario);
+                })
+                .filter(o -> {
+                    if (municipioSeleccionado == null || "Todos".equals(municipioSeleccionado)) return true;
+                    Empresa e = o.getEmpresa();
+                    if (e == null || e.getMunicipio() == null) return false;
+                    return municipioSeleccionado.equals(e.getMunicipio().getNombreMunicipio());
+                })
+                .filter(o -> {
+                    if (ciudadSeleccionada == null || "Todas".equals(ciudadSeleccionada)) return true;
+                    Empresa e = o.getEmpresa();
+                    if (e == null || e.getCiudad() == null) return false;
+                    return ciudadSeleccionada.equals(e.getCiudad().getNombreCiudad());
+                })
+                .collect(Collectors.toList());
 
         if (ofertasFiltradas.isEmpty()) {
             mensajeLabel.setText("No se encontraron trabajos que coincidan con los filtros seleccionados.");
@@ -409,6 +519,9 @@ public class TrabajosController {
 
     private void limpiarFiltros() {
         tipoTrabajoComboBox.setValue("Todos los trabajos");
+        tipoSueldoComboBox.setValue("Todos");
+        municipioComboBox.setValue("Todos");
+        ciudadComboBox.setValue("Todas");
         aplicarFiltros();
     }
 
@@ -457,39 +570,36 @@ public class TrabajosController {
         if (ofertaSeleccionada == null) return;
 
         try {
-            String fxmlPath;
-            String titulo;
-
             if (ofertaSeleccionada.esOfertaPrivada()) {
-                fxmlPath = "/com/example/trabajos/DetalleFormulario.fxml";
-                titulo = "🔷 OFERTA PRIVADA - " + ofertaSeleccionada.getPuesto_trabajo();
-            } else {
-                fxmlPath = "/com/example/trabajos/DetalleTrabajo.fxml";
-                titulo = "Detalle de Vacante - " + ofertaSeleccionada.getPuesto_trabajo();
-            }
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/DetalleTrabajoPrivado.fxml"));
+                Parent root = loader.load();
 
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlPath));
-            Parent root = fxmlLoader.load();
-
-            if (ofertaSeleccionada.esOfertaPrivada()) {
-                DetalleFormularioController controller = fxmlLoader.getController();
-                controller.setSoloLectura(true);
+                DetalleTrabajoPrivadoController controller = loader.getController();
+                controller.setOferta(ofertaSeleccionada);
                 controller.setTrabajadorActual(trabajadorActual);
-                controller.mostrarOferta(ofertaSeleccionada);
+
+                Stage stage = (Stage) trabajosTable.getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.setMaximized(true);
+                stage.setTitle("🔷 OFERTA EXCLUSIVA - " + ofertaSeleccionada.getPuesto_trabajo());
+
             } else {
-                DetalleTrabajoController controller = fxmlLoader.getController();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/DetalleTrabajo.fxml"));
+                Parent root = loader.load();
+
+                DetalleTrabajoController controller = loader.getController();
                 controller.setOferta(ofertaSeleccionada);
                 controller.setTrabajadorActual(trabajadorActual);
                 Usuario usuario = SesionManager.getInstancia().getUsuarioActual();
                 if (usuario != null) {
                     controller.setEmailUsuario(usuario.getEmail());
                 }
-            }
 
-            Stage stage = (Stage) trabajosTable.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setMaximized(true);
-            stage.setTitle(titulo);
+                Stage stage = (Stage) trabajosTable.getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.setMaximized(true);
+                stage.setTitle("Detalle de Vacante - " + ofertaSeleccionada.getPuesto_trabajo());
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -531,17 +641,28 @@ public class TrabajosController {
     }
 
     @FXML
-    protected void onVolverClick() {
-        System.out.println("=== CERRANDO SESIÓN DESDE TRABAJOS ===");
-
+    protected void onEditarPerfilClick() {
         try {
-            // Obtener el tipo de usuario antes de cerrar sesión (era trabajador)
-            boolean eraTrabajador = SesionManager.getInstancia().esTrabajador();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/EditarPerfilTrabajador.fxml"));
+            Parent root = loader.load();
 
-            // Cerrar sesión
+            Stage stage = (Stage) trabajosTable.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setMaximized(true);
+            stage.setTitle("Editar Perfil");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            mostrarAlerta("Error", "No se pudo abrir el editor de perfil: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    protected void onVolverClick() {
+        try {
+            boolean eraTrabajador = SesionManager.getInstancia().esTrabajador();
             SesionManager.getInstancia().cerrarSesion();
 
-            // Cargar la pantalla de inicio de sesión
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/trabajos/Sesion.fxml"));
             Parent root = fxmlLoader.load();
 
@@ -553,11 +674,8 @@ public class TrabajosController {
             stage.setMaximized(true);
             stage.setTitle("Iniciar Sesión");
 
-            System.out.println("✅ Sesión cerrada correctamente desde trabajos");
-
         } catch (IOException e) {
             e.printStackTrace();
-
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("No se pudo cerrar la sesión");

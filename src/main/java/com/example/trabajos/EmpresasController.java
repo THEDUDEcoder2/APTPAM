@@ -19,12 +19,13 @@ public class EmpresasController {
 
     // Componentes del FXML
     @FXML private Button volverButton;
+    @FXML private Button editarPerfilButton;
     @FXML private TabPane tabPane;
     @FXML private Tab llenarFormularioTab;
     @FXML private Tab abrirFormularioTab;
     @FXML private Tab trabajadoresTab;
 
-    // Componentes del Tab 1 - Llenar Formulario (usando FormularioController)
+    // Componentes del Tab 1 - Llenar Formulario
     @FXML private TextField nombreEmpresaField;
     @FXML private TextField herramientaField;
     @FXML private ComboBox<String> cantidadIdiomasComboBox;
@@ -47,14 +48,16 @@ public class EmpresasController {
     @FXML private Button aceptarButton1;
     @FXML private Button rechazarButton1;
 
-    // Componentes del Tab 2 - Abrir Formulario (usando FormulariosTableController)
+    // Componentes del Tab 2 - Abrir Formulario
     @FXML private TableView<Oferta> formulariosTable;
     @FXML private TableColumn<Oferta, String> tituloColumn;
     @FXML private TableColumn<Oferta, String> fechaColumn;
     @FXML private TableColumn<Oferta, Void> accionesColumn;
     @FXML private Label mensajeVacioLabel;
+    @FXML private TableColumn<Oferta, String> tipoOfertaColumn;
+    @FXML private TableColumn<Oferta, String> estadoPostulacionColumn;
 
-    // Componentes del Tab 3 - Trabajadores Disponibles (usando TrabajadoresDisponiblesController)
+    // Componentes del Tab 3 - Trabajadores Disponibles
     @FXML private TextField buscarField;
     @FXML private TableView<Trabajador> trabajadoresTable;
     @FXML private TableColumn<Trabajador, String> nombreColumn;
@@ -86,7 +89,6 @@ public class EmpresasController {
         if (usuario != null) {
             empresaActual = empresaService.obtenerEmpresaPorEmail(usuario.getEmail());
             if (empresaActual != null) {
-                // Cargar datos de la empresa en el formulario
                 if (nombreEmpresaField != null) nombreEmpresaField.setText(empresaActual.getNombreEmpresa());
                 if (calleField != null) calleField.setText(empresaActual.getCalle());
                 if (coloniaField != null) coloniaField.setText(empresaActual.getColonia());
@@ -99,7 +101,6 @@ public class EmpresasController {
 
     @SuppressWarnings("unchecked")
     private void inicializarTabLlenarFormulario() {
-        // Crear instancia de FormularioController y pasarle los componentes
         formularioController = new FormularioController();
         formularioController.setEmpresaActual(empresaActual);
         formularioController.setNombreEmpresaField(nombreEmpresaField);
@@ -122,7 +123,6 @@ public class EmpresasController {
         formularioController.setExperienciaField(experienciaField);
         formularioController.setDescripcionArea(descripcionArea);
 
-        // Configurar los botones
         if (aceptarButton1 != null) {
             aceptarButton1.setOnAction(e -> formularioController.onGuardarClick());
         }
@@ -130,27 +130,25 @@ public class EmpresasController {
             rechazarButton1.setOnAction(e -> formularioController.onCancelarClick());
         }
 
-        // Inicializar el controlador
         formularioController.initialize();
     }
 
     @SuppressWarnings("unchecked")
     private void inicializarTabAbrirFormulario() {
-        // Crear instancia de FormulariosTableController
         formulariosTableController = new FormulariosTableController();
         formulariosTableController.setFormulariosTable(formulariosTable);
         formulariosTableController.setTituloColumn(tituloColumn);
         formulariosTableController.setFechaColumn(fechaColumn);
         formulariosTableController.setAccionesColumn(accionesColumn);
         formulariosTableController.setMensajeVacioLabel(mensajeVacioLabel);
+        formulariosTableController.setTipoOfertaColumn(tipoOfertaColumn);
+        formulariosTableController.setEstadoPostulacionColumn(estadoPostulacionColumn);
 
-        // Inicializar y cargar datos
         formulariosTableController.initialize();
     }
 
     @SuppressWarnings("unchecked")
     private void inicializarTabTrabajadoresDisponibles() {
-        // Crear instancia de TrabajadoresDisponiblesController
         trabajadoresDisponiblesController = new TrabajadoresDisponiblesController();
         trabajadoresDisponiblesController.setTrabajadoresTable(trabajadoresTable);
         trabajadoresDisponiblesController.setNombreColumn(nombreColumn);
@@ -162,8 +160,28 @@ public class EmpresasController {
         trabajadoresDisponiblesController.setBuscarField(buscarField);
         trabajadoresDisponiblesController.setTotalTrabajadoresLabel(totalTrabajadoresLabel);
 
-        // Inicializar y cargar datos
         trabajadoresDisponiblesController.initialize();
+    }
+
+    @FXML
+    protected void onEditarPerfilClick() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/EditarPerfilEmpresa.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) volverButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setMaximized(true);
+            stage.setTitle("Editar Perfil - Empresa");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("No se pudo abrir el editor de perfil");
+            alert.setContentText("Error: " + e.getMessage());
+            alert.showAndWait();
+        }
     }
 
     @FXML
@@ -171,26 +189,19 @@ public class EmpresasController {
         System.out.println("=== CERRANDO SESIÓN ===");
 
         try {
-            // Obtener el tipo de usuario antes de cerrar sesión
             boolean eraEmpresa = SesionManager.getInstancia().esEmpresa();
 
-            // Cerrar sesión
             SesionManager.getInstancia().cerrarSesion();
             System.out.println("✅ Sesión cerrada en SesionManager");
 
-            // Cargar la pantalla de inicio de sesión
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/Sesion.fxml"));
             Parent root = loader.load();
 
-            // Configurar el tipo de usuario en el controlador de sesión
             SesionController sesionController = loader.getController();
             sesionController.setTipoUsuario(eraEmpresa);
             System.out.println("✅ Tipo de usuario configurado: " + (eraEmpresa ? "Empresa" : "Trabajador"));
 
-            // Obtener el Stage actual
             Stage stage = (Stage) volverButton.getScene().getWindow();
-
-            // Cambiar escena
             stage.setScene(new Scene(root));
             stage.setMaximized(true);
             stage.setTitle("Iniciar Sesión");
