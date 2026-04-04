@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="844.0" prefWidth="1539.0" style="-fx-background-color: #dce8f5;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.trabajos.HelloController">
+
+   <children>
+      <VBox alignment="TOP_CENTER" layoutX="46.0" layoutY="119.0" maxWidth="302.0" minWidth="250.0" prefHeight="610.0" prefWidth="302.0" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+         <padding>
+            <Insets bottom="28.0" left="16.0" right="16.0" top="28.0" />
+         </padding>
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@assets/WhatsApp_Image_2026-03-24_at_12.15.37-removebg-preview.png" />
+            </ImageView>
+            <Label alignment="CENTER" prefWidth="210.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;" text="P.E.T.A.M." wrapText="true" />
+            <Region VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
+      <Label alignment="CENTER" layoutX="416.0" layoutY="20.0" prefHeight="46.0" prefWidth="1066.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 30; -fx-font-weight: bold;" text="PLATAFORMA DE EMPLEO TEMPORAL">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <VBox alignment="CENTER" layoutX="428.0" layoutY="110.0" prefHeight="610.0" prefWidth="484.0" spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+         <padding>
+            <Insets bottom="40.0" left="30.0" right="30.0" top="40.0" />
+         </padding>
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@assets/imagen_2026-03-14_192013754-removebg-preview.png" />
+            </ImageView>
+            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 21; -fx-font-weight: bold;" text="Busco empleo" />
+            <Label alignment="CENTER" prefWidth="380.0" style="-fx-text-fill: #4a5568; -fx-font-size: 15;" text="Encuentra oportunidades de trabajo adaptadas para adultos mayores en tu área." wrapText="true" />
+            <Button onAction="#onBuscarEmpleoClick" prefHeight="55.0" prefWidth="250.0" style="-fx-background-color: #1e2d4e; -fx-text-fill: white; -fx-font-size: 15; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand;" styleClass="btn-azul-oscuro" text="Busco empleo" />
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" layoutX="923.0" layoutY="110.0" prefHeight="610.0" prefWidth="484.0" spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+         <padding>
+            <Insets bottom="40.0" left="30.0" right="30.0" top="40.0" />
+         </padding>
+         <children>
+            <ImageView fitHeight="148.0" fitWidth="244.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@assets/imagen_2026-03-14_191859830-removebg-preview.png" />
+            </ImageView>
+            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 21; -fx-font-weight: bold;" text="Ofrezco empleo" />
+            <Label alignment="CENTER" prefWidth="380.0" style="-fx-text-fill: #4a5568; -fx-font-size: 15;" text="Publica vacantes y conecta con adultos mayores listos para trabajar en tu empresa." wrapText="true" />
+            <Button onAction="#onOfrecerTrabajoClick" prefHeight="55.0" prefWidth="250.0" style="-fx-background-color: #276749; -fx-text-fill: white; -fx-font-size: 15; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand;" styleClass="btn-verde" text="Ofrezco empleo" />
+         </children>
+      </VBox>
+
+   </children>
+</AnchorPane>

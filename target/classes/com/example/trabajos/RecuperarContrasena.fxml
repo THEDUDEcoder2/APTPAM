@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="550.0" style="-fx-background-color: #dce8f5;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.trabajos.RecuperarContrasenaController">
+    <children>
+
+        <Label alignment="CENTER" layoutX="125.0" layoutY="20.0" prefHeight="50.0" prefWidth="300.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 24; -fx-font-weight: bold;" text="Recuperar Contraseña">
+            <font><Font size="24.0" /></font>
+        </Label>
+
+        <VBox layoutX="50.0" layoutY="90.0" prefHeight="300.0" prefWidth="450.0" spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+            <padding><Insets bottom="30.0" left="30.0" right="30.0" top="30.0" /></padding>
+
+            <VBox spacing="8.0">
+                <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Correo electrónico:" />
+                <TextField fx:id="emailField" prefHeight="40.0" promptText="ejemplo@correo.com" style="-fx-background-radius: 8; -fx-border-radius: 8;" />
+            </VBox>
+
+            <Label fx:id="mensajeLabel" style="-fx-text-fill: #e74c3c; -fx-font-size: 13;" visible="false" wrapText="true" />
+
+            <HBox spacing="15.0">
+                <Button fx:id="enviarButton" onAction="#onEnviarClick" prefHeight="45.0" prefWidth="180.0" styleClass="btn-verde" text="✓ Enviar código" />
+                <Button fx:id="cancelarButton" onAction="#onCancelarClick" prefHeight="45.0" prefWidth="180.0" styleClass="btn-azul" text="← Cancelar" />
+            </HBox>
+
+        </VBox>
+
+    </children>
+</AnchorPane>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1539.0" style="-fx-background-color: #dce8f5;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.trabajos.DetalleTrabajoPrivadoController">
+    <children>
+
+        <Label alignment="CENTER" layoutX="392.0" layoutY="20.0" prefHeight="100.0" prefWidth="822.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 30; -fx-font-weight: bold;" text="PLATAFORMA DE EMPLEO TEMPORAL">
+            <font><Font size="32.0" /></font>
+        </Label>
+
+        <!-- TARJETA IZQUIERDA -->
+        <VBox alignment="TOP_CENTER" layoutX="28.0" layoutY="126.0" maxWidth="250.0" minWidth="250.0" prefHeight="674.0" prefWidth="250.0" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+            <padding><Insets bottom="28.0" left="16.0" right="16.0" top="28.0" /></padding>
+            <children>
+                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@assets/WhatsApp_Image_2026-03-24_at_12.15.37-removebg-preview.png" />
+                </ImageView>
+                <Label alignment="CENTER" prefWidth="210.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;" text="Oferta Exclusiva" wrapText="true" />
+                <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="volverButton" onAction="#onVolverClick" prefHeight="55.0" prefWidth="225.0" styleClass="btn-azul" text="← Volver" />
+            </children>
+        </VBox>
+
+        <!-- TARJETA DERECHA - Información y botones de decisión -->
+        <VBox alignment="TOP_CENTER" layoutX="1274.0" layoutY="126.0" maxWidth="250.0" minWidth="250.0" prefHeight="674.0" prefWidth="250.0" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+            <padding><Insets bottom="28.0" left="22.0" right="22.0" top="28.0" /></padding>
+            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;" text="Decisión del candidato" />
+            <HBox alignment="TOP_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Esta oferta fue creada especialmente para ti." wrapText="true" />
+            </HBox>
+            <HBox alignment="TOP_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Acepta si estás interesado en la vacante." wrapText="true" />
+            </HBox>
+            <HBox alignment="TOP_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Rechaza si no aplica a tu perfil." wrapText="true" />
+            </HBox>
+            <Region VBox.vgrow="ALWAYS" />
+
+            <Label fx:id="estadoActualLabel" style="-fx-text-fill: #f39c12; -fx-font-size: 16; -fx-font-weight: bold;" text="Estado: Pendiente ⏳" />
+
+            <Button fx:id="aceptarButton" onAction="#onAceptarClick" prefHeight="55.0" prefWidth="225.0" styleClass="btn-verde" text="✓ Aceptar Oferta" />
+            <Button fx:id="rechazarButton" onAction="#onRechazarClick" prefHeight="55.0" prefWidth="225.0" styleClass="btn-rojo" text="✗ Rechazar Oferta" />
+        </VBox>
+
+        <!-- CONTENIDO CENTRAL con ScrollPane -->
+        <ScrollPane layoutX="299.0" layoutY="126.0" prefHeight="674.0" prefWidth="958.0"
+                    fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                    style="-fx-background-color: transparent; -fx-background: transparent;">
+            <content>
+                <VBox spacing="14.0" style="-fx-padding: 4 0 4 0;">
+
+                    <!-- Tarjeta: Mensaje Personal de la Empresa -->
+                    <VBox spacing="8.0"
+                          style="-fx-background-color: #fff8e1; -fx-background-radius: 16;
+                               -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);
+                               -fx-padding: 20;">
+                        <Label style="-fx-text-fill: #e67e22; -fx-font-size: 18; -fx-font-weight: bold;" text="✉️ Mensaje de la Empresa" />
+                        <Label fx:id="mensajePersonalLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16; -fx-wrap-text: true;" />
+                    </VBox>
+
+                    <!-- Tarjeta: Información de la Empresa -->
+                    <VBox spacing="8.0"
+                          style="-fx-background-color: white; -fx-background-radius: 16;
+                               -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);
+                               -fx-padding: 20;">
+                        <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;" text="🏢 Información de la Empresa" />
+                        <HBox spacing="10.0">
+                            <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Nombre:" />
+                            <Label fx:id="nombreEmpresaLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" />
+                        </HBox>
+                        <HBox spacing="10.0">
+                            <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Domicilio:" />
+                            <Label fx:id="domicilioLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" wrapText="true" />
+                        </HBox>
+                        <HBox spacing="10.0">
+                            <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Email:" />
+                            <Label fx:id="gmailLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" />
+                        </HBox>
+                        <HBox spacing="10.0">
+                            <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Teléfono:" />
+                            <Label fx:id="telefonoLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" />
+                        </HBox>
+                    </VBox>
+
+                    <!-- Tarjeta: Información de la Vacante -->
+                    <VBox spacing="8.0"
+                          style="-fx-background-color: white; -fx-background-radius: 16;
+                               -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);
+                               -fx-padding: 20;">
+                        <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;" text="📋 Información de la Vacante" />
+                        <HBox spacing="10.0">
+                            <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Puesto:" />
+                            <Label fx:id="puestoLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" />
+                        </HBox>
+                        <HBox spacing="10.0">
+                            <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Idiomas requeridos:" />
+                            <Label fx:id="idiomasLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" />
+                        </HBox>
+                        <HBox spacing="10.0">
+                            <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Horario:" />
+                            <Label fx:id="horarioLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" />
+                        </HBox>
+                        <HBox spacing="10.0">
+                            <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Sueldo:" />
+                            <Label fx:id="sueldoLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" />
+                        </HBox>
+                        <HBox spacing="10.0">
+                            <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-min-width: 180;" text="Nivel de estudio requerido:" />
+                            <Label fx:id="nivelEstudioLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" />
+                        </HBox>
+                        <VBox spacing="4.0">
+                            <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Descripción:" />
+                            <Label fx:id="descripcionLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" wrapText="true" />
+                        </VBox>
+                    </VBox>
+
+                    <!-- Tarjeta: Nota del trabajador -->
+                    <VBox spacing="8.0" fx:id="notaContainer"
+                          style="-fx-background-color: #e8f4fd; -fx-background-radius: 16;
+                               -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);
+                               -fx-padding: 20;">
+                        <Label fx:id="notaLabel" style="-fx-text-fill: #2980b9; -fx-font-size: 16; -fx-font-weight: bold;" text="📝 Escribe tu razón (obligatorio):" />
+                        <TextArea fx:id="notaTextArea" prefHeight="100.0" wrapText="true"
+                                  promptText="Ejemplo: Estoy interesado en esta oportunidad porque se ajusta a mi experiencia..." />
+                    </VBox>
+
+                </VBox>
+            </content>
+        </ScrollPane>
+
+    </children>
+</AnchorPane>

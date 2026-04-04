@@ -1,0 +1,68 @@
+/* ════════════════════════════════════════
+   detalleFormulario.css
+   Paleta: fondo #dce8f5 · texto #1a3a5c
+   ════════════════════════════════════════ */
+
+/* ── Botón Volver — azul oscuro ── */
+.btn-volver {
+    -fx-background-color: linear-gradient(to bottom, #3a7bd5, #1a3a5c);
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(26,58,92,0.30), 8, 0, 0, 3);
+}
+
+.btn-volver:hover {
+    -fx-background-color: linear-gradient(to bottom, #5a9be8, #3a7bd5);
+    -fx-effect: dropshadow(gaussian, rgba(58,123,213,0.55), 12, 0, 0, 4);
+}
+
+.btn-volver:pressed {
+    -fx-background-color: linear-gradient(to bottom, #1a3a5c, #0f2240);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.20), 4, 0, 0, 1);
+}
+
+/* ── TabPane ── */
+.tab-pane .tab {
+    -fx-background-color: #dce8f5;
+    -fx-text-fill: #1a3a5c;
+    -fx-font-size: 14;
+    -fx-padding: 8 16 8 16;
+    -fx-cursor: hand;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: white;
+    -fx-text-fill: #3a7bd5;
+    -fx-font-weight: bold;
+}
+
+.tab-pane .tab:hover {
+    -fx-background-color: #c8daf0;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #dce8f5;
+}
+
+/* ── ScrollPane ── */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #b8cfe8;
+    -fx-background-radius: 6;
+}
+
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #3a7bd5;
+}

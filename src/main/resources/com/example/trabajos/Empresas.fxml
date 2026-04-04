@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="844.0" prefWidth="1539.0" style="-fx-background-color: #dce8f5;" stylesheets="@empresas.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.trabajos.EmpresasController">
+    <children>
+
+        <Label alignment="CENTER" layoutX="392.0" layoutY="20.0" prefHeight="100.0" prefWidth="822.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 30; -fx-font-weight: bold;" text="PLATAFORMA DE EMPLEO TEMPORAL">
+            <font><Font size="32.0" /></font>
+        </Label>
+
+        <!-- TARJETA IZQUIERDA -->
+        <VBox alignment="TOP_CENTER" layoutX="28.0" layoutY="126.0" maxWidth="250.0" minWidth="250.0" prefHeight="674.0" prefWidth="250.0" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+            <padding><Insets bottom="28.0" left="16.0" right="16.0" top="28.0" /></padding>
+            <children>
+                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@assets/logo_petam.jpg" />
+                </ImageView>
+                <Label alignment="CENTER" prefWidth="210.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;" text="Panel de Empresas" wrapText="true" />
+
+                <Button fx:id="editarPerfilButton" onAction="#onEditarPerfilClick" prefHeight="40.0" prefWidth="225.0" styleClass="btn-azul" text="✏️ Editar perfil" />
+
+                <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="volverButton" onAction="#onVolverClick" prefHeight="55.0" prefWidth="225.0" styleClass="btn-cerrar" text="✗ Cerrar sesión" />
+            </children>
+        </VBox>
+
+        <!-- TARJETA DERECHA - Información -->
+        <VBox alignment="TOP_CENTER" layoutX="1274.0" layoutY="126.0" maxWidth="250.0" minWidth="250.0" prefHeight="674.0" prefWidth="250.0" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+            <padding><Insets bottom="28.0" left="16.0" right="16.0" top="28.0" /></padding>
+            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;" text="Información" />
+            <HBox alignment="TOP_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Crea y gestiona tus ofertas laborales." wrapText="true" />
+            </HBox>
+            <HBox alignment="TOP_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Revisa los formularios guardados." wrapText="true" />
+            </HBox>
+            <HBox alignment="TOP_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Encuentra talento disponible y envía ofertas exclusivas." wrapText="true" />
+            </HBox>
+            <HBox alignment="TOP_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Puedes editar tu perfil cuando lo necesites." wrapText="true" />
+            </HBox>
+        </VBox>
+
+        <!-- CONTENIDO CENTRAL -->
+        <VBox layoutX="290.0" layoutY="126.0" prefHeight="674.0" prefWidth="970.0" spacing="16.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+            <padding><Insets bottom="28.0" left="28.0" right="28.0" top="28.0" /></padding>
+
+            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 21; -fx-font-weight: bold;" text="🏢 Panel de Empresas" />
+            <Label style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Gestiona tus ofertas, formularios y encuentra trabajadores disponibles" />
+
+            <TabPane fx:id="tabPane" prefHeight="522.0" prefWidth="914.0" tabClosingPolicy="UNAVAILABLE">
+                <tabs>
+
+                    <!-- TAB 1 - Nueva oferta pública -->
+                    <Tab fx:id="llenarFormularioTab" text="📝 Nueva oferta">
+                        <content>
+                            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: transparent; -fx-background: transparent;" vbarPolicy="AS_NEEDED">
+                                <content>
+                                    <VBox spacing="12.0" style="-fx-padding: 14;">
+                                        <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;" text="Nueva oferta laboral pública" />
+                                        <GridPane hgap="16" vgap="12">
+                                            <columnConstraints>
+                                                <ColumnConstraints halignment="RIGHT" prefWidth="150" />
+                                                <ColumnConstraints prefWidth="270" />
+                                                <ColumnConstraints halignment="RIGHT" prefWidth="150" />
+                                                <ColumnConstraints prefWidth="270" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints /><RowConstraints /><RowConstraints />
+                                                <RowConstraints /><RowConstraints /><RowConstraints />
+                                                <RowConstraints /><RowConstraints /><RowConstraints /><RowConstraints /><RowConstraints />
+                                            </rowConstraints>
+                                            <children>
+
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Nombre Empresa:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                                <TextField fx:id="nombreEmpresaField" editable="false" prefWidth="250" promptText="Nombre de tu empresa" styleClass="campo-form" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Herramientas a usar:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                                <TextField fx:id="herramientaField" prefWidth="250" promptText="Ej: Excel, AutoCAD, Python…" styleClass="campo-form" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Idiomas requeridos:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                                <ComboBox fx:id="cantidadIdiomasComboBox" prefWidth="250" promptText="¿Cuántos idiomas?" styleClass="combo-form" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Horario:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                                <HBox spacing="8" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                                    <ComboBox fx:id="horarioEntradaComboBox" prefWidth="110" promptText="Entrada" styleClass="combo-form" />
+                                                    <Label style="-fx-text-fill: #1a3a5c;" text="a" />
+                                                    <ComboBox fx:id="horarioSalidaComboBox" prefWidth="110" promptText="Salida" styleClass="combo-form" />
+                                                </HBox>
+
+                                                <VBox fx:id="idiomasContainer" GridPane.columnSpan="4" GridPane.rowIndex="2" />
+
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Calle:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                                                <TextField fx:id="calleField" editable="false" prefWidth="250" promptText="Calle de la empresa" styleClass="campo-form" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Colonia:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                                <TextField fx:id="coloniaField" editable="false" prefWidth="250" promptText="Colonia de la empresa" styleClass="campo-form" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Código Postal:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                                                <TextField fx:id="codigoPostalField" editable="false" prefWidth="250" promptText="00000" styleClass="campo-form" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Correo de contacto:" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                                <TextField fx:id="gmailField" editable="false" prefWidth="250" promptText="correo@empresa.com" styleClass="campo-form" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Teléfono:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                                                <TextField fx:id="telefonoField" editable="false" prefWidth="250" promptText="10 dígitos" styleClass="campo-form" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Puesto:" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                                                <ComboBox fx:id="tipoTrabajoComboBox" prefWidth="250.0" promptText="Selecciona un puesto…" styleClass="combo-form" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+
+                                                <HBox fx:id="otroTrabajoContainer" managed="false" spacing="10" visible="false" GridPane.columnSpan="4" GridPane.rowIndex="6">
+                                                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Especificar otro trabajo:" />
+                                                    <TextField fx:id="otroTrabajoField" prefWidth="260" styleClass="campo-form" />
+                                                </HBox>
+
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Sueldo:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                                                <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                                                    <TextField fx:id="sueldoField" prefWidth="130" promptText="Ej: 8500" styleClass="campo-form" />
+                                                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" />
+                                                    <ComboBox fx:id="tipoSalarioComboBox" prefWidth="90" promptText="Tipo" styleClass="combo-form" />
+                                                </HBox>
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Nivel de estudio" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                                                <ComboBox fx:id="nivelEstudioComboBox" prefWidth="250" promptText="Selecciona un nivel…" styleClass="combo-form" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Experiencia:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                                                <TextField fx:id="experienciaField" prefWidth="250" promptText="Ej: 1 año en ventas, 6 meses de mesero" styleClass="campo-form" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Descripción del Puesto:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+                                                <TextArea fx:id="descripcionArea" prefRowCount="3" prefWidth="250" promptText="Describe las responsabilidades, beneficios y requisitos adicionales del puesto…" styleClass="area-form" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="9" />
+
+                                            </children>
+                                        </GridPane>
+
+                                        <HBox prefHeight="46.0" prefWidth="846.0" spacing="12.0">
+                                            <Region prefHeight="46.0" prefWidth="226.0" />
+                                            <Button fx:id="aceptarButton1" prefHeight="44.0" prefWidth="160.0" styleClass="btn-guardar" text="✓ Guardar" />
+                                            <Region prefHeight="46.0" prefWidth="226.0" />
+                                            <Button fx:id="rechazarButton1" prefHeight="44.0" prefWidth="160.0" styleClass="btn-limpiar" text="✗ Limpiar" />
+                                        </HBox>
+                                    </VBox>
+                                </content>
+                            </ScrollPane>
+                        </content>
+                    </Tab>
+
+                    <!-- TAB 2 - Mis ofertas guardadas -->
+                    <Tab fx:id="abrirFormularioTab" text="📂 Mis ofertas guardadas">
+                        <content>
+                            <VBox spacing="12.0" style="-fx-padding: 14;">
+                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;" text="Ofertas guardadas" />
+                                <Label fx:id="mensajeVacioLabel" style="-fx-font-size: 16; -fx-text-fill: #7f8c8d; -fx-font-style: italic;" text="No hay formularios guardados." visible="false" />
+                                <TableView fx:id="formulariosTable" prefHeight="400.0" prefWidth="890.0" style="-fx-background-radius: 8; -fx-border-color: #bdc3c7; -fx-border-radius: 8;" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="tipoOfertaColumn" prefWidth="100" text="Tipo" />
+                                        <TableColumn fx:id="tituloColumn" prefWidth="280" text="Vacante" />
+                                        <TableColumn fx:id="fechaColumn" prefWidth="130" text="Fecha" />
+                                        <TableColumn fx:id="estadoPostulacionColumn" prefWidth="200" text="Estado" />
+                                        <TableColumn fx:id="accionesColumn" prefWidth="120" text="Acciones" />
+                                    </columns>
+                                </TableView>
+                            </VBox>
+                        </content>
+                    </Tab>
+
+                    <!-- TAB 3 - Buscar trabajadores -->
+                    <Tab fx:id="trabajadoresTab" text="👥 Buscar trabajadores">
+                        <content>
+                            <VBox spacing="12.0" style="-fx-padding: 14;">
+                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14;" text="Selecciona un trabajador para ver su perfil o enviarle una oferta directa." />
+                                <TextField fx:id="buscarField" prefHeight="32.0" prefWidth="500.0" promptText="Buscar por nombre, especialidad o habilidades..." styleClass="campo-form" />
+                                <TableView fx:id="trabajadoresTable" prefHeight="380.0" prefWidth="890.0" style="-fx-background-radius: 8; -fx-border-color: #bdc3c7; -fx-border-radius: 8;" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="nombreColumn" prefWidth="180" text="Nombre Completo" />
+                                        <TableColumn fx:id="especialidadColumn" prefWidth="140" text="Especialidad" />
+                                        <TableColumn fx:id="nivelEstudioColumn" prefWidth="120" text="Nivel Estudio" />
+                                        <TableColumn fx:id="experienciaColumn" prefWidth="100" text="Experiencia" />
+                                        <TableColumn fx:id="ubicacionColumn" prefWidth="140" text="Ubicación" />
+                                        <TableColumn fx:id="accionesColumn2" prefWidth="180" text="Acciones" />
+                                    </columns>
+                                </TableView>
+                                <HBox alignment="CENTER_RIGHT">
+                                    <Label fx:id="totalTrabajadoresLabel" style="-fx-text-fill: #1a3a5c; -fx-font-size: 16;" text="Total de trabajadores: 0" />
+                                </HBox>
+                            </VBox>
+                        </content>
+                    </Tab>
+
+                </tabs>
+            </TabPane>
+        </VBox>
+
+    </children>
+</AnchorPane>
