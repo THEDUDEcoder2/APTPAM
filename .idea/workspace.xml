@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="efe55322-380b-4ea4-ae23-9ee7b554477c" name="Changes" comment="Dan tremendo homosexual" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+      <option value="module" />
+    </option>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="FxmlFile" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Chicherito &lt;alanisraelmaresaquino@gmail.com&gt;" />
+      </list>
+    </option>
+    <option name="PUSH_AUTO_UPDATE" value="true" />
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--tags" />
+        <option name="title" value="All" />
+      </GitPushTagMode>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="PETAM" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Alan-Mares&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/THEDUDECoder2/APTPAM.git&quot;,
+    &quot;accountId&quot;: &quot;146d7396-be9b-44e9-a46b-e865ae177d2a&quot;
+  }
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="3AxixHH3rkdrxiMlK7ccw4ObZSy" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/alanu/Downloads/APTPAM-main&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;ChangesTree.GroupingKeys&quot;: [
+      &quot;directory&quot;,
+      &quot;module&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\alanu\Downloads\Trabajos-temporales\src\main\resources\com\example\trabajos\assets\assets" />
+      <recent name="C:\Users\alanu\Downloads\Trabajos-temporales\src\main\resources\com\example\trabajos" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\alanu\Downloads\APTPAM-main\src\main\resources\com\example\trabajos" />
+      <recent name="C:\Users\alanu\Downloads\Trabajos-temporales\src\main\resources\com\example\trabajos" />
+      <recent name="C:\Users\alanu\Downloads\Trabajos-temporales\src\main\resources\com\example\trabajos\assets\assets" />
+      <recent name="C:\Users\alanu\Downloads\Trabajos-temporales\src\main\resources\com\example\trabajos\assets" />
+      <recent name="C:\Users\alanu\Downloads" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="HelloApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.trabajos.HelloApplication" />
+      <module name="Trabajos-temporales" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.trabajos.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.HelloApplication" />
+        <item itemvalue="Application.HelloApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="efe55322-380b-4ea4-ae23-9ee7b554477c" name="Changes" comment="" />
+      <created>1773540869139</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1773540869139</updated>
+    </task>
+    <task id="LOCAL-00001" summary="git push -u origin master">
+      <option name="closed" value="true" />
+      <created>1774243409816</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1774243409816</updated>
+    </task>
+    <task id="LOCAL-00002" summary="git push -u origin master">
+      <option name="closed" value="true" />
+      <created>1774243727310</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1774243727310</updated>
+    </task>
+    <task id="LOCAL-00003" summary="git commit -m &quot;Primer commit&quot;">
+      <option name="closed" value="true" />
+      <created>1774243780861</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1774243780861</updated>
+    </task>
+    <task id="LOCAL-00004" summary="git commit -m &quot;Primer commit&quot;">
+      <option name="closed" value="true" />
+      <created>1774243819750</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1774243819750</updated>
+    </task>
+    <task id="LOCAL-00005" summary="git commit -m &quot;Primer commit&quot;">
+      <option name="closed" value="true" />
+      <created>1774243894823</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1774243894823</updated>
+    </task>
+    <task id="LOCAL-00006" summary="git commit -m &quot;Primer commit&quot;">
+      <option name="closed" value="true" />
+      <created>1774244313140</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1774244313140</updated>
+    </task>
+    <task id="LOCAL-00007" summary="git push -u origin master">
+      <option name="closed" value="true" />
+      <created>1774244347432</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1774244347432</updated>
+    </task>
+    <task id="LOCAL-00008" summary="git push -u origin master">
+      <option name="closed" value="true" />
+      <created>1774290479843</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1774290479843</updated>
+    </task>
+    <task id="LOCAL-00009" summary="git push -u origin master">
+      <option name="closed" value="true" />
+      <created>1774290611099</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1774290611099</updated>
+    </task>
+    <task id="LOCAL-00010" summary="git push -u origin master">
+      <option name="closed" value="true" />
+      <created>1774307214446</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1774307214446</updated>
+    </task>
+    <task id="LOCAL-00011" summary="git push -u origin master">
+      <option name="closed" value="true" />
+      <created>1774307280432</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1774307280432</updated>
+    </task>
+    <task id="LOCAL-00012" summary="git add .&#10;git commit -m &quot;Descripción de los nuevos cambios&quot;&#10;git push">
+      <option name="closed" value="true" />
+      <created>1774308006938</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1774308006938</updated>
+    </task>
+    <task id="LOCAL-00013" summary="git add .&#10;git commit -m &quot;Descripción de los nuevos cambios&quot;&#10;git push">
+      <option name="closed" value="true" />
+      <created>1774308260899</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1774308260899</updated>
+    </task>
+    <task id="LOCAL-00014" summary="git push --force origin master">
+      <option name="closed" value="true" />
+      <created>1774308591608</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1774308591608</updated>
+    </task>
+    <task id="LOCAL-00015" summary="git add .&#10;git commit -m &quot;Descripción de los nuevos cambios&quot;&#10;git push">
+      <option name="closed" value="true" />
+      <created>1774308667778</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1774308667778</updated>
+    </task>
+    <task id="LOCAL-00016" summary="git push -f origin master">
+      <option name="closed" value="true" />
+      <created>1774311282282</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1774311282282</updated>
+    </task>
+    <task id="LOCAL-00017" summary="git push --force origin master">
+      <option name="closed" value="true" />
+      <created>1774311356587</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1774311356587</updated>
+    </task>
+    <task id="LOCAL-00018" summary="git pull origin main --allow-unrelated-histories">
+      <option name="closed" value="true" />
+      <created>1774312092084</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1774312092084</updated>
+    </task>
+    <task id="LOCAL-00019" summary="git pull origin main --allow-unrelated-histories">
+      <option name="closed" value="true" />
+      <created>1774312533112</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1774312533112</updated>
+    </task>
+    <task id="LOCAL-00020" summary="git pull origin main --allow-unrelated-histories">
+      <option name="closed" value="true" />
+      <created>1774312688487</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1774312688487</updated>
+    </task>
+    <task id="LOCAL-00021" summary="git branch -m master main">
+      <option name="closed" value="true" />
+      <created>1774312718331</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1774312718331</updated>
+    </task>
+    <task id="LOCAL-00022" summary="git branch -m master main">
+      <option name="closed" value="true" />
+      <created>1774312776766</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1774312776766</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Dan gey">
+      <option name="closed" value="true" />
+      <created>1774502004628</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1774502004628</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Dan gey">
+      <option name="closed" value="true" />
+      <created>1774502078375</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1774502078375</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Dan tremendo homosexual">
+      <option name="closed" value="true" />
+      <created>1775274220965</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1775274220965</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="git commit -m &quot;Primer commit&quot;" />
+    <MESSAGE value="git push -u origin master" />
+    <MESSAGE value="git add .&#10;git commit -m &quot;Descripción de los nuevos cambios&quot;&#10;git push" />
+    <MESSAGE value="git push -f origin master" />
+    <MESSAGE value="git push --force origin master" />
+    <MESSAGE value="git pull origin main --allow-unrelated-histories" />
+    <MESSAGE value="git branch -m master main" />
+    <MESSAGE value="Dan gey" />
+    <MESSAGE value="Dan tremendo homosexual" />
+    <option name="LAST_COMMIT_MESSAGE" value="Dan tremendo homosexual" />
+  </component>
+</project>

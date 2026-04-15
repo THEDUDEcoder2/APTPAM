@@ -1,0 +1,89 @@
+/* ════════════════════════════════════════
+   detalleTrabajador.css
+   Paleta: fondo #dce8f5 · texto #1a3a5c
+   ════════════════════════════════════════ */
+
+/* ── Botón Aceptar — verde ── */
+.btn-aceptar {
+    -fx-background-color: linear-gradient(to bottom, #27ae60, #1e8449);
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(39,174,96,0.30), 8, 0, 0, 3);
+}
+
+.btn-aceptar:hover {
+    -fx-background-color: linear-gradient(to bottom, #2ecc71, #27ae60);
+    -fx-effect: dropshadow(gaussian, rgba(39,174,96,0.55), 12, 0, 0, 4);
+}
+
+.btn-aceptar:pressed {
+    -fx-background-color: linear-gradient(to bottom, #1e8449, #196f3d);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.20), 4, 0, 0, 1);
+}
+
+/* ── Botón Rechazar — rojo ── */
+.btn-rechazar {
+    -fx-background-color: linear-gradient(to bottom, #e74c3c, #c0392b);
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(231,76,60,0.30), 8, 0, 0, 3);
+}
+
+.btn-rechazar:hover {
+    -fx-background-color: linear-gradient(to bottom, #f15a4a, #e74c3c);
+    -fx-effect: dropshadow(gaussian, rgba(231,76,60,0.55), 12, 0, 0, 4);
+}
+
+.btn-rechazar:pressed {
+    -fx-background-color: linear-gradient(to bottom, #c0392b, #a93226);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.20), 4, 0, 0, 1);
+}
+
+/* ── Botón Volver — azul oscuro ── */
+.btn-volver {
+    -fx-background-color: linear-gradient(to bottom, #3a7bd5, #1a3a5c);
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(26,58,92,0.30), 8, 0, 0, 3);
+}
+
+.btn-volver:hover {
+    -fx-background-color: linear-gradient(to bottom, #5a9be8, #3a7bd5);
+    -fx-effect: dropshadow(gaussian, rgba(58,123,213,0.55), 12, 0, 0, 4);
+}
+
+.btn-volver:pressed {
+    -fx-background-color: linear-gradient(to bottom, #1a3a5c, #0f2240);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.20), 4, 0, 0, 1);
+}
+
+/* ── ScrollPane ── */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #b8cfe8;
+    -fx-background-radius: 6;
+}
+
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #3a7bd5;
+}

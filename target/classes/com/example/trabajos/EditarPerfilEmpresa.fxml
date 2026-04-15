@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1539.0" style="-fx-background-color: #dce8f5;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.trabajos.EditarPerfilEmpresaController">
+    <children>
+
+        <Label alignment="CENTER" layoutX="392.0" layoutY="20.0" prefHeight="100.0" prefWidth="822.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 30; -fx-font-weight: bold;" text="PLATAFORMA DE EMPLEO TEMPORAL">
+            <font><Font size="32.0" /></font>
+        </Label>
+
+        <VBox alignment="TOP_CENTER" layoutX="28.0" layoutY="56.0" maxWidth="250.0" minWidth="250.0" prefHeight="758.0" prefWidth="250.0" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+            <padding><Insets bottom="28.0" left="16.0" right="16.0" top="28.0" /></padding>
+            <children>
+                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@assets/logo_petam.jpg" />
+                </ImageView>
+                <Label alignment="CENTER" prefWidth="210.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;" text="Editar Perfil Empresa" wrapText="true" />
+                <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="volverButton" onAction="#onRegresarClick" prefHeight="55.0" prefWidth="225.0" styleClass="btn-azul" text="← Volver" />
+            </children>
+        </VBox>
+
+        <VBox layoutX="293.0" layoutY="56.0" prefHeight="745.0" prefWidth="920.0" spacing="14.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+            <padding><Insets bottom="32.0" left="36.0" right="36.0" top="28.0" /></padding>
+
+            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 16; -fx-font-weight: bold;" text="EDITAR INFORMACIÓN DE LA EMPRESA" />
+
+            <HBox alignment="CENTER_LEFT" spacing="12.0">
+                <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Nombre de la empresa" />
+                    <TextField fx:id="nombreEmpresaField" prefHeight="28.0" style="-fx-background-color: #f0f0f0;" />
+                </VBox>
+                <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Razón Social" />
+                    <TextField fx:id="razonSocialField" prefHeight="28.0" style="-fx-background-color: #f0f0f0;" />
+                </VBox>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="12.0">
+                <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Correo electrónico" />
+                    <TextField fx:id="emailField" editable="false" prefHeight="28.0" style="-fx-background-color: #e0e0e0;" />
+                </VBox>
+                <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Teléfono" />
+                    <TextField fx:id="telefonoField" prefHeight="28.0" promptText="10 dígitos" style="-fx-background-color: #f0f0f0;" />
+                </VBox>
+                <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="RFC" />
+                    <TextField fx:id="rfcField" prefHeight="28.0" style="-fx-background-color: #f0f0f0;" />
+                </VBox>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="12.0">
+                <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Tipo de empresa" />
+                    <ComboBox fx:id="tipoEmpresaComboBox" prefHeight="28.0" style="-fx-background-color: #f0f0f0;" />
+                </VBox>
+                <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Sector de actividad" />
+                    <ComboBox fx:id="sectorActividadComboBox" prefHeight="28.0" style="-fx-background-color: #f0f0f0;" />
+                </VBox>
+            </HBox>
+
+            <VBox spacing="4.0">
+                <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Actividad económica principal" />
+                <TextArea fx:id="actividadEconomicaArea" prefHeight="60.0" promptText="Describa la actividad principal de su empresa" style="-fx-background-color: #f0f0f0;" wrapText="true" />
+            </VBox>
+
+            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 16; -fx-font-weight: bold; -fx-padding: 6 0 0 0;" text="DOMICILIO" />
+
+            <HBox alignment="CENTER_LEFT" spacing="12.0">
+                <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Calle" />
+                    <TextField fx:id="calleField" prefHeight="28.0" style="-fx-background-color: #f0f0f0;" />
+                </VBox>
+                <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Colonia" />
+                    <TextField fx:id="coloniaField" prefHeight="28.0" style="-fx-background-color: #f0f0f0;" />
+                </VBox>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="12.0">
+                <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Municipio" />
+                    <ComboBox fx:id="municipioComboBox" prefHeight="28.0" style="-fx-background-color: #f0f0f0;" />
+                </VBox>
+                <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Ciudad" />
+                    <ComboBox fx:id="ciudadComboBox" prefHeight="28.0" style="-fx-background-color: #f0f0f0;" />
+                </VBox>
+                <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Código Postal" />
+                    <TextField fx:id="codigoPostalField" prefHeight="28.0" promptText="00000" style="-fx-background-color: #f0f0f0;" />
+                </VBox>
+            </HBox>
+
+            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 16; -fx-font-weight: bold; -fx-padding: 6 0 0 0;" text="SEGURIDAD" />
+
+            <HBox alignment="CENTER_LEFT" spacing="12.0">
+                <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="Cambiar contraseña" />
+                    <PasswordField fx:id="nuevaPasswordField" prefHeight="28.0" promptText="Nueva contraseña (opcional)" style="-fx-background-color: #f0f0f0;" />
+                    <TextField fx:id="nuevaPasswordVisibleField" managed="false" prefHeight="28.0" visible="false" style="-fx-background-color: #f0f0f0;" />
+                </VBox>
+                <CheckBox fx:id="mostrarPasswordCheckBox" onAction="#onMostrarPasswordChanged" prefHeight="33.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 14;" text="Mostrar contraseña" />
+            </HBox>
+
+            <!-- Botones: Guardar cambios y Cancelar cambios -->
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="15.0" alignment="CENTER">
+                <children>
+                    <Region prefHeight="31.0" prefWidth="150.0" />
+                    <Button fx:id="guardarButton" onAction="#onGuardarClick" prefHeight="50.0" prefWidth="200.0" styleClass="btn-verde" text="✓ Guardar cambios" />
+                    <Button fx:id="cancelarButton" onAction="#onCancelarClick" prefHeight="50.0" prefWidth="200.0" styleClass="btn-rojo" text="✗ Cancelar cambios" />
+                    <Region prefHeight="31.0" prefWidth="150.0" />
+                </children>
+            </HBox>
+
+            <Label fx:id="mensajeLabel" style="-fx-text-fill: #27ae60; -fx-font-size: 14;" visible="false" />
+            <Label fx:id="errorLabel" style="-fx-text-fill: #e74c3c; -fx-font-size: 14;" visible="false" />
+
+        </VBox>
+
+        <VBox alignment="TOP_CENTER" layoutX="1237.0" layoutY="56.0" maxWidth="250.0" minWidth="250.0" prefHeight="758.0" prefWidth="250.0" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+            <padding><Insets bottom="28.0" left="22.0" right="22.0" top="28.0" /></padding>
+            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;" text="Tips" />
+            <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Puedes modificar los datos de tu empresa." wrapText="true" /></HBox>
+            <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="La contraseña es opcional, déjala vacía si no quieres cambiarla." wrapText="true" /></HBox>
+            <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Los cambios se reflejarán inmediatamente." wrapText="true" /></HBox>
+            <Region VBox.vgrow="ALWAYS" />
+        </VBox>
+
+    </children>
+</AnchorPane>
