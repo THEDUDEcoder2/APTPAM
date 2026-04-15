@@ -6,6 +6,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.stage.Modality;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.stage.FileChooser;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
@@ -67,6 +78,12 @@ public class EditarPerfilTrabajadorController {
     @FXML private Button guardarButton;
     @FXML private Button cancelarButton;
     @FXML private Button volverButton;
+
+    // Foto de perfil
+    @FXML private ImageView imageViewFoto;
+    @FXML private Button btnTomarFoto;
+    @FXML private Button btnSubirFoto;
+    private byte[] fotoPerfilBytes;
 
     private TrabajadorService trabajadorService = new TrabajadorService();
     private GeneroService generoService = new GeneroService();
@@ -148,7 +165,7 @@ public class EditarPerfilTrabajadorController {
             }
         }
 
-        // Ciudad - se carga dinámicamente al seleccionar municipio
+        // Ciudad
         if (ciudadComboBox != null) {
             ciudadComboBox.getItems().clear();
         }
@@ -185,7 +202,6 @@ public class EditarPerfilTrabajadorController {
                     ciudadComboBox.getItems().add(c.getNombreCiudad());
                 }
             } else {
-                // Ciudades por defecto según municipio
                 switch (nombreMunicipio) {
                     case "Comondú":
                         ciudadComboBox.getItems().addAll("Ciudad Constitución", "Puerto San Carlos", "Puerto Adolfo López Mateos");
@@ -302,6 +318,14 @@ public class EditarPerfilTrabajadorController {
                     ciudadComboBox.setValue(trabajadorOriginal.getCiudad().getNombreCiudad());
                 }
 
+                // Foto de perfil
+                byte[] fotoBytes = trabajadorOriginal.getFotoPerfil();
+                if (fotoBytes != null && fotoBytes.length > 0) {
+                    Image foto = byteArrayAImagen(fotoBytes);
+                    imageViewFoto.setImage(foto);
+                    fotoPerfilBytes = fotoBytes;
+                }
+
                 // Idiomas
                 cargarIdiomasExistentes();
             }
@@ -315,7 +339,6 @@ public class EditarPerfilTrabajadorController {
 
             if (!idiomas.isEmpty()) {
                 cantidadIdiomasComboBox.setValue(String.valueOf(idiomas.size()));
-                // Esperar a que se generen los ComboBox
                 javafx.application.Platform.runLater(() -> {
                     for (int i = 0; i < idiomas.size() && i < idiomasComboBoxes.size(); i++) {
                         idiomasComboBoxes.get(i).setValue(idiomas.get(i).getNombreIdioma());
@@ -344,7 +367,7 @@ public class EditarPerfilTrabajadorController {
     }
 
     private void configurarValidadores() {
-        // Validar teléfono (solo números, 10 dígitos)
+        // Validar teléfono
         telefonoField.textProperty().addListener((obs, old, newVal) -> {
             if (!newVal.matches("\\d*")) {
                 telefonoField.setText(newVal.replaceAll("[^\\d]", ""));
@@ -400,7 +423,7 @@ public class EditarPerfilTrabajadorController {
             }
         });
 
-        // Validar formato de mayúscula inicial para varios campos
+        // Validar formato de mayúscula inicial
         configurarCampoSinEspaciosInicio(nombreField);
         configurarCampoSinEspaciosInicio(apellidoPaternoField);
         configurarCampoSinEspaciosInicio(apellidoMaternoField);
@@ -470,6 +493,96 @@ public class EditarPerfilTrabajadorController {
     }
 
     @FXML
+    private void onTomarFotoClick() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/TomarFoto.fxml"));
+            Parent root = loader.load();
+
+            TomarFotoController controller = loader.getController();
+
+            Stage stage = new Stage();
+            stage.setTitle("Tomar Foto de Perfil");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(btnTomarFoto.getScene().getWindow());
+            stage.setScene(new Scene(root));
+            stage.setMaximized(true);
+
+            controller.setCallback(foto -> {
+                if (foto != null) {
+                    imageViewFoto.setImage(foto);
+                    fotoPerfilBytes = imagenAByteArray(foto);
+                    mostrarMensaje("✅ Foto de perfil actualizada", "exito");
+                }
+            });
+
+            stage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            mostrarMensaje("No se pudo abrir la cámara: " + e.getMessage(), "error");
+        }
+    }
+
+    @FXML
+    private void onSubirFotoClick() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar foto de perfil");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp")
+        );
+
+        File selectedFile = fileChooser.showOpenDialog(btnSubirFoto.getScene().getWindow());
+
+        if (selectedFile != null) {
+            try {
+                Image imagen = new Image(selectedFile.toURI().toString());
+
+                double anchoMax = 300;
+                double altoMax = 300;
+                double ancho = imagen.getWidth();
+                double alto = imagen.getHeight();
+
+                if (ancho > anchoMax || alto > altoMax) {
+                    double escala = Math.min(anchoMax / ancho, altoMax / alto);
+                    ancho = ancho * escala;
+                    alto = alto * escala;
+                }
+
+                WritableImage imagenRedimensionada = new WritableImage((int)ancho, (int)alto);
+                javafx.scene.canvas.Canvas canvas = new javafx.scene.canvas.Canvas(ancho, alto);
+                canvas.getGraphicsContext2D().drawImage(imagen, 0, 0, ancho, alto);
+                canvas.snapshot(null, imagenRedimensionada);
+
+                imageViewFoto.setImage(imagenRedimensionada);
+                fotoPerfilBytes = imagenAByteArray(imagenRedimensionada);
+                mostrarMensaje("✅ Foto de perfil actualizada", "exito");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                mostrarMensaje("Error al cargar la imagen: " + e.getMessage(), "error");
+            }
+        }
+    }
+
+    private byte[] imagenAByteArray(Image image) {
+        try {
+            BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "png", baos);
+            return baos.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private Image byteArrayAImagen(byte[] bytes) {
+        if (bytes == null || bytes.length == 0) return null;
+        ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+        return new Image(bis);
+    }
+
+    @FXML
     private void onGuardarClick() {
         if (!validarCampos()) return;
 
@@ -532,17 +645,20 @@ public class EditarPerfilTrabajadorController {
             trabajadorOriginal.setExperienciaLaboral(experienciaField.getText());
             trabajadorOriginal.setHabilidades(habilidadesArea.getText());
 
+            // Foto de perfil
+            if (fotoPerfilBytes != null) {
+                trabajadorOriginal.setFotoPerfil(fotoPerfilBytes);
+            }
+
             // Guardar en BD
             trabajadorService.actualizarTrabajador(trabajadorOriginal);
 
             // Actualizar idiomas
-            // Primero eliminar idiomas existentes
             List<com.example.trabajos.models.TrabajadorIdioma> idiomasActuales = trabajadorIdiomaService.obtenerIdiomasPorTrabajador(trabajadorOriginal);
             for (com.example.trabajos.models.TrabajadorIdioma ti : idiomasActuales) {
                 trabajadorIdiomaService.eliminarIdiomaDeTrabajador(trabajadorOriginal, ti.getIdioma());
             }
 
-            // Agregar nuevos idiomas
             for (ComboBox<String> comboBox : idiomasComboBoxes) {
                 if (comboBox.getValue() != null && !comboBox.getValue().isEmpty()) {
                     Idioma idioma = idiomaService.obtenerIdiomaPorNombre(comboBox.getValue());

@@ -6,6 +6,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.stage.Modality;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.WritableImage;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.stage.FileChooser;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
@@ -31,6 +43,7 @@ import com.example.trabajos.services.MunicipioService;
 import com.example.trabajos.services.CiudadService;
 
 public class RegistroTrabajadorController {
+
     @FXML private TextField nombreField;
     @FXML private TextField apellidoPaternoField;
     @FXML private TextField apellidoMaternoField;
@@ -64,6 +77,9 @@ public class RegistroTrabajadorController {
     @FXML private Label confirmacionLabel;
     @FXML private Label fechaSeleccionadaLabel;
     @FXML private ToggleGroup generoGroup;
+    @FXML private ImageView imageViewFoto;
+    @FXML private Button btnTomarFoto;
+    @FXML private Button btnSubirFoto;
 
     private TrabajadorService trabajadorService = new TrabajadorService();
     private GeneroService generoService = new GeneroService();
@@ -75,6 +91,7 @@ public class RegistroTrabajadorController {
     private CiudadService ciudadService = new CiudadService();
 
     private List<ComboBox<String>> idiomasComboBoxes = new ArrayList<>();
+    private byte[] fotoPerfilBytes;
 
     private String formatearPrimeraLetraMayuscula(String texto) {
         if (texto == null || texto.isEmpty()) return texto;
@@ -88,7 +105,117 @@ public class RegistroTrabajadorController {
         }
 
         configurarDatePicker();
+        configurarCombos();
+        configurarValidadoresSimples();
+        agregarValidadorTelefono();
+        agregarValidadorCodigoPostal();
+        agregarValidadorRFC();
+        agregarValidadorCURP();
+        agregarValidadorAnosExperiencia();
 
+        // Imagen por defecto
+        try {
+            Image defaultImage = new Image(getClass().getResourceAsStream("/assets/default-avatar.png"));
+            if (defaultImage != null) {
+                imageViewFoto.setImage(defaultImage);
+            }
+        } catch (Exception e) {
+            // Si no hay imagen por defecto, dejar vacío
+        }
+    }
+
+    @FXML
+    private void onTomarFotoClick() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/TomarFoto.fxml"));
+            Parent root = loader.load();
+
+            TomarFotoController controller = loader.getController();
+
+            Stage stage = new Stage();
+            stage.setTitle("Tomar Foto de Perfil");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(btnTomarFoto.getScene().getWindow());
+            stage.setScene(new Scene(root));
+            stage.setMaximized(true);
+
+            controller.setCallback(foto -> {
+                if (foto != null) {
+                    imageViewFoto.setImage(foto);
+                    fotoPerfilBytes = imagenAByteArray(foto);
+                    mostrarMensaje("✅ Foto de perfil capturada correctamente");
+                }
+            });
+
+            stage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            mostrarError("No se pudo abrir la cámara: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void onSubirFotoClick() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar foto de perfil");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp")
+        );
+
+        File selectedFile = fileChooser.showOpenDialog(btnSubirFoto.getScene().getWindow());
+
+        if (selectedFile != null) {
+            try {
+                Image imagen = new Image(selectedFile.toURI().toString());
+
+                // Redimensionar la imagen
+                double anchoMax = 300;
+                double altoMax = 300;
+                double ancho = imagen.getWidth();
+                double alto = imagen.getHeight();
+
+                if (ancho > anchoMax || alto > altoMax) {
+                    double escala = Math.min(anchoMax / ancho, altoMax / alto);
+                    ancho = ancho * escala;
+                    alto = alto * escala;
+                }
+
+                WritableImage imagenRedimensionada = new WritableImage((int)ancho, (int)alto);
+                javafx.scene.canvas.Canvas canvas = new javafx.scene.canvas.Canvas(ancho, alto);
+                canvas.getGraphicsContext2D().drawImage(imagen, 0, 0, ancho, alto);
+                canvas.snapshot(null, imagenRedimensionada);
+
+                imageViewFoto.setImage(imagenRedimensionada);
+                fotoPerfilBytes = imagenAByteArray(imagenRedimensionada);
+                mostrarMensaje("✅ Foto de perfil subida correctamente");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                mostrarError("Error al cargar la imagen: " + e.getMessage());
+            }
+        }
+    }
+
+    private byte[] imagenAByteArray(Image image) {
+        try {
+            BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "png", baos);
+            return baos.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private Image byteArrayAImagen(byte[] bytes) {
+        if (bytes == null || bytes.length == 0) return null;
+        ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+        return new Image(bis);
+    }
+
+    private void configurarCombos() {
         try {
             for (Nacionalidad nacionalidad : nacionalidadService.obtenerTodasNacionalidades()) {
                 nacionalidadComboBox.getItems().add(nacionalidad.getNombreNacionalidad());
@@ -143,65 +270,6 @@ public class RegistroTrabajadorController {
 
         cantidadIdiomasComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
             generarComboBoxIdiomas(newValue);
-        });
-
-        configurarValidadoresSimples();
-        agregarValidadorTelefono();
-        agregarValidadorCodigoPostal();
-        agregarValidadorRFC();
-        agregarValidadorCURP();
-        agregarValidadorAnosExperiencia();
-    }
-
-    private void configurarValidadoresSimples() {
-        configurarCampoSinEspaciosInicio(nombreField);
-        configurarCampoSinEspaciosInicio(apellidoPaternoField);
-        configurarCampoSinEspaciosInicio(apellidoMaternoField);
-        configurarCampoSinEspaciosInicio(calleField);
-        configurarCampoSinEspaciosInicio(coloniaField);
-        configurarCampoSinEspaciosInicio(herramientasField);
-        configurarCampoSinEspaciosInicio(especialidadField);
-        configurarCampoSinEspaciosInicio(experienciaField);
-        configurarTextAreaSinEspaciosInicio(habilidadesArea);
-    }
-
-    private void configurarCampoSinEspaciosInicio(TextField textField) {
-        if (textField == null) return;
-        textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null && !newValue.isEmpty()) {
-                if (newValue.startsWith(" ")) {
-                    textField.setText(newValue.trim());
-                    return;
-                }
-                if (oldValue == null || oldValue.isEmpty()) {
-                    String textoFormateado = formatearPrimeraLetraMayuscula(newValue);
-                    if (!textoFormateado.equals(newValue)) {
-                        int cursorPos = textField.getCaretPosition();
-                        textField.setText(textoFormateado);
-                        textField.positionCaret(Math.min(cursorPos, textoFormateado.length()));
-                    }
-                }
-            }
-        });
-    }
-
-    private void configurarTextAreaSinEspaciosInicio(TextArea textArea) {
-        if (textArea == null) return;
-        textArea.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null && !newValue.isEmpty()) {
-                if (newValue.startsWith(" ")) {
-                    textArea.setText(newValue.trim());
-                    return;
-                }
-                if (oldValue == null || oldValue.isEmpty()) {
-                    String textoFormateado = formatearPrimeraLetraMayuscula(newValue);
-                    if (!textoFormateado.equals(newValue)) {
-                        int cursorPos = textArea.getCaretPosition();
-                        textArea.setText(textoFormateado);
-                        textArea.positionCaret(Math.min(cursorPos, textoFormateado.length()));
-                    }
-                }
-            }
         });
     }
 
@@ -372,6 +440,58 @@ public class RegistroTrabajadorController {
         });
     }
 
+    private void configurarValidadoresSimples() {
+        configurarCampoSinEspaciosInicio(nombreField);
+        configurarCampoSinEspaciosInicio(apellidoPaternoField);
+        configurarCampoSinEspaciosInicio(apellidoMaternoField);
+        configurarCampoSinEspaciosInicio(calleField);
+        configurarCampoSinEspaciosInicio(coloniaField);
+        configurarCampoSinEspaciosInicio(herramientasField);
+        configurarCampoSinEspaciosInicio(especialidadField);
+        configurarCampoSinEspaciosInicio(experienciaField);
+        configurarTextAreaSinEspaciosInicio(habilidadesArea);
+    }
+
+    private void configurarCampoSinEspaciosInicio(TextField textField) {
+        if (textField == null) return;
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null && !newValue.isEmpty()) {
+                if (newValue.startsWith(" ")) {
+                    textField.setText(newValue.trim());
+                    return;
+                }
+                if (oldValue == null || oldValue.isEmpty()) {
+                    String textoFormateado = formatearPrimeraLetraMayuscula(newValue);
+                    if (!textoFormateado.equals(newValue)) {
+                        int cursorPos = textField.getCaretPosition();
+                        textField.setText(textoFormateado);
+                        textField.positionCaret(Math.min(cursorPos, textoFormateado.length()));
+                    }
+                }
+            }
+        });
+    }
+
+    private void configurarTextAreaSinEspaciosInicio(TextArea textArea) {
+        if (textArea == null) return;
+        textArea.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null && !newValue.isEmpty()) {
+                if (newValue.startsWith(" ")) {
+                    textArea.setText(newValue.trim());
+                    return;
+                }
+                if (oldValue == null || oldValue.isEmpty()) {
+                    String textoFormateado = formatearPrimeraLetraMayuscula(newValue);
+                    if (!textoFormateado.equals(newValue)) {
+                        int cursorPos = textArea.getCaretPosition();
+                        textArea.setText(textoFormateado);
+                        textArea.positionCaret(Math.min(cursorPos, textoFormateado.length()));
+                    }
+                }
+            }
+        });
+    }
+
     @FXML
     protected void onRegistrarClick() {
         System.out.println("=== INICIANDO REGISTRO DE TRABAJADOR ===");
@@ -396,12 +516,6 @@ public class RegistroTrabajadorController {
             String apellidoMaterno = formatearPrimeraLetraMayuscula(apellidoMaternoField.getText().trim());
             String email = emailField.getText();
             String password = passwordField.getText();
-
-            System.out.println("📝 Datos preparados:");
-            System.out.println("  Nombre: " + nombre);
-            System.out.println("  Apellido Paterno: " + apellidoPaterno);
-            System.out.println("  Apellido Materno: " + apellidoMaterno);
-            System.out.println("  Email: " + email);
 
             System.out.println("🔍 Verificando si el email ya existe...");
             if (trabajadorService.existeEmail(email)) {
@@ -440,6 +554,7 @@ public class RegistroTrabajadorController {
             trabajador.setConocimientosHerramientas(herramientasField.getText());
             trabajador.setNivelEstudio(nivelEstudioComboBox.getValue());
             trabajador.setEspecialidad(especialidadField.getText());
+            trabajador.setFotoPerfil(fotoPerfilBytes);
 
             if (!anosExperienciaField.getText().isEmpty()) {
                 try {
@@ -451,7 +566,7 @@ public class RegistroTrabajadorController {
 
             trabajador.setDiscapacidad(discapacidadComboBox.getValue());
             trabajador.setExperienciaLaboral(experienciaField.getText());
-            trabajador.setHabilidades(habilidadesArea != null ? habilidadesArea.getText() : "");
+            trabajador.setHabilidades(habilidadesArea.getText());
 
             System.out.println("💾 Guardando trabajador en la base de datos...");
             try {
@@ -591,7 +706,8 @@ public class RegistroTrabajadorController {
         resumen.append("• Discapacidad: ").append(discapacidadComboBox.getValue() != null ?
                 discapacidadComboBox.getValue() : "No especificada").append("\n");
         resumen.append("• Experiencia: ").append(experienciaField.getText()).append("\n");
-        resumen.append("• Habilidades: ").append(habilidadesArea != null ? habilidadesArea.getText() : "").append("\n");
+        resumen.append("• Habilidades: ").append(habilidadesArea.getText()).append("\n");
+        resumen.append("• Foto de perfil: ").append(fotoPerfilBytes != null ? "✅ Cargada" : "❌ No cargada").append("\n");
 
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
         confirmacion.setTitle("Confirmar Registro");
@@ -799,6 +915,23 @@ public class RegistroTrabajadorController {
         if (confirmacionLabel != null) confirmacionLabel.setVisible(false);
     }
 
+    private void mostrarMensaje(String mensaje) {
+        if (mensajeLabel != null) {
+            mensajeLabel.setText(mensaje);
+            mensajeLabel.setVisible(true);
+        }
+        if (confirmacionLabel != null) confirmacionLabel.setVisible(false);
+
+        new Thread(() -> {
+            try {
+                Thread.sleep(3000);
+                javafx.application.Platform.runLater(() -> {
+                    if (mensajeLabel != null) mensajeLabel.setVisible(false);
+                });
+            } catch (InterruptedException e) {}
+        }).start();
+    }
+
     private void mostrarConfirmacion(String mensaje) {
         if (confirmacionLabel != null) {
             confirmacionLabel.setText(mensaje);
@@ -852,4 +985,4 @@ public class RegistroTrabajadorController {
             mostrarError("Error al navegar a la pantalla de sesión");
         }
     }
-}   
+}

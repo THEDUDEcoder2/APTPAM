@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -52,16 +53,111 @@ public class MatchTrabajadoresController {
     private TrabajadorService trabajadorService = new TrabajadorService();
 
     private List<ComboBox<String>> idiomasComboBoxes = new ArrayList<>();
+    private boolean isLoading = false; // Evitar bucles infinitos
 
     @FXML
     public void initialize() {
         configurarCombos();
         configurarTabla();
         configurarValidadores();
+        restaurarEstado();
+    }
+
+    private void guardarEstado() {
+        if (isLoading) return;
+
+        List<String> idiomas = new ArrayList<>();
+        for (ComboBox<String> cb : idiomasComboBoxes) {
+            if (cb.getValue() != null && !cb.getValue().isEmpty()) {
+                idiomas.add(cb.getValue());
+            }
+        }
+
+        List<MatchService.MatchResult> resultados = new ArrayList<>(resultadosTable.getItems());
+
+        SesionManager.getInstancia().guardarEstadoMatch(
+                puestoComboBox.getValue(),
+                herramientasField.getText(),
+                cantidadIdiomasComboBox.getValue(),
+                nivelEstudioComboBox.getValue(),
+                anosExperienciaField.getText(),
+                edadMinField.getText(),
+                edadMaxField.getText(),
+                generoComboBox.getValue(),
+                municipioComboBox.getValue(),
+                ciudadComboBox.getValue(),
+                idiomas,
+                resultados,
+                !resultados.isEmpty()
+        );
+    }
+
+    private void restaurarEstado() {
+        isLoading = true;
+
+        SesionManager sm = SesionManager.getInstancia();
+
+        // Restaurar filtros
+        if (puestoComboBox != null) puestoComboBox.setValue(sm.getMatchPuesto());
+        if (herramientasField != null) herramientasField.setText(sm.getMatchHerramientas());
+        if (cantidadIdiomasComboBox != null) cantidadIdiomasComboBox.setValue(sm.getMatchCantidadIdiomas());
+        if (nivelEstudioComboBox != null) nivelEstudioComboBox.setValue(sm.getMatchNivelEstudio());
+        if (anosExperienciaField != null) anosExperienciaField.setText(sm.getMatchAnosExperiencia());
+        if (edadMinField != null) edadMinField.setText(sm.getMatchEdadMin());
+        if (edadMaxField != null) edadMaxField.setText(sm.getMatchEdadMax());
+        if (generoComboBox != null) generoComboBox.setValue(sm.getMatchGenero());
+        if (municipioComboBox != null) municipioComboBox.setValue(sm.getMatchMunicipio());
+
+        // Restaurar ciudad (con delay para cargar las opciones)
+        String ciudadGuardada = sm.getMatchCiudad();
+        if (municipioComboBox != null && ciudadComboBox != null && sm.getMatchMunicipio() != null) {
+            String municipio = sm.getMatchMunicipio();
+            if (!"Todos".equals(municipio)) {
+                javafx.application.Platform.runLater(() -> {
+                    cargarCiudadesPorMunicipio(municipio);
+                    javafx.application.Platform.runLater(() -> {
+                        if (ciudadComboBox.getItems().contains(ciudadGuardada)) {
+                            ciudadComboBox.setValue(ciudadGuardada);
+                        } else {
+                            ciudadComboBox.setValue("Todas");
+                        }
+                    });
+                });
+            } else {
+                ciudadComboBox.setValue("Todas");
+            }
+        }
+
+        // Restaurar idiomas (se cargarán después de generar los ComboBox)
+        List<String> idiomasGuardados = sm.getMatchIdiomas();
+        if (!idiomasGuardados.isEmpty()) {
+            javafx.application.Platform.runLater(() -> {
+                for (int i = 0; i < idiomasGuardados.size() && i < idiomasComboBoxes.size(); i++) {
+                    idiomasComboBoxes.get(i).setValue(idiomasGuardados.get(i));
+                }
+            });
+        }
+
+        // Restaurar resultados de la tabla
+        if (sm.getMatchHayResultados()) {
+            List<MatchService.MatchResult> resultados = sm.getMatchResultados();
+            if (!resultados.isEmpty()) {
+                javafx.application.Platform.runLater(() -> {
+                    resultadosTable.getItems().clear();
+                    resultadosTable.getItems().addAll(resultados);
+                    resultadosTable.setVisible(true);
+                    resultadosTable.refresh();
+                    if (mensajeLabel != null) mensajeLabel.setVisible(false);
+                });
+            }
+        } else {
+            resultadosTable.setVisible(false);
+        }
+
+        isLoading = false;
     }
 
     private void configurarValidadores() {
-        // Validar años de experiencia (solo números, máximo 100)
         if (anosExperienciaField != null) {
             anosExperienciaField.textProperty().addListener((obs, old, newVal) -> {
                 if (!newVal.matches("\\d*")) {
@@ -75,10 +171,10 @@ public class MatchTrabajadoresController {
                         }
                     } catch (NumberFormatException e) {}
                 }
+                guardarEstado();
             });
         }
 
-        // Validar edad mínima
         if (edadMinField != null) {
             edadMinField.textProperty().addListener((obs, old, newVal) -> {
                 if (!newVal.matches("\\d*")) {
@@ -92,10 +188,10 @@ public class MatchTrabajadoresController {
                         }
                     } catch (NumberFormatException e) {}
                 }
+                guardarEstado();
             });
         }
 
-        // Validar edad máxima
         if (edadMaxField != null) {
             edadMaxField.textProperty().addListener((obs, old, newVal) -> {
                 if (!newVal.matches("\\d*")) {
@@ -109,10 +205,10 @@ public class MatchTrabajadoresController {
                         }
                     } catch (NumberFormatException e) {}
                 }
+                guardarEstado();
             });
         }
 
-        // Validar mayúscula inicial para herramientas
         if (herramientasField != null) {
             herramientasField.textProperty().addListener((obs, old, newVal) -> {
                 if (newVal != null && !newVal.isEmpty() && !newVal.startsWith(" ")) {
@@ -123,6 +219,7 @@ public class MatchTrabajadoresController {
                         }
                     }
                 }
+                guardarEstado();
             });
         }
     }
@@ -133,7 +230,6 @@ public class MatchTrabajadoresController {
     }
 
     private void configurarCombos() {
-        // Puesto - cargar los mismos tipos que en las ofertas
         if (puestoComboBox != null) {
             puestoComboBox.getItems().addAll(
                     "Todos los puestos",
@@ -142,25 +238,23 @@ public class MatchTrabajadoresController {
                     "Repartidor", "Cuidado de personas", "Trabajo administrativo",
                     "Telemercadeo", "Guardia de seguridad", "Conductor", "Cocina ayudante"
             );
-            puestoComboBox.setValue("Todos los puestos");
+            puestoComboBox.valueProperty().addListener((obs, old, newVal) -> guardarEstado());
         }
 
-        // Nivel de estudio
         if (nivelEstudioComboBox != null) {
             nivelEstudioComboBox.getItems().addAll(
                     "Primaria", "Secundaria", "Bachillerato", "Técnico",
                     "Licenciatura", "Maestría", "Doctorado"
             );
             nivelEstudioComboBox.setPromptText("Selecciona nivel mínimo");
+            nivelEstudioComboBox.valueProperty().addListener((obs, old, newVal) -> guardarEstado());
         }
 
-        // Género
         if (generoComboBox != null) {
             generoComboBox.getItems().addAll("AMBOS", "MASCULINO", "FEMENINO");
-            generoComboBox.setValue("AMBOS");
+            generoComboBox.valueProperty().addListener((obs, old, newVal) -> guardarEstado());
         }
 
-        // Municipio
         if (municipioComboBox != null) {
             try {
                 for (Municipio m : municipioService.obtenerTodosMunicipios()) {
@@ -170,27 +264,22 @@ public class MatchTrabajadoresController {
                 municipioComboBox.getItems().addAll("Comondú", "La Paz", "Loreto", "Los Cabos", "Mulegé");
             }
             municipioComboBox.getItems().add(0, "Todos");
-            municipioComboBox.setValue("Todos");
-        }
-
-        // Ciudad
-        if (ciudadComboBox != null) {
-            ciudadComboBox.getItems().add("Todas");
-            ciudadComboBox.setValue("Todas");
-        }
-
-        if (municipioComboBox != null) {
             municipioComboBox.valueProperty().addListener((obs, old, newVal) -> {
                 cargarCiudadesPorMunicipio(newVal);
+                guardarEstado();
             });
         }
 
-        // Idiomas
+        if (ciudadComboBox != null) {
+            ciudadComboBox.getItems().add("Todas");
+            ciudadComboBox.valueProperty().addListener((obs, old, newVal) -> guardarEstado());
+        }
+
         if (cantidadIdiomasComboBox != null) {
             cantidadIdiomasComboBox.getItems().addAll("0", "1", "2", "3", "4", "5");
-            cantidadIdiomasComboBox.setValue("0");
             cantidadIdiomasComboBox.valueProperty().addListener((obs, old, newVal) -> {
                 generarComboBoxIdiomas(newVal);
+                guardarEstado();
             });
         }
     }
@@ -255,6 +344,7 @@ public class MatchTrabajadoresController {
                 }
                 comboBox.setPromptText("Idioma " + (i + 1));
                 comboBox.setPrefWidth(150);
+                comboBox.valueProperty().addListener((obs, old, newVal) -> guardarEstado());
                 idiomasComboBoxes.add(comboBox);
                 hbox.getChildren().add(comboBox);
             }
@@ -350,12 +440,14 @@ public class MatchTrabajadoresController {
                     verPerfilButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 3;");
                     verPerfilButton.setOnAction(event -> {
                         MatchService.MatchResult result = getTableView().getItems().get(getIndex());
+                        guardarEstado();
                         abrirPerfilTrabajador(result.getTrabajador());
                     });
 
                     enviarOfertaButton.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 3;");
                     enviarOfertaButton.setOnAction(event -> {
                         MatchService.MatchResult result = getTableView().getItems().get(getIndex());
+                        guardarEstado();
                         abrirFormularioOferta(result.getTrabajador());
                     });
                 }
@@ -381,17 +473,14 @@ public class MatchTrabajadoresController {
 
         MatchService.CriteriosMatch criterios = new MatchService.CriteriosMatch();
 
-        // Puesto (desde ComboBox)
         if (puestoComboBox != null && puestoComboBox.getValue() != null && !"Todos los puestos".equals(puestoComboBox.getValue())) {
             criterios.setPuesto(puestoComboBox.getValue());
         }
 
-        // Herramientas
         if (herramientasField != null && herramientasField.getText() != null && !herramientasField.getText().trim().isEmpty()) {
             criterios.setHerramientas(formatearPrimeraLetraMayuscula(herramientasField.getText().trim()));
         }
 
-        // Idiomas
         List<String> idiomas = new ArrayList<>();
         for (ComboBox<String> cb : idiomasComboBoxes) {
             if (cb.getValue() != null && !cb.getValue().isEmpty()) {
@@ -400,12 +489,10 @@ public class MatchTrabajadoresController {
         }
         criterios.setIdiomas(idiomas);
 
-        // Nivel estudio
         if (nivelEstudioComboBox != null && nivelEstudioComboBox.getValue() != null) {
             criterios.setNivelEstudio(nivelEstudioComboBox.getValue());
         }
 
-        // Años experiencia
         if (anosExperienciaField != null && anosExperienciaField.getText() != null && !anosExperienciaField.getText().isEmpty()) {
             try {
                 int valor = Integer.parseInt(anosExperienciaField.getText());
@@ -415,7 +502,6 @@ public class MatchTrabajadoresController {
             } catch (NumberFormatException e) {}
         }
 
-        // Edad
         if (edadMinField != null && edadMinField.getText() != null && !edadMinField.getText().isEmpty()) {
             try {
                 criterios.setEdadMin(Integer.parseInt(edadMinField.getText()));
@@ -427,12 +513,10 @@ public class MatchTrabajadoresController {
             } catch (NumberFormatException e) {}
         }
 
-        // Género
         if (generoComboBox != null && generoComboBox.getValue() != null) {
             criterios.setGenero(generoComboBox.getValue());
         }
 
-        // Ubicación
         if (municipioComboBox != null && municipioComboBox.getValue() != null && !"Todos".equals(municipioComboBox.getValue())) {
             criterios.setMunicipio(municipioComboBox.getValue());
         }
@@ -452,7 +536,9 @@ public class MatchTrabajadoresController {
             if (mensajeLabel != null) mensajeLabel.setVisible(false);
             resultadosTable.setVisible(true);
             resultadosTable.getItems().setAll(resultados);
+            resultadosTable.refresh();
         }
+        guardarEstado();
     }
 
     @FXML
@@ -476,6 +562,8 @@ public class MatchTrabajadoresController {
             resultadosTable.setVisible(false);
         }
         if (mensajeLabel != null) mensajeLabel.setVisible(false);
+
+        guardarEstado();
     }
 
     @FXML
@@ -501,15 +589,18 @@ public class MatchTrabajadoresController {
             Parent root = loader.load();
 
             DetalleTrabajadorController controller = loader.getController();
-            controller.setTrabajador(trabajador);
+            controller.setTrabajadorDesdeMatch(trabajador);
 
-            Stage stage = (Stage) resultadosTable.getScene().getWindow();
+            Stage stage = new Stage();
+            stage.setTitle("Perfil de " + trabajador.getNombreCompleto());
             stage.setScene(new Scene(root));
             stage.setMaximized(true);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(volverButton.getScene().getWindow());
+            stage.showAndWait();
 
-            String nombreCompleto = trabajador.getNombre() + " " +
-                    (trabajador.getApellidoPaterno() != null ? trabajador.getApellidoPaterno() : "");
-            stage.setTitle("Perfil de " + nombreCompleto);
+            // Al regresar, restaurar estado
+            restaurarEstado();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -523,15 +614,18 @@ public class MatchTrabajadoresController {
             Parent root = loader.load();
 
             FormularioPrivadoController controller = loader.getController();
-            controller.setTrabajadorDestino(trabajador);
+            controller.setTrabajadorDestinoDesdeMatch(trabajador);
 
-            Stage stage = (Stage) resultadosTable.getScene().getWindow();
+            Stage stage = new Stage();
+            stage.setTitle("Enviar Oferta Exclusiva a " + trabajador.getNombreCompleto());
             stage.setScene(new Scene(root));
             stage.setMaximized(true);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(volverButton.getScene().getWindow());
+            stage.showAndWait();
 
-            String nombreCompleto = trabajador.getNombre() + " " +
-                    (trabajador.getApellidoPaterno() != null ? trabajador.getApellidoPaterno() : "");
-            stage.setTitle("Enviar Oferta Exclusiva a " + nombreCompleto);
+            // Al regresar, restaurar estado
+            restaurarEstado();
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -38,10 +38,12 @@ public class FormularioController {
     private Empresa empresaActual;
     private List<ComboBox<String>> idiomasComboBoxes = new ArrayList<>();
 
+    // Referencia al controlador de empresas para refrescar la tabla
+    private EmpresasController empresasController;
+
     private EmpresaService empresaService = new EmpresaService();
     private OfertaService ofertaService = new OfertaService();
     private SalarioService salarioService = new SalarioService();
-    private EstadoContratacionService estadoContratacionService = new EstadoContratacionService();
     private IdiomaService idiomaService = new IdiomaService();
     private OfertaIdiomaService ofertaIdiomaService = new OfertaIdiomaService();
 
@@ -66,6 +68,8 @@ public class FormularioController {
     public void setNivelEstudioComboBox(ComboBox<String> cb) { this.nivelEstudioComboBox = cb; }
     public void setExperienciaField(TextField field) { this.experienciaField = field; }
     public void setDescripcionArea(TextArea area) { this.descripcionArea = area; }
+    public void setMensajeLabel(Label label) { this.mensajeLabel = label; }
+    public void setEmpresasController(EmpresasController controller) { this.empresasController = controller; }
 
     public void initialize() {
         configurarCombos();
@@ -237,12 +241,37 @@ public class FormularioController {
                 }
             }
 
-            mostrarMensaje("Oferta guardada exitosamente");
+            mostrarMensaje("✅ Oferta guardada exitosamente");
             limpiarCampos();
 
+            // REFRESCAR LA TABLA DE OFERTAS GUARDADAS
+            refrescarTablaOfertas();
+
         } catch (Exception e) {
-            mostrarMensaje("Error al guardar la oferta: " + e.getMessage());
+            mostrarMensaje("❌ Error al guardar la oferta: " + e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    private void refrescarTablaOfertas() {
+        // Buscar la ventana actual y obtener el controlador de Empresas
+        try {
+            Stage stage = (Stage) nombreEmpresaField.getScene().getWindow();
+            // La escena actual es Empresas, pero el controlador es EmpresasController
+            // Necesitamos acceder al controlador de la escena padre
+            if (stage.getScene().getRoot() != null) {
+                // Buscar el controlador asociado
+                Object controller = stage.getScene().getUserData();
+                // Si no funciona, buscamos a través de las pestañas
+            }
+        } catch (Exception e) {
+            // Si no se puede, el usuario usará el botón manual
+            System.out.println("No se pudo refrescar automáticamente, use el botón Refrescar");
+        }
+
+        // Método alternativo: si tenemos referencia al EmpresasController
+        if (empresasController != null) {
+            empresasController.onRefrescarClick();
         }
     }
 
@@ -280,6 +309,14 @@ public class FormularioController {
         if (mensajeLabel != null) {
             mensajeLabel.setText(mensaje);
             mensajeLabel.setVisible(true);
+
+            // Ocultar mensaje después de 3 segundos
+            new Thread(() -> {
+                try {
+                    Thread.sleep(3000);
+                    javafx.application.Platform.runLater(() -> mensajeLabel.setVisible(false));
+                } catch (InterruptedException e) {}
+            }).start();
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Información");

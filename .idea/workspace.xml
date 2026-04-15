@@ -4,7 +4,38 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="efe55322-380b-4ea4-ae23-9ee7b554477c" name="Changes" comment="Dan tremendo homosexual" />
+    <list default="true" id="efe55322-380b-4ea4-ae23-9ee7b554477c" name="Changes" comment="PETAM">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/TomarFotoController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/TomarFoto.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/DetalleTrabajadorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/DetalleTrabajadorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/EditarPerfilTrabajadorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/EditarPerfilTrabajadorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/EmpresasController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/EmpresasController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/FormularioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/FormularioController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/FormularioPrivadoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/FormularioPrivadoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/MatchTrabajadoresController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/MatchTrabajadoresController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/RegistroTrabajadorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/RegistroTrabajadorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/SesionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/SesionManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/models/Trabajador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/models/Trabajador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/services/MatchService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/services/MatchService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/EditarPerfilTrabajador.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/EditarPerfilTrabajador.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/Empresas.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/Empresas.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/RegistroTrabajador.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/RegistroTrabajador.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/DetalleTrabajadorController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/DetalleTrabajadorController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/Empresas.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/Empresas.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/EmpresasController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/EmpresasController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/FormularioController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/FormularioController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/FormularioPrivadoController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/FormularioPrivadoController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/MatchTrabajadoresController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/MatchTrabajadoresController$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/MatchTrabajadoresController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/MatchTrabajadoresController$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/MatchTrabajadoresController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/MatchTrabajadoresController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/SesionManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/SesionManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/services/MatchService$CriteriosMatch.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/services/MatchService$CriteriosMatch.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/services/MatchService$MatchResult.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/services/MatchService$MatchResult.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/services/MatchService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/services/MatchService.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,8 +50,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="FxmlFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -57,7 +88,7 @@
   }
 }</component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
+    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
@@ -72,6 +103,7 @@
   &quot;keyToString&quot;: {
     &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/alanu/Downloads/APTPAM-main&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;
@@ -326,7 +358,23 @@
       <option name="project" value="LOCAL" />
       <updated>1775274220965</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="PETAM">
+      <option name="closed" value="true" />
+      <created>1776233066200</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1776233066200</updated>
+    </task>
+    <task id="LOCAL-00027" summary="PETAM">
+      <option name="closed" value="true" />
+      <created>1776233523554</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1776233523554</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -339,6 +387,7 @@
     <MESSAGE value="git branch -m master main" />
     <MESSAGE value="Dan gey" />
     <MESSAGE value="Dan tremendo homosexual" />
-    <option name="LAST_COMMIT_MESSAGE" value="Dan tremendo homosexual" />
+    <MESSAGE value="PETAM" />
+    <option name="LAST_COMMIT_MESSAGE" value="PETAM" />
   </component>
 </project>

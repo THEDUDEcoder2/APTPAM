@@ -15,7 +15,6 @@ public class MatchService {
     private static final Map<String, Map<String, Integer>> DISTANCIAS = new HashMap<>();
 
     static {
-        // Inicializar distancias aproximadas en km entre ciudades de BCS
         Map<String, Integer> laPaz = new HashMap<>();
         laPaz.put("La Paz", 0); laPaz.put("El Centenario", 10); laPaz.put("Cabo San Lucas", 180);
         laPaz.put("San José del Cabo", 160); laPaz.put("Todos Santos", 80); laPaz.put("Ciudad Constitución", 200);
@@ -61,8 +60,9 @@ public class MatchService {
         DISTANCIAS.put("Guerrero Negro", guerreroNegro);
     }
 
-    // Mapa de sinónimos y palabras relacionadas para puestos
+    // Mapa de sinónimos
     private static final Map<String, List<String>> SINONIMOS_PUESTOS = new HashMap<>();
+    private static final Map<String, List<String>> SINONIMOS_HERRAMIENTAS = new HashMap<>();
 
     static {
         SINONIMOS_PUESTOS.put("asesor", Arrays.asList("consultor", "consejero", "especialista"));
@@ -80,12 +80,7 @@ public class MatchService {
         SINONIMOS_PUESTOS.put("cuidado", Arrays.asList("cuidador", "asistente", "enfermero", "geriatra"));
         SINONIMOS_PUESTOS.put("telemercadeo", Arrays.asList("call center", "ventas telefónicas", "promotor"));
         SINONIMOS_PUESTOS.put("cocina", Arrays.asList("chef", "ayudante de cocina", "mesero"));
-    }
 
-    // Mapa de similitud de herramientas
-    private static final Map<String, List<String>> SINONIMOS_HERRAMIENTAS = new HashMap<>();
-
-    static {
         SINONIMOS_HERRAMIENTAS.put("excel", Arrays.asList("hoja de cálculo", "spreadsheet", "libreoffice calc"));
         SINONIMOS_HERRAMIENTAS.put("word", Arrays.asList("procesador de texto", "documentos", "libreoffice writer"));
         SINONIMOS_HERRAMIENTAS.put("powerpoint", Arrays.asList("presentaciones", "slides", "libreoffice impress"));
@@ -129,14 +124,13 @@ public class MatchService {
         private String ciudad;
         private Integer edadMin;
         private Integer edadMax;
-        private String genero; // "MASCULINO", "FEMENINO", "AMBOS"
+        private String genero;
 
         public CriteriosMatch() {
             this.idiomas = new ArrayList<>();
             this.genero = "AMBOS";
         }
 
-        // Getters y Setters
         public String getPuesto() { return puesto; }
         public void setPuesto(String puesto) { this.puesto = puesto; }
         public String getHerramientas() { return herramientas; }
@@ -165,7 +159,7 @@ public class MatchService {
 
         for (Trabajador t : todos) {
             MatchResult result = calcularMatch(t, criterios);
-            if (result.getPuntaje() > 0) {
+            if (result != null && result.getPuntaje() > 0) {
                 resultados.add(result);
             }
         }
@@ -175,6 +169,16 @@ public class MatchService {
     }
 
     public MatchResult calcularMatch(Trabajador trabajador, CriteriosMatch criterios) {
+        // Verificación rápida de edad fuera de rango
+        if ((criterios.getEdadMin() != null || criterios.getEdadMax() != null)) {
+            int edad = trabajador.getEdad();
+            int min = criterios.getEdadMin() != null ? criterios.getEdadMin() : 18;
+            int max = criterios.getEdadMax() != null ? criterios.getEdadMax() : 99;
+            if (edad < min || edad > max) {
+                return null; // Excluir completamente
+            }
+        }
+
         Map<String, Integer> desglose = new HashMap<>();
         List<String> coincidencias = new ArrayList<>();
         List<String> faltantes = new ArrayList<>();
@@ -182,7 +186,7 @@ public class MatchService {
         int puntajeTotal = 0;
         int maxPuntaje = 0;
 
-        // 1. Puesto con palabras similares (15 puntos)
+        // 1. Puesto (15 puntos)
         maxPuntaje += 15;
         int puntajePuesto = calcularPuntajePuesto(trabajador, criterios);
         puntajeTotal += puntajePuesto;
@@ -192,7 +196,7 @@ public class MatchService {
         else if (puntajePuesto > 0) coincidencias.add("✅ Puesto relacionado");
         else faltantes.add("❌ Puesto no relacionado con su perfil");
 
-        // 2. Herramientas con similitud (12 puntos)
+        // 2. Herramientas (12 puntos)
         maxPuntaje += 12;
         int puntajeHerramientas = calcularPuntajeHerramientas(trabajador, criterios);
         puntajeTotal += puntajeHerramientas;
@@ -212,7 +216,7 @@ public class MatchService {
         else if (puntajeIdiomas > 0) coincidencias.add("✅ Tiene conocimientos de idiomas");
         else faltantes.add("❌ No domina los idiomas requeridos");
 
-        // 4. Nivel de estudio (10 puntos)
+        // 4. Nivel estudio (10 puntos)
         maxPuntaje += 10;
         int puntajeEstudio = calcularPuntajeEstudio(trabajador, criterios);
         puntajeTotal += puntajeEstudio;
@@ -232,15 +236,14 @@ public class MatchService {
         else if (puntajeExperiencia > 0) coincidencias.add("✅ Experiencia cercana al requisito");
         else faltantes.add("❌ Experiencia insuficiente");
 
-        // 6. Edad (8 puntos)
+        // 6. Edad (8 puntos) - Ya filtramos fuera de rango arriba
         maxPuntaje += 8;
         int puntajeEdad = calcularPuntajeEdad(trabajador, criterios);
         puntajeTotal += puntajeEdad;
         desglose.put("edad", puntajeEdad);
         if (puntajeEdad > 5) coincidencias.add("✅ Edad ideal para el puesto");
         else if (puntajeEdad > 2) coincidencias.add("✅ Edad aceptable");
-        else if (puntajeEdad > 0) coincidencias.add("✅ Edad dentro del rango");
-        else faltantes.add("❌ Edad fuera del rango deseado");
+        else coincidencias.add("✅ Edad dentro del rango");
 
         // 7. Género (5 puntos)
         maxPuntaje += 5;
@@ -249,7 +252,7 @@ public class MatchService {
         desglose.put("genero", puntajeGenero);
         if (puntajeGenero > 0) coincidencias.add("✅ Género coincide con lo buscado");
 
-        // 8. Ubicación (20 puntos) - LA MÁS IMPORTANTE
+        // 8. Ubicación (20 puntos)
         maxPuntaje += 20;
         int puntajeUbicacion = calcularPuntajeUbicacion(trabajador, criterios);
         puntajeTotal += puntajeUbicacion;
@@ -265,9 +268,34 @@ public class MatchService {
         return new MatchResult(trabajador, porcentaje, coincidencias, faltantes, desglose);
     }
 
+    private int calcularPuntajeEdad(Trabajador trabajador, CriteriosMatch criterios) {
+        // Si no hay filtro de edad, puntaje completo
+        if (criterios.getEdadMin() == null && criterios.getEdadMax() == null) {
+            return 8;
+        }
+
+        int edad = trabajador.getEdad();
+        int min = criterios.getEdadMin() != null ? criterios.getEdadMin() : 18;
+        int max = criterios.getEdadMax() != null ? criterios.getEdadMax() : 99;
+
+        // La edad ya está validada arriba, pero por seguridad
+        if (edad < min || edad > max) {
+            return 0;
+        }
+
+        // Calcular puntaje basado en qué tan cerca está del centro del rango
+        int centro = (min + max) / 2;
+        int distancia = Math.abs(edad - centro);
+        int rango = (max - min) / 2;
+        if (rango == 0) rango = 1;
+
+        int puntaje = 8 - (distancia * 8 / rango);
+        return Math.max(4, puntaje);
+    }
+
     private int calcularPuntajePuesto(Trabajador trabajador, CriteriosMatch criterios) {
         if (criterios.getPuesto() == null || criterios.getPuesto().isEmpty()) {
-            return 15; // Sin filtro, puntaje completo
+            return 15;
         }
 
         String puestoReq = criterios.getPuesto().toLowerCase();
@@ -275,12 +303,10 @@ public class MatchService {
         String experiencia = trabajador.getExperienciaLaboral() != null ? trabajador.getExperienciaLaboral().toLowerCase() : "";
         String habilidades = trabajador.getHabilidades() != null ? trabajador.getHabilidades().toLowerCase() : "";
 
-        // Coincidencia exacta
         if (especialidad.contains(puestoReq) || experiencia.contains(puestoReq)) {
             return 15;
         }
 
-        // Buscar palabras clave del puesto
         String[] palabrasPuesto = puestoReq.split("\\s+");
         int coincidencias = 0;
         for (String palabra : palabrasPuesto) {
@@ -288,7 +314,6 @@ public class MatchService {
                 if (especialidad.contains(palabra) || experiencia.contains(palabra) || habilidades.contains(palabra)) {
                     coincidencias++;
                 }
-                // Buscar sinónimos
                 List<String> sinonimos = SINONIMOS_PUESTOS.get(palabra);
                 if (sinonimos != null) {
                     for (String sin : sinonimos) {
@@ -305,7 +330,7 @@ public class MatchService {
             return (coincidencias * 15) / palabrasPuesto.length;
         }
 
-        return 5; // Coincidencia parcial baja
+        return 5;
     }
 
     private int calcularPuntajeHerramientas(Trabajador trabajador, CriteriosMatch criterios) {
@@ -324,7 +349,6 @@ public class MatchService {
             if (herramientasTrabajador.contains(herramientaLimpia)) {
                 puntaje += 3;
             } else {
-                // Buscar sinónimos
                 List<String> sinonimos = SINONIMOS_HERRAMIENTAS.get(herramientaLimpia);
                 if (sinonimos != null) {
                     for (String sin : sinonimos) {
@@ -400,30 +424,6 @@ public class MatchService {
         return 1;
     }
 
-    private int calcularPuntajeEdad(Trabajador trabajador, CriteriosMatch criterios) {
-        if (criterios.getEdadMin() == null && criterios.getEdadMax() == null) {
-            return 8;
-        }
-
-        int edad = trabajador.getEdad();
-        int min = criterios.getEdadMin() != null ? criterios.getEdadMin() : 18;
-        int max = criterios.getEdadMax() != null ? criterios.getEdadMax() : 99;
-
-        if (edad >= min && edad <= max) {
-            // Entre más cerca del centro del rango, mejor puntaje
-            int centro = (min + max) / 2;
-            int distancia = Math.abs(edad - centro);
-            int rango = (max - min) / 2;
-            if (rango == 0) rango = 1;
-            int puntaje = 8 - (distancia * 8 / rango);
-            return Math.max(4, puntaje);
-        } else if (edad < min) {
-            return Math.max(2, 6 - (min - edad));
-        } else {
-            return Math.max(2, 6 - (edad - max));
-        }
-    }
-
     private int calcularPuntajeGenero(Trabajador trabajador, CriteriosMatch criterios) {
         if (criterios.getGenero() == null || "AMBOS".equals(criterios.getGenero())) {
             return 5;
@@ -442,25 +442,22 @@ public class MatchService {
 
         if ((ciudadVacante == null || ciudadVacante.isEmpty() || "Todas".equals(ciudadVacante)) &&
                 (municipioVacante == null || municipioVacante.isEmpty() || "Todos".equals(municipioVacante))) {
-            return 20; // Sin restricción de ubicación
+            return 20;
         }
 
         String ciudadTrabajador = trabajador.getCiudad() != null ? trabajador.getCiudad().getNombreCiudad() : "";
         String municipioTrabajador = trabajador.getMunicipio() != null ? trabajador.getMunicipio().getNombreMunicipio() : "";
 
-        // Misma ciudad exacta
         if (!ciudadVacante.isEmpty() && !"Todas".equals(ciudadVacante) &&
                 ciudadTrabajador.equalsIgnoreCase(ciudadVacante)) {
             return 20;
         }
 
-        // Mismo municipio
         if (!municipioVacante.isEmpty() && !"Todos".equals(municipioVacante) &&
                 municipioTrabajador.equalsIgnoreCase(municipioVacante)) {
             return 18;
         }
 
-        // Calcular distancia si es posible
         if (!ciudadTrabajador.isEmpty() && !ciudadVacante.isEmpty() && !"Todas".equals(ciudadVacante)) {
             Map<String, Integer> distanciasDesde = DISTANCIAS.get(ciudadTrabajador);
             if (distanciasDesde != null && distanciasDesde.containsKey(ciudadVacante)) {
@@ -474,6 +471,6 @@ public class MatchService {
             }
         }
 
-        return 5; // Puntaje base por disposición a reubicarse
+        return 5;
     }
 }

@@ -43,12 +43,23 @@ public class DetalleTrabajadorController {
     private Postulacion postulacion;
     private PostulacionService postulacionService = new PostulacionService();
     private PostulantesController postulantesController;
-    private String origen;
+    private String origen; // "postulantes", "trabajadoresDisponibles", "match"
 
     public void setTrabajador(Trabajador trabajador) {
         this.trabajador = trabajador;
         this.postulacion = null;
         this.origen = "trabajadoresDisponibles";
+        if (trabajador != null) {
+            mostrarDetalles();
+            if (aceptarButton != null) aceptarButton.setVisible(false);
+            if (rechazarButton != null) rechazarButton.setVisible(false);
+        }
+    }
+
+    public void setTrabajadorDesdeMatch(Trabajador trabajador) {
+        this.trabajador = trabajador;
+        this.postulacion = null;
+        this.origen = "match";
         if (trabajador != null) {
             mostrarDetalles();
             if (aceptarButton != null) aceptarButton.setVisible(false);
@@ -240,8 +251,16 @@ public class DetalleTrabajadorController {
     @FXML
     private void onVolverClick() {
         try {
-            if ("postulantes".equals(origen)) {
-                // Volver a DetalleFormulario (que contiene el botón de postulantes)
+            if ("match".equals(origen)) {
+                // Volver al Match de Talento
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/MatchTrabajadores.fxml"));
+                Parent root = loader.load();
+                Stage stage = (Stage) volverButton.getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.setMaximized(true);
+                stage.setTitle("Match de Talento");
+            } else if ("postulantes".equals(origen)) {
+                // Volver a DetalleFormulario
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/DetalleFormulario.fxml"));
                 Parent root = loader.load();
 
@@ -255,17 +274,15 @@ public class DetalleTrabajadorController {
                 stage.setScene(new Scene(root));
                 stage.setMaximized(true);
                 stage.setTitle("Detalle de Oferta");
-
             } else {
+                // Volver a Empresas (desde trabajadoresDisponibles)
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/Empresas.fxml"));
                 Parent root = loader.load();
-
                 Stage stage = (Stage) volverButton.getScene().getWindow();
                 stage.setScene(new Scene(root));
                 stage.setMaximized(true);
                 stage.setTitle("Panel de Empresas");
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             Stage stage = (Stage) volverButton.getScene().getWindow();

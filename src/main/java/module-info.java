@@ -8,6 +8,8 @@ module com.example.trabajos {
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
     requires java.mail;
+    requires javafx.swing;
+    requires webcam.capture;
 
     // Abrir paquetes para Hibernate
     opens com.example.trabajos.models to org.hibernate.orm.core, javafx.base;

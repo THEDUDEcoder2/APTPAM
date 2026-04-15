@@ -2,6 +2,7 @@ package com.example.trabajos.models;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,6 +91,10 @@ public class Trabajador {
     @Column(name = "Contrasena")
     private String contrasena;
 
+    @Lob
+    @Column(name = "foto_perfil", columnDefinition = "LONGBLOB")
+    private byte[] fotoPerfil;
+
     @OneToMany(mappedBy = "trabajador", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TrabajadorIdioma> trabajadorIdiomas = new ArrayList<>();
 
@@ -108,6 +113,7 @@ public class Trabajador {
         this.contrasena = contrasena;
     }
 
+    // Getters y Setters
     public Integer getIdTrabajador() {
         return idTrabajador;
     }
@@ -308,6 +314,14 @@ public class Trabajador {
         this.contrasena = contrasena;
     }
 
+    public byte[] getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(byte[] fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
+    }
+
     public List<TrabajadorIdioma> getTrabajadorIdiomas() {
         return trabajadorIdiomas;
     }
@@ -325,7 +339,14 @@ public class Trabajador {
     }
 
     public String getNombreCompleto() {
-        return nombre + " " + apellidoPaterno + (apellidoMaterno != null && !apellidoMaterno.isEmpty() ? " " + apellidoMaterno : "");
+        String nombreCompleto = nombre;
+        if (apellidoPaterno != null && !apellidoPaterno.isEmpty()) {
+            nombreCompleto += " " + apellidoPaterno;
+        }
+        if (apellidoMaterno != null && !apellidoMaterno.isEmpty()) {
+            nombreCompleto += " " + apellidoMaterno;
+        }
+        return nombreCompleto;
     }
 
     public String getDomicilioCompleto() {
@@ -346,6 +367,6 @@ public class Trabajador {
 
     public int getEdad() {
         if (fechaNacimiento == null) return 0;
-        return LocalDate.now().getYear() - fechaNacimiento.getYear();
+        return Period.between(fechaNacimiento, LocalDate.now()).getYears();
     }
 }

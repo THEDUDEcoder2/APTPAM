@@ -21,6 +21,7 @@ public class EmpresasController {
     @FXML private Button volverButton;
     @FXML private Button editarPerfilButton;
     @FXML private Button matchButton;
+    @FXML private Button refrescarButton;  // NUEVO
     @FXML private TabPane tabPane;
     @FXML private Tab llenarFormularioTab;
     @FXML private Tab abrirFormularioTab;
@@ -162,6 +163,33 @@ public class EmpresasController {
         trabajadoresDisponiblesController.setTotalTrabajadoresLabel(totalTrabajadoresLabel);
 
         trabajadoresDisponiblesController.initialize();
+    }
+
+    @FXML
+    protected void onRefrescarClick() {
+        // Refrescar la tabla de ofertas guardadas
+        if (formulariosTableController != null) {
+            formulariosTableController.refrescarTabla();
+            mostrarMensajeTemporal("✅ Lista de ofertas actualizada");
+        }
+    }
+
+    private void mostrarMensajeTemporal(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Información");
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+
+        // Cerrar automáticamente después de 1.5 segundos
+        new Thread(() -> {
+            try {
+                Thread.sleep(1500);
+                javafx.application.Platform.runLater(() -> alert.close());
+            } catch (InterruptedException e) {
+                // Ignorar
+            }
+        }).start();
     }
 
     @FXML

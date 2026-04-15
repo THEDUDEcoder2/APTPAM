@@ -32,11 +32,13 @@ public class FormularioPrivadoController {
     @FXML private HBox otroTrabajoContainer;
     @FXML private TextField sueldoField;
     @FXML private ComboBox<String> tipoSalarioComboBox;
+    @FXML private TextArea descripcionArea;
     @FXML private TextArea mensajePersonalArea;
     @FXML private Label mensajeLabel;
 
     private com.example.trabajos.models.Trabajador trabajadorDestino;
     private com.example.trabajos.models.Empresa empresaActual;
+    private boolean desdeMatch = false;  // NUEVO: para saber si viene del Match
 
     private EmpresaService empresaService = new EmpresaService();
     private OfertaService ofertaService = new OfertaService();
@@ -57,6 +59,13 @@ public class FormularioPrivadoController {
 
     public void setTrabajadorDestino(com.example.trabajos.models.Trabajador trabajador) {
         this.trabajadorDestino = trabajador;
+        this.desdeMatch = false;  // NUEVO: viene de Empresas
+        actualizarInfoTrabajador();
+    }
+
+    public void setTrabajadorDestinoDesdeMatch(com.example.trabajos.models.Trabajador trabajador) {
+        this.trabajadorDestino = trabajador;
+        this.desdeMatch = true;   // NUEVO: viene del Match
         actualizarInfoTrabajador();
     }
 
@@ -128,6 +137,7 @@ public class FormularioPrivadoController {
 
         configurarCampoTexto(herramientasField);
         configurarCampoTexto(otroTrabajoField);
+        configurarTextArea(descripcionArea);
         configurarTextArea(mensajePersonalArea);
     }
 
@@ -182,7 +192,7 @@ public class FormularioPrivadoController {
             nuevaOferta.setEmpresa(empresaActual);
             nuevaOferta.setTrabajadorDestino(trabajadorDestino);
             nuevaOferta.setPuesto_trabajo(puestoFinal);
-            nuevaOferta.setDescripcion_trabajo(formatearPrimeraLetraMayuscula(mensajePersonalArea.getText()));
+            nuevaOferta.setDescripcion_trabajo(formatearPrimeraLetraMayuscula(descripcionArea.getText()));
             nuevaOferta.setExperiencia("No especificada");
             nuevaOferta.setJornada_laboral(horarioCompleto);
             nuevaOferta.setNivel_estudio("No especificado");
@@ -204,6 +214,7 @@ public class FormularioPrivadoController {
             postulacion.setOferta(ofertaPersistida);
             postulacion.setEstado("PENDIENTE");
             postulacion.setFechaPostulacion(LocalDateTime.now());
+
             postulacionService.guardarPostulacion(postulacion);
 
             String nombreTrabajador = trabajadorDestino.getNombre();
@@ -218,12 +229,12 @@ public class FormularioPrivadoController {
                     Thread.sleep(1500);
                     javafx.application.Platform.runLater(() -> {
                         Stage stage = (Stage) mensajeLabel.getScene().getWindow();
-                        volverAEmpresas(stage);
+                        volverAOrigen(stage);
                     });
                 } catch (Exception e) {
                     javafx.application.Platform.runLater(() -> {
                         Stage stage = (Stage) mensajeLabel.getScene().getWindow();
-                        volverAEmpresas(stage);
+                        volverAOrigen(stage);
                     });
                 }
             }).start();
@@ -234,13 +245,22 @@ public class FormularioPrivadoController {
         }
     }
 
-    private void volverAEmpresas(Stage stage) {
+    // NUEVO MÉTODO: decide a dónde volver según el origen
+    private void volverAOrigen(Stage stage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/Empresas.fxml"));
-            Parent root = loader.load();
-            stage.setScene(new Scene(root));
-            stage.setMaximized(true);
-            stage.setTitle("Panel de Empresas");
+            if (desdeMatch) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/MatchTrabajadores.fxml"));
+                Parent root = loader.load();
+                stage.setScene(new Scene(root));
+                stage.setMaximized(true);
+                stage.setTitle("Match de Talento");
+            } else {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/Empresas.fxml"));
+                Parent root = loader.load();
+                stage.setScene(new Scene(root));
+                stage.setMaximized(true);
+                stage.setTitle("Panel de Empresas");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -252,9 +272,16 @@ public class FormularioPrivadoController {
                 tipoTrabajoComboBox.getValue() == null ||
                 horarioEntradaComboBox.getValue() == null ||
                 horarioSalidaComboBox.getValue() == null ||
+                descripcionArea.getText().isEmpty() ||
                 mensajePersonalArea.getText().isEmpty()) {
 
-            mostrarError("Por favor, completa todos los campos obligatorios.");
+            mostrarError("Por favor, completa todos los campos obligatorios:\n\n" +
+                    "• Herramientas/Equipo\n" +
+                    "• Sueldo\n" +
+                    "• Puesto\n" +
+                    "• Horario\n" +
+                    "• Descripción del puesto\n" +
+                    "• Mensaje personal");
             return false;
         }
         return true;
@@ -275,6 +302,6 @@ public class FormularioPrivadoController {
     @FXML
     private void onCancelarClick() {
         Stage stage = (Stage) mensajeLabel.getScene().getWindow();
-        volverAEmpresas(stage);
+        volverAOrigen(stage);
     }
 }
