@@ -33,12 +33,24 @@
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <Image url="@assets/WhatsApp_Image_2026-03-24_at_12.15.37-removebg-preview.png" />
             </ImageView>
+
+            <!-- SECCIÓN DE FOTO DE PERFIL -->
+            <VBox spacing="8.0" alignment="CENTER">
+               <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;" text="📷 Foto de perfil" />
+               <ImageView fx:id="imageViewFoto" fitHeight="120.0" fitWidth="120.0" preserveRatio="true" style="-fx-background-color: #f0f4fa; -fx-border-color: #b8cfe8; -fx-border-radius: 60; -fx-background-radius: 60; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 5, 0, 0, 2);">
+                  <Image url="@assets/default-avatar.png" />
+               </ImageView>
+               <Button fx:id="btnTomarFoto" onAction="#onTomarFotoClick" prefHeight="32.0" prefWidth="180.0" styleClass="btn-azul" text="📷 Tomar foto con cámara" />
+               <Button fx:id="btnSubirFoto" onAction="#onSubirFotoClick" prefHeight="32.0" prefWidth="180.0" styleClass="btn-gris" text="📁 Subir foto desde archivo" />
+            </VBox>
+
             <Label alignment="CENTER" prefWidth="210.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;" text="Registro de trabajador" wrapText="true" />
             <Region VBox.vgrow="ALWAYS" />
             <Button fx:id="volverButton" onAction="#onRegresarClick" prefHeight="55.0" prefWidth="225.0" styleClass="btn-azul" text="← Regresar" />
          </children>
       </VBox>
 
+      <!-- El resto del VBox central sigue igual -->
       <VBox layoutX="293.0" layoutY="56.0" prefHeight="745.0" prefWidth="920.0" spacing="14.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
          <padding><Insets bottom="32.0" left="36.0" right="36.0" top="28.0" /></padding>
 
@@ -142,8 +154,8 @@
          <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Completa todos los campos requeridos." wrapText="true" /></HBox>
          <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Usa un correo válido y activo." wrapText="true" /></HBox>
          <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Describe bien tu experiencia y habilidades." wrapText="true" /></HBox>
+         <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Agrega una foto de perfil para destacar." wrapText="true" /></HBox>
          <Region VBox.vgrow="ALWAYS" />
-
       </VBox>
 
    </children>
