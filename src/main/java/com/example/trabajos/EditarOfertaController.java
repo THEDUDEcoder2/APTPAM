@@ -57,16 +57,12 @@ public class EditarOfertaController {
 
     @FXML
     public void initialize() {
-        System.out.println("=== INICIALIZANDO EditarOfertaController ===");
         configurarCombos();
         cargarEmpresaActual();
     }
 
     public void setOferta(Oferta oferta) {
         this.ofertaOriginal = oferta;
-        System.out.println("=== OFERTA RECIBIDA PARA EDITAR ===");
-        System.out.println("ID: " + oferta.getIdOferta());
-        System.out.println("Puesto: " + oferta.getPuesto_trabajo());
         cargarDatosOferta();
     }
 
@@ -86,10 +82,7 @@ public class EditarOfertaController {
     }
 
     private void cargarDatosOferta() {
-        if (ofertaOriginal == null) {
-            System.out.println("❌ ofertaOriginal es NULL");
-            return;
-        }
+        if (ofertaOriginal == null) return;
 
         herramientaField.setText("No especificado");
 
@@ -125,11 +118,10 @@ public class EditarOfertaController {
             otroTrabajoContainer.setManaged(true);
         }
 
-        // Sueldo - NOTA: El modelo Oferta no tiene campo de monto, solo tipo de salario
-        // Por ahora dejamos el campo de sueldo vacío o con un valor por defecto
-        // Si tu modelo tiene un campo para el monto, descomenta la línea correspondiente
-        sueldoField.setText(""); // Oferta no tiene monto de sueldo en el modelo
-        sueldoField.setPromptText("Ej: 8500 (opcional)");
+        // Sueldo
+        if (ofertaOriginal.getSueldo() != null) {
+            sueldoField.setText(String.valueOf(ofertaOriginal.getSueldo()));
+        }
 
         // Tipo de salario
         if (ofertaOriginal.getSalario() != null) {
@@ -144,14 +136,9 @@ public class EditarOfertaController {
 
         // Descripción
         descripcionArea.setText(ofertaOriginal.getDescripcion_trabajo());
-
-        System.out.println("=== DATOS CARGADOS CORRECTAMENTE ===");
-        System.out.println("Tipo salario: " + (ofertaOriginal.getSalario() != null ? ofertaOriginal.getSalario().getTipoSalario() : "null"));
-        System.out.println("Nivel estudio: " + ofertaOriginal.getNivel_estudio());
     }
 
     private void configurarCombos() {
-        // Nivel estudio
         if (nivelEstudioComboBox != null) {
             nivelEstudioComboBox.getItems().addAll(
                     "Primaria", "Secundaria", "Bachillerato", "Técnico",
@@ -159,12 +146,10 @@ public class EditarOfertaController {
             );
         }
 
-        // Tipo salario
         if (tipoSalarioComboBox != null) {
             tipoSalarioComboBox.getItems().addAll("Semanal", "Quincenal", "Mensual");
         }
 
-        // Tipo trabajo
         if (tipoTrabajoComboBox != null) {
             tipoTrabajoComboBox.getItems().addAll(
                     "Asesor/Consultor", "Atención al cliente", "Vigilancia/Recepcionista",
@@ -186,7 +171,6 @@ public class EditarOfertaController {
             });
         }
 
-        // Horarios
         if (horarioEntradaComboBox != null && horarioSalidaComboBox != null) {
             List<String> horas = new ArrayList<>();
             for (int i = 7; i < 21; i++) {
@@ -198,7 +182,6 @@ public class EditarOfertaController {
             horarioSalidaComboBox.getItems().addAll(horas);
         }
 
-        // Cantidad idiomas
         if (cantidadIdiomasComboBox != null) {
             cantidadIdiomasComboBox.getItems().addAll("0", "1", "2", "3", "4", "5");
             cantidadIdiomasComboBox.setValue("0");
@@ -239,14 +222,7 @@ public class EditarOfertaController {
 
     @FXML
     private void onGuardarClick() {
-        System.out.println("=== BOTÓN GUARDAR CLICKEADO ===");
-
-        if (!validarCampos()) {
-            System.out.println("❌ Validación fallida");
-            return;
-        }
-
-        System.out.println("✅ Validación exitosa");
+        if (!validarCampos()) return;
 
         try {
             String puestoFinal = "Otro".equals(tipoTrabajoComboBox.getValue())
@@ -255,16 +231,24 @@ public class EditarOfertaController {
 
             String horarioCompleto = horarioEntradaComboBox.getValue() + " - " + horarioSalidaComboBox.getValue();
 
-            System.out.println("Guardando - Puesto: " + puestoFinal);
-            System.out.println("Guardando - Horario: " + horarioCompleto);
-            System.out.println("Guardando - Tipo salario: " + tipoSalarioComboBox.getValue());
-
             // Actualizar oferta
             ofertaOriginal.setPuesto_trabajo(puestoFinal);
             ofertaOriginal.setDescripcion_trabajo(formatearPrimeraLetraMayuscula(descripcionArea.getText()));
             ofertaOriginal.setExperiencia(experienciaField.getText());
             ofertaOriginal.setJornada_laboral(horarioCompleto);
             ofertaOriginal.setNivel_estudio(nivelEstudioComboBox.getValue());
+
+            // Actualizar sueldo
+            String sueldoTexto = sueldoField.getText();
+            if (sueldoTexto != null && !sueldoTexto.isEmpty()) {
+                try {
+                    ofertaOriginal.setSueldo(Double.parseDouble(sueldoTexto));
+                } catch (NumberFormatException e) {
+                    ofertaOriginal.setSueldo(null);
+                }
+            } else {
+                ofertaOriginal.setSueldo(null);
+            }
 
             // Actualizar salario
             Salario salario = salarioService.obtenerSalarioPorTipo(tipoSalarioComboBox.getValue());
@@ -273,30 +257,21 @@ public class EditarOfertaController {
             }
             ofertaOriginal.setSalario(salario);
 
-            // NOTA: El monto del sueldo no se guarda porque el modelo Oferta no tiene ese campo
-            // Si deseas guardar el monto, necesitas agregar un campo en la tabla ofertas
-
-            System.out.println("💾 Llamando a ofertaService.actualizarOferta...");
             ofertaService.actualizarOferta(ofertaOriginal);
-            System.out.println("✅ Oferta actualizada en BD");
 
             // Actualizar idiomas
-            System.out.println("🔄 Actualizando idiomas...");
             ofertaIdiomaService.eliminarTodosIdiomasDeOferta(ofertaOriginal);
             for (ComboBox<String> comboBox : idiomasComboBoxes) {
                 if (comboBox.getValue() != null && !comboBox.getValue().isEmpty()) {
                     Idioma idioma = idiomaService.obtenerIdiomaPorNombre(comboBox.getValue());
                     if (idioma != null) {
                         ofertaIdiomaService.agregarIdiomaAOferta(ofertaOriginal, idioma);
-                        System.out.println("  ✅ Idioma agregado: " + idioma.getNombreIdioma());
                     }
                 }
             }
 
             mostrarMensaje("✅ Oferta actualizada exitosamente", "exito");
-            System.out.println("=== OFERTA GUARDADA EXITOSAMENTE ===");
 
-            // Volver a empresas después de 1.5 segundos
             new Thread(() -> {
                 try {
                     Thread.sleep(1500);
@@ -318,8 +293,6 @@ public class EditarOfertaController {
             }).start();
 
         } catch (Exception e) {
-            System.err.println("❌ Error al guardar: " + e.getMessage());
-            e.printStackTrace();
             mostrarMensaje("❌ Error al guardar: " + e.getMessage(), "error");
         }
     }
@@ -349,55 +322,29 @@ public class EditarOfertaController {
     }
 
     private void mostrarMensaje(String mensaje, String tipo) {
-        System.out.println("Mensaje: " + mensaje + " (Tipo: " + tipo + ")");
-
         if ("error".equals(tipo)) {
-            if (errorLabel != null) {
-                errorLabel.setText(mensaje);
-                errorLabel.setVisible(true);
-                errorLabel.setStyle("-fx-text-fill: #e74c3c;");
-            }
-            if (mensajeLabel != null) {
-                mensajeLabel.setVisible(false);
-            }
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText(mensaje);
-            alert.showAndWait();
-        } else if ("exito".equals(tipo)) {
-            if (mensajeLabel != null) {
-                mensajeLabel.setText(mensaje);
-                mensajeLabel.setVisible(true);
-                mensajeLabel.setStyle("-fx-text-fill: #27ae60;");
-            }
-            if (errorLabel != null) {
-                errorLabel.setVisible(false);
-            }
+            errorLabel.setText(mensaje);
+            errorLabel.setVisible(true);
+            mensajeLabel.setVisible(false);
         } else {
-            if (mensajeLabel != null) {
-                mensajeLabel.setText(mensaje);
-                mensajeLabel.setVisible(true);
-                mensajeLabel.setStyle("-fx-text-fill: #3498db;");
-            }
+            mensajeLabel.setText(mensaje);
+            mensajeLabel.setVisible(true);
+            errorLabel.setVisible(false);
         }
 
-        if (!"error".equals(tipo)) {
-            new Thread(() -> {
-                try {
-                    Thread.sleep(3000);
-                    javafx.application.Platform.runLater(() -> {
-                        if (mensajeLabel != null) mensajeLabel.setVisible(false);
-                        if (errorLabel != null) errorLabel.setVisible(false);
-                    });
-                } catch (InterruptedException e) {}
-            }).start();
-        }
+        new Thread(() -> {
+            try {
+                Thread.sleep(3000);
+                javafx.application.Platform.runLater(() -> {
+                    mensajeLabel.setVisible(false);
+                    errorLabel.setVisible(false);
+                });
+            } catch (InterruptedException e) {}
+        }).start();
     }
 
     @FXML
     private void onCancelarClick() {
-        System.out.println("=== BOTÓN CANCELAR CLICKEADO ===");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/Empresas.fxml"));
             Parent root = loader.load();

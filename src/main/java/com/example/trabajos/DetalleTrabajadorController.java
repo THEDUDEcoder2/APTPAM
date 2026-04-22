@@ -10,8 +10,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 
 public class DetalleTrabajadorController {
 
@@ -34,6 +40,7 @@ public class DetalleTrabajadorController {
     @FXML private Label discapacidadLabel;
     @FXML private Label experienciaLabel;
     @FXML private Label habilidadesLabel;
+    @FXML private ImageView fotoPerfilImageView;
 
     @FXML private Button volverButton;
     @FXML private Button aceptarButton;
@@ -43,7 +50,7 @@ public class DetalleTrabajadorController {
     private Postulacion postulacion;
     private PostulacionService postulacionService = new PostulacionService();
     private PostulantesController postulantesController;
-    private String origen; // "postulantes", "trabajadoresDisponibles", "match"
+    private String origen;
 
     public void setTrabajador(Trabajador trabajador) {
         this.trabajador = trabajador;
@@ -87,12 +94,15 @@ public class DetalleTrabajadorController {
         String nombreCompleto = trabajador.getNombre() + " " +
                 (trabajador.getApellidoPaterno() != null ? trabajador.getApellidoPaterno() : "") + " " +
                 (trabajador.getApellidoMaterno() != null ? trabajador.getApellidoMaterno() : "");
-
         if (nombreLabel != null) nombreLabel.setText(nombreCompleto.trim());
+
         if (emailLabel != null) emailLabel.setText(trabajador.getCorreoElectronico() != null ? trabajador.getCorreoElectronico() : "No especificado");
 
         if (trabajador.getFechaNacimiento() != null) {
-            if (fechaNacimientoLabel != null) fechaNacimientoLabel.setText(trabajador.getFechaNacimiento().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+            if (fechaNacimientoLabel != null) {
+                int edad = trabajador.getEdad();
+                fechaNacimientoLabel.setText(trabajador.getFechaNacimiento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " (" + edad + " años)");
+            }
         } else {
             if (fechaNacimientoLabel != null) fechaNacimientoLabel.setText("No especificado");
         }
@@ -106,6 +116,24 @@ public class DetalleTrabajadorController {
         if (codigoPostalLabel != null) codigoPostalLabel.setText(trabajador.getCodigoPostal() != null ? trabajador.getCodigoPostal() : "No especificado");
         if (telefonoLabel != null) telefonoLabel.setText(trabajador.getNumTelefono() != null ? trabajador.getNumTelefono() : "No especificado");
         if (herramientasLabel != null) herramientasLabel.setText(trabajador.getConocimientosHerramientas() != null ? trabajador.getConocimientosHerramientas() : "No especificado");
+
+        // Mostrar foto de perfil
+        if (fotoPerfilImageView != null) {
+            byte[] fotoBytes = trabajador.getFotoPerfil();
+            if (fotoBytes != null && fotoBytes.length > 0) {
+                try {
+                    Image foto = byteArrayAImagen(fotoBytes);
+                    if (foto != null && !foto.isError()) {
+                        fotoPerfilImageView.setImage(foto);
+                        fotoPerfilImageView.setFitHeight(120);
+                        fotoPerfilImageView.setFitWidth(120);
+                        fotoPerfilImageView.setPreserveRatio(true);
+                    }
+                } catch (Exception e) {
+                    System.err.println("Error al cargar foto: " + e.getMessage());
+                }
+            }
+        }
 
         String idiomasStr = "No especificado";
         if (trabajador.getTrabajadorIdiomas() != null && !trabajador.getTrabajadorIdiomas().isEmpty()) {
@@ -124,6 +152,12 @@ public class DetalleTrabajadorController {
         if (discapacidadLabel != null) discapacidadLabel.setText(trabajador.getDiscapacidad() != null ? trabajador.getDiscapacidad() : "No especificado");
         if (experienciaLabel != null) experienciaLabel.setText(trabajador.getExperienciaLaboral() != null ? trabajador.getExperienciaLaboral() : "No especificado");
         if (habilidadesLabel != null) habilidadesLabel.setText(trabajador.getHabilidades() != null ? trabajador.getHabilidades() : "No especificado");
+    }
+
+    private Image byteArrayAImagen(byte[] bytes) {
+        if (bytes == null || bytes.length == 0) return null;
+        ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+        return new Image(bis);
     }
 
     private void actualizarEstadoBotones() {
@@ -252,7 +286,6 @@ public class DetalleTrabajadorController {
     private void onVolverClick() {
         try {
             if ("match".equals(origen)) {
-                // Volver al Match de Talento
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/MatchTrabajadores.fxml"));
                 Parent root = loader.load();
                 Stage stage = (Stage) volverButton.getScene().getWindow();
@@ -260,7 +293,6 @@ public class DetalleTrabajadorController {
                 stage.setMaximized(true);
                 stage.setTitle("Match de Talento");
             } else if ("postulantes".equals(origen)) {
-                // Volver a DetalleFormulario
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/DetalleFormulario.fxml"));
                 Parent root = loader.load();
 
@@ -275,7 +307,6 @@ public class DetalleTrabajadorController {
                 stage.setMaximized(true);
                 stage.setTitle("Detalle de Oferta");
             } else {
-                // Volver a Empresas (desde trabajadoresDisponibles)
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/Empresas.fxml"));
                 Parent root = loader.load();
                 Stage stage = (Stage) volverButton.getScene().getWindow();

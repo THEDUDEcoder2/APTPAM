@@ -21,18 +21,9 @@ public class OfertaService {
                 oferta = entityManager.merge(oferta);
             }
             entityManager.flush();
-
             entityManager.getTransaction().commit();
 
-            String tipoInfo = oferta.getTipoOferta() != null ? oferta.getTipoOferta() : "PUBLICA";
-            String destinoInfo = "";
-            if (oferta.getTrabajadorDestino() != null) {
-                destinoInfo = " para " + oferta.getTrabajadorDestino().getNombre() + " " +
-                        (oferta.getTrabajadorDestino().getApellidoPaterno() != null ? oferta.getTrabajadorDestino().getApellidoPaterno() : "");
-            }
-
-            System.out.println("✅ Oferta guardada: " + oferta.getPuesto_trabajo() +
-                    " (" + tipoInfo + ")" + destinoInfo);
+            System.out.println("✅ Oferta guardada: " + oferta.getPuesto_trabajo() + " | Sueldo: " + oferta.getSueldo());
             return oferta;
         } catch (Exception ex) {
             if (entityManager.getTransaction().isActive()) {
@@ -54,7 +45,6 @@ public class OfertaService {
         }
     }
 
-    // Obtener SOLO ofertas públicas (sin trabajador destino)
     public List<Oferta> obtenerOfertasPublicas() {
         EntityManager entityManager = HibernateUtil.getEntityManagerFactory().createEntityManager();
         try {
@@ -63,6 +53,11 @@ public class OfertaService {
                             Oferta.class)
                     .getResultList();
 
+            // Forzar carga del sueldo
+            for (Oferta o : ofertas) {
+                o.getSueldo();
+            }
+
             System.out.println("📋 Ofertas públicas encontradas: " + ofertas.size());
             return ofertas;
         } finally {
@@ -70,22 +65,17 @@ public class OfertaService {
         }
     }
 
-    // Obtener SOLO ofertas privadas para un trabajador específico
     public List<Oferta> obtenerOfertasPrivadasPorTrabajador(Trabajador trabajador) {
         EntityManager entityManager = HibernateUtil.getEntityManagerFactory().createEntityManager();
         try {
-            String jpql = "SELECT o FROM Oferta o WHERE o.tipoOferta = 'PRIVADA' AND o.trabajadorDestino.idTrabajador = :idTrabajador ORDER BY o.fecha_publicacion DESC";
-
-            List<Oferta> ofertas = entityManager.createQuery(jpql, Oferta.class)
+            List<Oferta> ofertas = entityManager.createQuery(
+                            "SELECT o FROM Oferta o WHERE o.tipoOferta = 'PRIVADA' AND o.trabajadorDestino.idTrabajador = :idTrabajador ORDER BY o.fecha_publicacion DESC",
+                            Oferta.class)
                     .setParameter("idTrabajador", trabajador.getIdTrabajador())
                     .getResultList();
 
-            System.out.println("🔍 Buscando ofertas privadas para trabajador ID: " + trabajador.getIdTrabajador());
-            System.out.println("   Encontradas: " + ofertas.size() + " ofertas privadas");
-
             for (Oferta o : ofertas) {
-                System.out.println("   - ID: " + o.getIdOferta() + " | Puesto: " + o.getPuesto_trabajo() +
-                        " | Empresa: " + (o.getEmpresa() != null ? o.getEmpresa().getNombreEmpresa() : "?"));
+                o.getSueldo();
             }
 
             return ofertas;
@@ -97,7 +87,11 @@ public class OfertaService {
     public Oferta obtenerOfertaPorId(int id) {
         EntityManager entityManager = HibernateUtil.getEntityManagerFactory().createEntityManager();
         try {
-            return entityManager.find(Oferta.class, id);
+            Oferta oferta = entityManager.find(Oferta.class, id);
+            if (oferta != null) {
+                oferta.getSueldo(); // Forzar carga
+            }
+            return oferta;
         } finally {
             entityManager.close();
         }
@@ -112,13 +106,8 @@ public class OfertaService {
                     .setParameter("empresa", empresa)
                     .getResultList();
 
-            System.out.println("=== OFERTAS PARA EMPRESA: " + (empresa != null ? empresa.getNombreEmpresa() : "null") + " ===");
-            System.out.println("Total de ofertas encontradas: " + ofertas.size());
-
             for (Oferta o : ofertas) {
-                System.out.println("  - ID: " + o.getIdOferta() +
-                        " | Puesto: " + o.getPuesto_trabajo() +
-                        " | TipoOferta: " + o.getTipoOferta());
+                o.getSueldo();
             }
 
             return ofertas;
@@ -133,13 +122,11 @@ public class OfertaService {
             entityManager.getTransaction().begin();
             entityManager.merge(oferta);
             entityManager.getTransaction().commit();
-            System.out.println("✅ Oferta actualizada: " + oferta.getPuesto_trabajo() + " (ID: " + oferta.getIdOferta() + ")");
+            System.out.println("✅ Oferta actualizada: " + oferta.getPuesto_trabajo() + " | Sueldo: " + oferta.getSueldo());
         } catch (Exception ex) {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
             }
-            System.err.println("❌ Error al actualizar oferta: " + ex.getMessage());
-            ex.printStackTrace();
             throw ex;
         } finally {
             entityManager.close();
@@ -153,14 +140,12 @@ public class OfertaService {
             Oferta oferta = entityManager.find(Oferta.class, id);
             if (oferta != null) {
                 entityManager.remove(oferta);
-                System.out.println("✅ Oferta eliminada: " + oferta.getPuesto_trabajo() + " (ID: " + id + ")");
             }
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
             }
-            System.err.println("❌ Error al eliminar oferta: " + ex.getMessage());
             throw ex;
         } finally {
             entityManager.close();

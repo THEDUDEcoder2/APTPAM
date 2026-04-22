@@ -21,11 +21,10 @@ public class Oferta {
     @JoinColumn(name = "ID_salario")
     private Salario salario;
 
-        @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_estado_contratacion")
     private EstadoContratacion estadoContratacion;
 
-    // Relación con trabajador para ofertas privadas (misma entidad Trabajador)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_trabajador_destino")
     private Trabajador trabajadorDestino;
@@ -52,10 +51,13 @@ public class Oferta {
     private LocalDate fecha_publicacion;
 
     @Column(name = "Tipo_oferta", nullable = false)
-    private String tipoOferta; // "PUBLICA" o "PRIVADA"
+    private String tipoOferta;
 
     @Column(name = "Mensaje_personal", columnDefinition = "TEXT")
     private String mensajePersonal;
+
+    @Column(name = "Sueldo")  // Atención: Mayúscula 'S' para que coincida con MySQL
+    private Double sueldo;
 
     @OneToMany(mappedBy = "oferta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OfertaIdioma> ofertaIdiomas = new ArrayList<>();
@@ -70,16 +72,12 @@ public class Oferta {
     // Getters y Setters
     public Integer getIdOferta() { return idOferta; }
     public void setIdOferta(Integer idOferta) { this.idOferta = idOferta; }
-
     public Empresa getEmpresa() { return empresa; }
     public void setEmpresa(Empresa empresa) { this.empresa = empresa; }
-
     public Salario getSalario() { return salario; }
     public void setSalario(Salario salario) { this.salario = salario; }
-
     public EstadoContratacion getEstadoContratacion() { return estadoContratacion; }
     public void setEstadoContratacion(EstadoContratacion estadoContratacion) { this.estadoContratacion = estadoContratacion; }
-
     public Trabajador getTrabajadorDestino() { return trabajadorDestino; }
     public void setTrabajadorDestino(Trabajador trabajadorDestino) {
         this.trabajadorDestino = trabajadorDestino;
@@ -87,37 +85,28 @@ public class Oferta {
             this.tipoOferta = "PRIVADA";
         }
     }
-
     public String getPuesto_trabajo() { return puesto_trabajo; }
     public void setPuesto_trabajo(String puesto_trabajo) { this.puesto_trabajo = puesto_trabajo; }
-
     public String getDescripcion_trabajo() { return descripcion_trabajo; }
     public void setDescripcion_trabajo(String descripcion_trabajo) { this.descripcion_trabajo = descripcion_trabajo; }
-
     public String getExperiencia() { return experiencia; }
     public void setExperiencia(String experiencia) { this.experiencia = experiencia; }
-
     public String getJornada_laboral() { return jornada_laboral; }
     public void setJornada_laboral(String jornada_laboral) { this.jornada_laboral = jornada_laboral; }
-
     public String getNivel_estudio() { return nivel_estudio; }
     public void setNivel_estudio(String nivel_estudio) { this.nivel_estudio = nivel_estudio; }
-
     public Integer getCantidad() { return cantidad; }
     public void setCantidad(Integer cantidad) { this.cantidad = cantidad; }
-
     public LocalDate getFecha_publicacion() { return fecha_publicacion; }
     public void setFecha_publicacion(LocalDate fecha_publicacion) { this.fecha_publicacion = fecha_publicacion; }
-
     public String getTipoOferta() { return tipoOferta; }
     public void setTipoOferta(String tipoOferta) { this.tipoOferta = tipoOferta; }
-
     public String getMensajePersonal() { return mensajePersonal; }
     public void setMensajePersonal(String mensajePersonal) { this.mensajePersonal = mensajePersonal; }
-
+    public Double getSueldo() { return sueldo; }
+    public void setSueldo(Double sueldo) { this.sueldo = sueldo; }
     public List<OfertaIdioma> getOfertaIdiomas() { return ofertaIdiomas; }
     public void setOfertaIdiomas(List<OfertaIdioma> ofertaIdiomas) { this.ofertaIdiomas = ofertaIdiomas; }
-
     public List<Postulacion> getPostulaciones() { return postulaciones; }
     public void setPostulaciones(List<Postulacion> postulaciones) { this.postulaciones = postulaciones; }
 

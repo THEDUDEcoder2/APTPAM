@@ -14,12 +14,13 @@ import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Period;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class DetalleFormularioController {
 
-    // Componentes del FXML
     @FXML private Label nombreEmpresaLabel;
     @FXML private Label herramientaLabel;
     @FXML private Label idiomasLabel;
@@ -38,10 +39,10 @@ public class DetalleFormularioController {
     @FXML private Tab detalleTab;
     @FXML private Tab postulantesTab;
 
-    // Componentes de la tabla de postulantes
     @FXML private TableView<Postulacion> postulantesTable;
     @FXML private TableColumn<Postulacion, String> nombreColumn;
     @FXML private TableColumn<Postulacion, String> telefonoColumn;
+    @FXML private TableColumn<Postulacion, String> edadColumn;
     @FXML private TableColumn<Postulacion, String> estadoColumn;
     @FXML private TableColumn<Postulacion, Void> accionesColumn;
 
@@ -54,14 +55,12 @@ public class DetalleFormularioController {
     private Trabajador trabajadorActual;
 
     private PostulacionService postulacionService = new PostulacionService();
-    private PostulantesController postulantesController;
 
     @FXML
     public void initialize() {
         configurarTablaPostulantes();
         configurarSeleccionTabla();
 
-        // Ocultar la pestaña de postulantes si no es empresa
         if (!esDesdeEmpresas && postulantesTab != null) {
             tabPane.getTabs().remove(postulantesTab);
         }
@@ -85,6 +84,17 @@ public class DetalleFormularioController {
                     telefono = cellData.getValue().getTrabajador().getNumTelefono();
                 }
                 return new javafx.beans.property.SimpleStringProperty(telefono);
+            });
+        }
+
+        if (edadColumn != null) {
+            edadColumn.setCellValueFactory(cellData -> {
+                Postulacion postulacion = cellData.getValue();
+                if (postulacion.getTrabajador() != null && postulacion.getTrabajador().getFechaNacimiento() != null) {
+                    int edad = Period.between(postulacion.getTrabajador().getFechaNacimiento(), LocalDate.now()).getYears();
+                    return new javafx.beans.property.SimpleStringProperty(edad + " años");
+                }
+                return new javafx.beans.property.SimpleStringProperty("No especificada");
             });
         }
 
@@ -232,7 +242,6 @@ public class DetalleFormularioController {
             }
         }
 
-        // Mostrar botón editar solo si es empresa
         if (esDesdeEmpresas && editarButton != null) {
             editarButton.setVisible(true);
             editarButton.setManaged(true);
@@ -257,21 +266,22 @@ public class DetalleFormularioController {
         if (puestoLabel != null) puestoLabel.setText(oferta.getPuesto_trabajo());
         if (horarioLabel != null) horarioLabel.setText(oferta.getJornada_laboral());
 
-        // Mostrar tipo de sueldo
         if (sueldoLabel != null) {
             sueldoLabel.setText(oferta.getSalario() != null ? oferta.getSalario().getTipoSalario() : "No especificado");
         }
 
-        // Mostrar monto del sueldo - temporalmente deshabilitado
         if (montoSueldoLabel != null) {
-            montoSueldoLabel.setText("No especificado");
+            if (oferta.getSueldo() != null && oferta.getSueldo() > 0) {
+                montoSueldoLabel.setText("$" + String.format("%,.2f", oferta.getSueldo()));
+            } else {
+                montoSueldoLabel.setText("No especificado");
+            }
         }
 
         if (nivelEstudioLabel != null) nivelEstudioLabel.setText(oferta.getNivel_estudio());
         if (experienciaLabel != null) experienciaLabel.setText(oferta.getExperiencia());
         if (descripcionLabel != null) descripcionLabel.setText(oferta.getDescripcion_trabajo());
 
-        // Cargar postulantes si es empresa
         if (esDesdeEmpresas && ofertaActual != null && postulantesTable != null) {
             cargarPostulantes();
         }

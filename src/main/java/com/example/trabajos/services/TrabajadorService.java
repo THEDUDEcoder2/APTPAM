@@ -14,7 +14,7 @@ public class TrabajadorService {
             entityManager.getTransaction().begin();
             entityManager.persist(trabajador);
             entityManager.getTransaction().commit();
-            System.out.println("✅ Trabajador guardado: " + trabajador.getNombre());
+            System.out.println("✅ Trabajador guardado: " + trabajador.getNombre() + " | Foto: " + (trabajador.getFotoPerfil() != null ? trabajador.getFotoPerfil().length + " bytes" : "sin foto"));
         } catch (Exception e) {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
@@ -28,7 +28,15 @@ public class TrabajadorService {
     public List<Trabajador> obtenerTodosTrabajadores() {
         EntityManager entityManager = HibernateUtil.getEntityManager();
         try {
-            return entityManager.createQuery("FROM Trabajador", Trabajador.class).getResultList();
+            List<Trabajador> trabajadores = entityManager.createQuery("FROM Trabajador", Trabajador.class).getResultList();
+            // Forzar carga de foto
+            for (Trabajador t : trabajadores) {
+                if (t.getFotoPerfil() != null) {
+                    byte[] foto = t.getFotoPerfil();
+                    // Esto fuerza la carga
+                }
+            }
+            return trabajadores;
         } finally {
             entityManager.close();
         }
@@ -37,7 +45,11 @@ public class TrabajadorService {
     public Trabajador obtenerTrabajadorPorId(int id) {
         EntityManager entityManager = HibernateUtil.getEntityManager();
         try {
-            return entityManager.find(Trabajador.class, id);
+            Trabajador trabajador = entityManager.find(Trabajador.class, id);
+            if (trabajador != null && trabajador.getFotoPerfil() != null) {
+                byte[] foto = trabajador.getFotoPerfil();
+            }
+            return trabajador;
         } finally {
             entityManager.close();
         }
@@ -46,26 +58,15 @@ public class TrabajadorService {
     public Trabajador obtenerTrabajadorPorEmail(String email) {
         EntityManager em = HibernateUtil.getEntityManager();
         try {
-            return em.createQuery(
+            Trabajador trabajador = em.createQuery(
                             "SELECT t FROM Trabajador t WHERE t.correoElectronico = :email",
                             Trabajador.class)
                     .setParameter("email", email)
                     .getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        } finally {
-            em.close();
-        }
-    }
-
-    public Trabajador obtenerTrabajadorPorCURP(String curp) {
-        EntityManager em = HibernateUtil.getEntityManager();
-        try {
-            return em.createQuery(
-                            "SELECT t FROM Trabajador t WHERE t.curp = :curp",
-                            Trabajador.class)
-                    .setParameter("curp", curp)
-                    .getSingleResult();
+            if (trabajador != null && trabajador.getFotoPerfil() != null) {
+                byte[] foto = trabajador.getFotoPerfil();
+            }
+            return trabajador;
         } catch (NoResultException e) {
             return null;
         } finally {
@@ -79,6 +80,7 @@ public class TrabajadorService {
             entityManager.getTransaction().begin();
             entityManager.merge(trabajador);
             entityManager.getTransaction().commit();
+            System.out.println("✅ Trabajador actualizado: " + trabajador.getNombre());
         } catch (Exception e) {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();

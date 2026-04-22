@@ -37,8 +37,6 @@ public class FormularioController {
 
     private Empresa empresaActual;
     private List<ComboBox<String>> idiomasComboBoxes = new ArrayList<>();
-
-    // Referencia al controlador de empresas para refrescar la tabla
     private EmpresasController empresasController;
 
     private EmpresaService empresaService = new EmpresaService();
@@ -47,7 +45,7 @@ public class FormularioController {
     private IdiomaService idiomaService = new IdiomaService();
     private OfertaIdiomaService ofertaIdiomaService = new OfertaIdiomaService();
 
-    // Setters para inyección desde EmpresasController
+    // Setters
     public void setEmpresaActual(Empresa empresa) { this.empresaActual = empresa; }
     public void setNombreEmpresaField(TextField field) { this.nombreEmpresaField = field; }
     public void setHerramientaField(TextField field) { this.herramientaField = field; }
@@ -226,6 +224,16 @@ public class FormularioController {
             nuevaOferta.setFecha_publicacion(LocalDate.now());
             nuevaOferta.setTipoOferta("PUBLICA");
 
+            // Guardar sueldo
+            String sueldoTexto = sueldoField.getText();
+            if (sueldoTexto != null && !sueldoTexto.isEmpty()) {
+                try {
+                    nuevaOferta.setSueldo(Double.parseDouble(sueldoTexto));
+                } catch (NumberFormatException e) {
+                    nuevaOferta.setSueldo(null);
+                }
+            }
+
             Salario salario = salarioService.obtenerSalarioPorTipo(tipoSalarioComboBox.getValue());
             if (salario == null) salario = new Salario(tipoSalarioComboBox.getValue());
             nuevaOferta.setSalario(salario);
@@ -244,34 +252,14 @@ public class FormularioController {
             mostrarMensaje("✅ Oferta guardada exitosamente");
             limpiarCampos();
 
-            // REFRESCAR LA TABLA DE OFERTAS GUARDADAS
-            refrescarTablaOfertas();
+            // Refrescar tabla de ofertas
+            if (empresasController != null) {
+                empresasController.onRefrescarClick();
+            }
 
         } catch (Exception e) {
             mostrarMensaje("❌ Error al guardar la oferta: " + e.getMessage());
             e.printStackTrace();
-        }
-    }
-
-    private void refrescarTablaOfertas() {
-        // Buscar la ventana actual y obtener el controlador de Empresas
-        try {
-            Stage stage = (Stage) nombreEmpresaField.getScene().getWindow();
-            // La escena actual es Empresas, pero el controlador es EmpresasController
-            // Necesitamos acceder al controlador de la escena padre
-            if (stage.getScene().getRoot() != null) {
-                // Buscar el controlador asociado
-                Object controller = stage.getScene().getUserData();
-                // Si no funciona, buscamos a través de las pestañas
-            }
-        } catch (Exception e) {
-            // Si no se puede, el usuario usará el botón manual
-            System.out.println("No se pudo refrescar automáticamente, use el botón Refrescar");
-        }
-
-        // Método alternativo: si tenemos referencia al EmpresasController
-        if (empresasController != null) {
-            empresasController.onRefrescarClick();
         }
     }
 
@@ -310,7 +298,6 @@ public class FormularioController {
             mensajeLabel.setText(mensaje);
             mensajeLabel.setVisible(true);
 
-            // Ocultar mensaje después de 3 segundos
             new Thread(() -> {
                 try {
                     Thread.sleep(3000);

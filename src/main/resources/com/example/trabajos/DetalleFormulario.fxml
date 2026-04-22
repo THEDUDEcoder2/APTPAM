@@ -147,10 +147,11 @@
                                 <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;" text="Lista de Postulantes" />
                                 <TableView fx:id="postulantesTable" prefHeight="430.0" prefWidth="890.0" style="-fx-background-color: transparent; -fx-border-color: #e0eaf4; -fx-border-radius: 8; -fx-background-radius: 8;" VBox.vgrow="ALWAYS">
                                     <columns>
-                                        <TableColumn fx:id="nombreColumn" prefWidth="300" text="Nombre" />
-                                        <TableColumn fx:id="telefonoColumn" prefWidth="200" text="Teléfono" />
-                                        <TableColumn fx:id="estadoColumn" prefWidth="200" text="Estado" />
-                                        <TableColumn fx:id="accionesColumn" prefWidth="200" text="Acciones" />
+                                        <TableColumn fx:id="nombreColumn" prefWidth="250" text="Nombre" />
+                                        <TableColumn fx:id="telefonoColumn" prefWidth="150" text="Teléfono" />
+                                        <TableColumn fx:id="edadColumn" prefWidth="80" text="Edad" />
+                                        <TableColumn fx:id="estadoColumn" prefWidth="180" text="Estado" />
+                                        <TableColumn fx:id="accionesColumn" prefWidth="230" text="Acciones" />
                                     </columns>
                                 </TableView>
                             </VBox>

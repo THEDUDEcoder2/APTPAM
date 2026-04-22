@@ -101,12 +101,12 @@
 
                         </HBox>
 
-                        <TableView fx:id="trabajosTable" prefHeight="380.0" prefWidth="890.0" style="-fx-background-radius: 8; -fx-border-color: #bdc3c7; -fx-border-radius: 8;" VBox.vgrow="ALWAYS">
+                        <TableView fx:id="trabajosTable" prefHeight="400.0" prefWidth="890.0" style="-fx-background-radius: 8; -fx-border-color: #bdc3c7; -fx-border-radius: 8;" VBox.vgrow="ALWAYS">
                            <columns>
-                              <TableColumn fx:id="empresaColumn" prefWidth="200" text="Empresa" />
-                              <TableColumn fx:id="vacanteColumn" prefWidth="200" text="Vacante" />
+                              <TableColumn fx:id="empresaColumn" prefWidth="250" text="Empresa" />
+                              <TableColumn fx:id="vacanteColumn" prefWidth="220" text="Vacante" />
                               <TableColumn fx:id="sueldoColumn" prefWidth="100" text="Sueldo" />
-                              <TableColumn fx:id="ubicacionColumn" prefWidth="150" text="Ubicación" />
+                              <TableColumn fx:id="fechaColumn" prefWidth="100" text="Fecha" />
                               <TableColumn fx:id="estadoColumn" prefWidth="120" text="Estado" />
                               <TableColumn fx:id="accionesColumn" prefWidth="150" text="Acciones" />
                            </columns>
@@ -124,12 +124,11 @@
                   <content>
                      <VBox spacing="12.0" style="-fx-padding: 14;">
                         <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 16; -fx-font-weight: bold;" text="Estas ofertas han sido creadas especialmente para ti por empresas interesadas en tu perfil" />
-                        <TableView fx:id="ofertasPrivadasTable" prefHeight="400.0" prefWidth="890.0" style="-fx-background-radius: 8; -fx-border-color: #bdc3c7; -fx-border-radius: 8;" VBox.vgrow="ALWAYS">
+                        <TableView fx:id="ofertasPrivadasTable" prefHeight="420.0" prefWidth="890.0" style="-fx-background-radius: 8; -fx-border-color: #bdc3c7; -fx-border-radius: 8;" VBox.vgrow="ALWAYS">
                            <columns>
                               <TableColumn fx:id="empresaPrivColumn" prefWidth="200" text="Empresa" />
-                              <TableColumn fx:id="puestoPrivColumn" prefWidth="180" text="Puesto" />
+                              <TableColumn fx:id="puestoPrivColumn" prefWidth="200" text="Puesto" />
                               <TableColumn fx:id="fechaPrivColumn" prefWidth="100" text="Fecha" />
-                              <TableColumn fx:id="ubicacionPrivColumn" prefWidth="150" text="Ubicación" />
                               <TableColumn fx:id="estadoPrivColumn" prefWidth="100" text="Estado" />
                               <TableColumn fx:id="accionesPrivColumn" prefWidth="180" text="Acciones" />
                            </columns>
