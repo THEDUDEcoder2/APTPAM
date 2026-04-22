@@ -29,6 +29,7 @@ public class DetalleFormularioController {
     @FXML private Label puestoLabel;
     @FXML private Label horarioLabel;
     @FXML private Label sueldoLabel;
+    @FXML private Label montoSueldoLabel;
     @FXML private Label nivelEstudioLabel;
     @FXML private Label experienciaLabel;
     @FXML private Label descripcionLabel;
@@ -45,6 +46,7 @@ public class DetalleFormularioController {
     @FXML private TableColumn<Postulacion, Void> accionesColumn;
 
     @FXML private Button volverButton;
+    @FXML private Button editarButton;
 
     private boolean soloLectura = false;
     private boolean esDesdeEmpresas = false;
@@ -162,7 +164,6 @@ public class DetalleFormularioController {
                             hbox.getChildren().add(notasButton);
                         }
 
-                        // Mostrar botón de ver nota del trabajador si existe nota
                         if (postulacion != null && postulacion.tieneNotaEmpresa() &&
                                 postulacion.getNotaEmpresa().contains("RAZÓN DEL TRABAJADOR")) {
                             hbox.getChildren().add(verNotaTrabajadorButton);
@@ -190,9 +191,6 @@ public class DetalleFormularioController {
         }
     }
 
-    /**
-     * Muestra la nota que el trabajador escribió al aceptar o rechazar la oferta
-     */
     private void mostrarNotaTrabajador(Postulacion postulacion) {
         if (postulacion != null && postulacion.tieneNotaEmpresa()) {
             String nota = postulacion.getNotaEmpresa();
@@ -201,11 +199,9 @@ public class DetalleFormularioController {
                 alert.setTitle("📝 Nota del Trabajador");
                 alert.setHeaderText("Razón proporcionada por el candidato");
 
-                // Limpiar el prefijo para mostrar solo la nota
                 String notaLimpia = nota.replace("📝 RAZÓN DEL TRABAJADOR (ACEPTADO):\n", "")
                         .replace("📝 RAZÓN DEL TRABAJADOR (RECHAZADO):\n", "");
 
-                // Determinar el estado para mostrar en el encabezado
                 if (nota.contains("ACEPTADO")) {
                     alert.setHeaderText("✅ Razón de ACEPTACIÓN del candidato");
                 } else if (nota.contains("RECHAZADO")) {
@@ -230,11 +226,16 @@ public class DetalleFormularioController {
     public void setEsDesdeEmpresas(boolean esDesdeEmpresas) {
         this.esDesdeEmpresas = esDesdeEmpresas;
 
-        // Si es empresa, mostrar la pestaña de postulantes
         if (esDesdeEmpresas && postulantesTab != null && tabPane != null) {
             if (!tabPane.getTabs().contains(postulantesTab)) {
                 tabPane.getTabs().add(postulantesTab);
             }
+        }
+
+        // Mostrar botón editar solo si es empresa
+        if (esDesdeEmpresas && editarButton != null) {
+            editarButton.setVisible(true);
+            editarButton.setManaged(true);
         }
     }
 
@@ -255,7 +256,17 @@ public class DetalleFormularioController {
         if (telefonoLabel != null) telefonoLabel.setText(oferta.getEmpresa() != null ? oferta.getEmpresa().getNumTelefono() : "No especificado");
         if (puestoLabel != null) puestoLabel.setText(oferta.getPuesto_trabajo());
         if (horarioLabel != null) horarioLabel.setText(oferta.getJornada_laboral());
-        if (sueldoLabel != null) sueldoLabel.setText(oferta.getSalario() != null ? oferta.getSalario().getTipoSalario() : "No especificado");
+
+        // Mostrar tipo de sueldo
+        if (sueldoLabel != null) {
+            sueldoLabel.setText(oferta.getSalario() != null ? oferta.getSalario().getTipoSalario() : "No especificado");
+        }
+
+        // Mostrar monto del sueldo - temporalmente deshabilitado
+        if (montoSueldoLabel != null) {
+            montoSueldoLabel.setText("No especificado");
+        }
+
         if (nivelEstudioLabel != null) nivelEstudioLabel.setText(oferta.getNivel_estudio());
         if (experienciaLabel != null) experienciaLabel.setText(oferta.getExperiencia());
         if (descripcionLabel != null) descripcionLabel.setText(oferta.getDescripcion_trabajo());
@@ -266,6 +277,28 @@ public class DetalleFormularioController {
         }
     }
 
+    @FXML
+    private void onEditarClick() {
+        if (ofertaActual == null) return;
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/EditarOferta.fxml"));
+            Parent root = loader.load();
+
+            EditarOfertaController controller = loader.getController();
+            controller.setOferta(ofertaActual);
+
+            Stage stage = (Stage) volverButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setMaximized(true);
+            stage.setTitle("Editar Oferta - " + ofertaActual.getPuesto_trabajo());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlerta("Error", "No se pudo abrir el editor: " + e.getMessage());
+        }
+    }
+
     private void cargarPostulantes() {
         if (ofertaActual == null) return;
 
@@ -273,10 +306,6 @@ public class DetalleFormularioController {
 
         if (postulaciones == null || postulaciones.isEmpty()) {
             postulantesTable.setVisible(false);
-            // Agregar mensaje de que no hay postulantes
-            Label mensajeVacio = new Label("No hay postulantes para esta oferta");
-            mensajeVacio.setStyle("-fx-text-fill: #7f8c8d; -fx-font-style: italic; -fx-font-size: 14;");
-            // Aquí podrías agregar el label a un contenedor si lo tienes
         } else {
             postulantesTable.setVisible(true);
             postulantesTable.getItems().setAll(postulaciones);
@@ -308,21 +337,30 @@ public class DetalleFormularioController {
 
     private void abrirNotas(Postulacion postulacion) {
         try {
+            if (!"ACEPTADO".equalsIgnoreCase(postulacion.getEstado())) {
+                mostrarAlerta("Restricción",
+                        "Solo puedes agregar notas a postulaciones ACEPTADAS.\n" +
+                                "Estado actual: " + postulacion.getEstado());
+                return;
+            }
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/Notas.fxml"));
             Parent root = loader.load();
 
             NotasController controller = loader.getController();
             controller.setPostulacion(postulacion);
-            controller.setModoRespuesta(false); // false = empresa → trabajador
 
             Stage stage = new Stage();
-            stage.setTitle("Enviar Nota - " + postulacion.getTrabajador().getNombreCompleto());
+            stage.setTitle("Agregar Nota - " +
+                    (postulacion.getTrabajador() != null ?
+                            postulacion.getTrabajador().getNombreCompleto() : "Postulante"));
             stage.setScene(new Scene(root));
             stage.setMaximized(true);
             stage.show();
 
         } catch (Exception e) {
             e.printStackTrace();
+            mostrarAlerta("Error", "No se pudo abrir la ventana de notas: " + e.getMessage());
         }
     }
 
@@ -333,11 +371,9 @@ public class DetalleFormularioController {
             String titulo;
 
             if (soloLectura) {
-                // Trabajador - volver a Trabajos
                 fxml = "Trabajos.fxml";
                 titulo = "Buscar Trabajos";
             } else {
-                // Empresa - volver a Empresas.fxml
                 fxml = "Empresas.fxml";
                 titulo = "Panel de Empresas";
             }

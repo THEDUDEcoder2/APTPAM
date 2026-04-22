@@ -112,18 +112,14 @@ public class OfertaService {
                     .setParameter("empresa", empresa)
                     .getResultList();
 
-            // DEBUG - Imprimir información de cada oferta
             System.out.println("=== OFERTAS PARA EMPRESA: " + (empresa != null ? empresa.getNombreEmpresa() : "null") + " ===");
             System.out.println("Total de ofertas encontradas: " + ofertas.size());
 
             for (Oferta o : ofertas) {
                 System.out.println("  - ID: " + o.getIdOferta() +
                         " | Puesto: " + o.getPuesto_trabajo() +
-                        " | TipoOferta: " + o.getTipoOferta() +
-                        " | esPublica: " + o.esOfertaPublica() +
-                        " | esPrivada: " + o.esOfertaPrivada());
+                        " | TipoOferta: " + o.getTipoOferta());
             }
-            System.out.println("=====================================");
 
             return ofertas;
         } finally {
@@ -137,6 +133,14 @@ public class OfertaService {
             entityManager.getTransaction().begin();
             entityManager.merge(oferta);
             entityManager.getTransaction().commit();
+            System.out.println("✅ Oferta actualizada: " + oferta.getPuesto_trabajo() + " (ID: " + oferta.getIdOferta() + ")");
+        } catch (Exception ex) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            System.err.println("❌ Error al actualizar oferta: " + ex.getMessage());
+            ex.printStackTrace();
+            throw ex;
         } finally {
             entityManager.close();
         }
@@ -149,8 +153,15 @@ public class OfertaService {
             Oferta oferta = entityManager.find(Oferta.class, id);
             if (oferta != null) {
                 entityManager.remove(oferta);
+                System.out.println("✅ Oferta eliminada: " + oferta.getPuesto_trabajo() + " (ID: " + id + ")");
             }
             entityManager.getTransaction().commit();
+        } catch (Exception ex) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            System.err.println("❌ Error al eliminar oferta: " + ex.getMessage());
+            throw ex;
         } finally {
             entityManager.close();
         }

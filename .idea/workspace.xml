@@ -4,7 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="efe55322-380b-4ea4-ae23-9ee7b554477c" name="Changes" comment="PETAM" />
+    <list default="true" id="efe55322-380b-4ea4-ae23-9ee7b554477c" name="Changes" comment="PETAM">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/EditarOfertaController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/EditarOferta.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/DetalleFormularioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/DetalleFormularioController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/FormulariosTableController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/FormulariosTableController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/TrabajosController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/TrabajosController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/services/OfertaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/services/OfertaService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/DetalleFormulario.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/trabajos/DetalleFormulario.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/DetalleFormulario.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/DetalleFormulario.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/DetalleFormularioController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/DetalleFormularioController$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/DetalleFormularioController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/DetalleFormularioController$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/DetalleFormularioController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/DetalleFormularioController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/FormulariosTableController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/FormulariosTableController$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/FormulariosTableController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/FormulariosTableController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/TrabajosController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/TrabajosController$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/TrabajosController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/TrabajosController$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/TrabajosController$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/TrabajosController$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/TrabajosController$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/TrabajosController$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/TrabajosController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/TrabajosController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/trabajos/services/OfertaService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/trabajos/services/OfertaService.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

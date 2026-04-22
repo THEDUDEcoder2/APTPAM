@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.time.format.DateTimeFormatter;
@@ -24,8 +25,9 @@ public class FormulariosTableController {
     private TableColumn<Oferta, String> fechaColumn;
     private TableColumn<Oferta, Void> accionesColumn;
     private Label mensajeVacioLabel;
-    private TableColumn<Oferta, String> tipoOfertaColumn;
-    private TableColumn<Oferta, String> estadoPostulacionColumn;
+
+    @FXML private TableColumn<Oferta, String> tipoOfertaColumn;
+    @FXML private TableColumn<Oferta, String> estadoPostulacionColumn;
 
     private final OfertaService ofertaService = new OfertaService();
     private final EmpresaService empresaService = new EmpresaService();
@@ -41,12 +43,8 @@ public class FormulariosTableController {
     public void setEstadoPostulacionColumn(TableColumn<Oferta, String> col) { this.estadoPostulacionColumn = col; }
 
     public void initialize() {
-        System.out.println("=== INICIALIZANDO FormulariosTableController ===");
-
-        // Configurar columnas
         if (tituloColumn != null) {
             tituloColumn.setCellValueFactory(new PropertyValueFactory<>("puesto_trabajo"));
-            System.out.println("✅ tituloColumn configurada");
         }
 
         if (fechaColumn != null) {
@@ -56,84 +54,205 @@ public class FormulariosTableController {
                                     .format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
                     )
             );
-            System.out.println("✅ fechaColumn configurada");
         }
 
         // Columna TIPO
         if (tipoOfertaColumn != null) {
             tipoOfertaColumn.setCellValueFactory(cellData -> {
                 Oferta oferta = cellData.getValue();
-                String tipo = oferta.getTipoOferta();
-                if ("PRIVADA".equals(tipo)) {
+                if (oferta.esOfertaPrivada()) {
                     return new javafx.beans.property.SimpleStringProperty("🔷 PRIVADA");
                 } else {
                     return new javafx.beans.property.SimpleStringProperty("🌐 PÚBLICA");
                 }
             });
-            System.out.println("✅ tipoOfertaColumn configurada");
-        } else {
-            System.out.println("❌ tipoOfertaColumn es NULL");
+
+            tipoOfertaColumn.setCellFactory(column -> new TableCell<Oferta, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                        setStyle("");
+                    } else {
+                        setText(item);
+                        if (item.contains("PRIVADA")) {
+                            setStyle("-fx-text-fill: #9b59b6; -fx-font-weight: bold;");
+                        } else {
+                            setStyle("-fx-text-fill: #3498db; -fx-font-weight: bold;");
+                        }
+                    }
+                }
+            });
         }
 
         // Columna ESTADO
         if (estadoPostulacionColumn != null) {
             estadoPostulacionColumn.setCellValueFactory(cellData -> {
                 Oferta oferta = cellData.getValue();
-                String tipo = oferta.getTipoOferta();
 
-                if ("PUBLICA".equals(tipo)) {
+                if (oferta.esOfertaPublica()) {
                     return new javafx.beans.property.SimpleStringProperty("📋 PÚBLICA");
-                } else if ("PRIVADA".equals(tipo) && oferta.getTrabajadorDestino() != null) {
+                }
+
+                if (oferta.esOfertaPrivada() && oferta.getTrabajadorDestino() != null) {
                     Postulacion postulacion = postulacionService.obtenerPostulacionPorTrabajadorYOferta(
                             oferta.getTrabajadorDestino(), oferta);
                     if (postulacion != null) {
                         String estado = postulacion.getEstado();
-                        if ("ACEPTADO".equals(estado)) {
-                            return new javafx.beans.property.SimpleStringProperty("✅ ACEPTADO");
-                        } else if ("RECHAZADO".equals(estado)) {
-                            return new javafx.beans.property.SimpleStringProperty("❌ RECHAZADO");
-                        } else {
-                            return new javafx.beans.property.SimpleStringProperty("⏳ EN ESPERA");
+                        switch (estado.toUpperCase()) {
+                            case "ACEPTADO":
+                                return new javafx.beans.property.SimpleStringProperty("✅ ACEPTADO");
+                            case "RECHAZADO":
+                                return new javafx.beans.property.SimpleStringProperty("❌ RECHAZADO");
+                            default:
+                                return new javafx.beans.property.SimpleStringProperty("⏳ EN ESPERA");
                         }
+                    } else {
+                        return new javafx.beans.property.SimpleStringProperty("⏳ SIN RESPUESTA");
                     }
-                    return new javafx.beans.property.SimpleStringProperty("⏳ SIN RESPUESTA");
                 }
+
                 return new javafx.beans.property.SimpleStringProperty("📋 PÚBLICA");
             });
-            System.out.println("✅ estadoPostulacionColumn configurada");
-        } else {
-            System.out.println("❌ estadoPostulacionColumn es NULL");
-        }
 
-        // Columna ACCIONES
-        if (accionesColumn != null) {
-            accionesColumn.setCellFactory(col -> new TableCell<>() {
-                private final Button btn = new Button("Abrir");
-                {
-                    btn.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 3;");
-                    btn.setOnAction(e -> {
-                        Oferta oferta = getTableView().getItems().get(getIndex());
-                        if (oferta != null) {
-                            abrirDetalleEmpresa(oferta);
-                        }
-                    });
-                }
+            estadoPostulacionColumn.setCellFactory(column -> new TableCell<Oferta, String>() {
                 @Override
-                protected void updateItem(Void item, boolean empty) {
+                protected void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
-                    if (empty) setGraphic(null);
-                    else setGraphic(btn);
+                    if (empty || item == null) {
+                        setText(null);
+                        setStyle("");
+                    } else {
+                        setText(item);
+                        if (item.contains("ACEPTADO")) {
+                            setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold;");
+                        } else if (item.contains("RECHAZADO")) {
+                            setStyle("-fx-text-fill: #e74c3c; -fx-font-weight: bold;");
+                        } else if (item.contains("EN ESPERA") || item.contains("SIN RESPUESTA")) {
+                            setStyle("-fx-text-fill: #f39c12; -fx-font-weight: bold;");
+                        } else if (item.contains("PÚBLICA")) {
+                            setStyle("-fx-text-fill: #3498db; -fx-font-weight: bold;");
+                        }
+                    }
                 }
             });
-            System.out.println("✅ accionesColumn configurada");
         }
 
-        // Cargar datos
+        if (accionesColumn != null) {
+            agregarBotonesAcciones();
+        }
+
         cargarOfertas();
     }
 
     public void refrescarTabla() {
         cargarOfertas();
+    }
+
+    private void agregarBotonesAcciones() {
+        accionesColumn.setCellFactory(col -> new TableCell<>() {
+            private final HBox hbox = new HBox(5);
+            private final Button btnEditar = new Button("✏️ Editar");
+            private final Button btnEliminar = new Button("🗑️ Eliminar");
+            private final Button btnAbrir = new Button("Abrir");
+
+            {
+                btnEditar.setStyle("-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 3;");
+                btnEditar.setOnAction(e -> {
+                    Oferta oferta = getTableRow().getItem();
+                    if (oferta != null) {
+                        abrirEditarOferta(oferta);
+                    }
+                });
+
+                btnEliminar.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 3;");
+                btnEliminar.setOnAction(e -> {
+                    Oferta oferta = getTableRow().getItem();
+                    if (oferta != null && oferta.esOfertaPublica()) {
+                        confirmarEliminarOferta(oferta);
+                    } else {
+                        mostrarAlerta("Información", "Solo se pueden eliminar ofertas públicas");
+                    }
+                });
+
+                btnAbrir.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 3;");
+                btnAbrir.setOnAction(e -> {
+                    Oferta oferta = getTableRow().getItem();
+                    if (oferta != null) {
+                        abrirDetalleEmpresa(oferta);
+                    }
+                });
+
+                hbox.getChildren().addAll(btnEditar, btnEliminar, btnAbrir);
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    Oferta oferta = getTableRow().getItem();
+                    if (oferta != null && oferta.esOfertaPrivada()) {
+                        btnEliminar.setVisible(false);
+                        btnEliminar.setManaged(false);
+                    } else {
+                        btnEliminar.setVisible(true);
+                        btnEliminar.setManaged(true);
+                    }
+                    setGraphic(hbox);
+                }
+            }
+        });
+    }
+
+    private void confirmarEliminarOferta(Oferta oferta) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmar eliminación");
+        alert.setHeaderText("¿Estás seguro de eliminar esta oferta?");
+        alert.setContentText("Oferta: " + oferta.getPuesto_trabajo() + "\n\n⚠️ Esta acción no se puede deshacer. La oferta dejará de estar visible para los trabajadores.");
+
+        ButtonType btnSi = new ButtonType("Sí, eliminar", ButtonBar.ButtonData.YES);
+        ButtonType btnNo = new ButtonType("No, cancelar", ButtonBar.ButtonData.NO);
+
+        alert.getButtonTypes().setAll(btnSi, btnNo);
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response == btnSi) {
+                eliminarOferta(oferta);
+            }
+        });
+    }
+
+    private void eliminarOferta(Oferta oferta) {
+        try {
+            ofertaService.eliminarOferta(oferta.getIdOferta());
+            mostrarAlertaInfo("✅ Oferta eliminada correctamente", "La oferta ya no estará visible para los trabajadores.");
+            refrescarTabla();
+        } catch (Exception e) {
+            mostrarAlerta("Error", "No se pudo eliminar la oferta: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void abrirEditarOferta(Oferta oferta) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/EditarOferta.fxml"));
+            Parent root = loader.load();
+
+            EditarOfertaController controller = loader.getController();
+            controller.setOferta(oferta);
+
+            Stage stage = (Stage) formulariosTable.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setMaximized(true);
+            stage.setTitle("Editar Oferta - " + oferta.getPuesto_trabajo());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlerta("Error", "No se pudo abrir el editor: " + e.getMessage());
+        }
     }
 
     private void abrirDetalleEmpresa(Oferta oferta) {
@@ -157,11 +276,9 @@ public class FormulariosTableController {
     }
 
     private void cargarOfertas() {
-        System.out.println("=== CARGANDO OFERTAS ===");
-
         Usuario usuarioActual = SesionManager.getInstancia().getUsuarioActual();
+
         if (usuarioActual == null || !usuarioActual.isEsEmpresa()) {
-            System.out.println("❌ No hay sesión de empresa activa");
             if (formulariosTable != null) formulariosTable.setVisible(false);
             if (mensajeVacioLabel != null) {
                 mensajeVacioLabel.setText("No hay sesión de empresa activa.");
@@ -171,8 +288,8 @@ public class FormulariosTableController {
         }
 
         Empresa empresa = empresaService.obtenerEmpresaPorEmail(usuarioActual.getEmail());
+
         if (empresa == null) {
-            System.out.println("❌ Empresa no encontrada");
             if (formulariosTable != null) formulariosTable.setVisible(false);
             if (mensajeVacioLabel != null) {
                 mensajeVacioLabel.setText("No se encontraron datos de la empresa.");
@@ -181,11 +298,7 @@ public class FormulariosTableController {
             return;
         }
 
-        System.out.println("✅ Empresa encontrada: " + empresa.getNombreEmpresa());
-
         List<Oferta> ofertas = ofertaService.obtenerOfertasPorEmpresa(empresa);
-
-        System.out.println("📊 Ofertas encontradas: " + (ofertas != null ? ofertas.size() : 0));
 
         if (ofertas == null || ofertas.isEmpty()) {
             if (formulariosTable != null) formulariosTable.setVisible(false);
@@ -196,27 +309,23 @@ public class FormulariosTableController {
             return;
         }
 
-        // Mostrar debug de cada oferta
-        for (Oferta o : ofertas) {
-            System.out.println("  - " + o.getPuesto_trabajo() + " | Tipo: " + o.getTipoOferta());
-        }
-
-        // Limpiar y agregar datos
         if (formulariosTable != null) {
-            formulariosTable.getItems().clear();
-            formulariosTable.getItems().addAll(ofertas);
+            formulariosTable.getItems().setAll(ofertas);
             formulariosTable.setVisible(true);
-            formulariosTable.refresh();
-            System.out.println("✅ Tabla actualizada con " + ofertas.size() + " ofertas");
         }
-
-        if (mensajeVacioLabel != null) {
-            mensajeVacioLabel.setVisible(false);
-        }
+        if (mensajeVacioLabel != null) mensajeVacioLabel.setVisible(false);
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+
+    private void mostrarAlertaInfo(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
