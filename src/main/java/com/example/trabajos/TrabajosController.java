@@ -28,40 +28,69 @@ import java.util.stream.Collectors;
 
 public class TrabajosController {
 
-    @FXML private TabPane tabPane;
-    @FXML private Tab ofertasPublicasTab;
-    @FXML private Tab ofertasPrivadasTab;
+    @FXML
+    private TabPane tabPane;
+    @FXML
+    private Tab ofertasPublicasTab;
+    @FXML
+    private Tab ofertasPrivadasTab;
 
-    @FXML private TableView<Oferta> trabajosTable;
-    @FXML private TableColumn<Oferta, String> empresaColumn;
-    @FXML private TableColumn<Oferta, String> vacanteColumn;
-    @FXML private TableColumn<Oferta, String> sueldoColumn;
-    @FXML private TableColumn<Oferta, String> fechaColumn;
-    @FXML private TableColumn<Oferta, String> estadoColumn;
-    @FXML private TableColumn<Oferta, Void> accionesColumn;
+    @FXML
+    private TableView<Oferta> trabajosTable;
+    @FXML
+    private TableColumn<Oferta, String> empresaColumn;
+    @FXML
+    private TableColumn<Oferta, String> vacanteColumn;
+    @FXML
+    private TableColumn<Oferta, String> sueldoColumn;
+    @FXML
+    private TableColumn<Oferta, String> fechaColumn;
+    @FXML
+    private TableColumn<Oferta, String> estadoColumn;
+    @FXML
+    private TableColumn<Oferta, Void> accionesColumn;
 
-    @FXML private TableView<Oferta> ofertasPrivadasTable;
-    @FXML private TableColumn<Oferta, String> empresaPrivColumn;
-    @FXML private TableColumn<Oferta, String> puestoPrivColumn;
-    @FXML private TableColumn<Oferta, String> fechaPrivColumn;
-    @FXML private TableColumn<Oferta, String> estadoPrivColumn;
-    @FXML private TableColumn<Oferta, Void> accionesPrivColumn;
+    @FXML
+    private TableView<Oferta> ofertasPrivadasTable;
+    @FXML
+    private TableColumn<Oferta, String> empresaPrivColumn;
+    @FXML
+    private TableColumn<Oferta, String> puestoPrivColumn;
+    @FXML
+    private TableColumn<Oferta, String> fechaPrivColumn;
+    @FXML
+    private TableColumn<Oferta, String> estadoPrivColumn;
+    @FXML
+    private TableColumn<Oferta, Void> accionesPrivColumn;
 
     // Filtros
-    @FXML private ComboBox<String> tipoTrabajoComboBox;
-    @FXML private ComboBox<String> tipoSueldoComboBox;
-    @FXML private ComboBox<String> municipioComboBox;
-    @FXML private ComboBox<String> ciudadComboBox;
-    @FXML private Button aplicarFiltrosButton;
-    @FXML private Button limpiarFiltrosButton;
+    @FXML
+    private ComboBox<String> tipoTrabajoComboBox;
+    @FXML
+    private ComboBox<String> tipoSueldoComboBox;
+    @FXML
+    private ComboBox<String> municipioComboBox;
+    @FXML
+    private ComboBox<String> ciudadComboBox;
+    @FXML
+    private Button aplicarFiltrosButton;
+    @FXML
+    private Button limpiarFiltrosButton;
 
-    @FXML private Label mensajeLabel;
-    @FXML private Label mensajePrivadasLabel;
-    @FXML private Label totalOfertasLabel;
-    @FXML private Label totalPrivadasLabel;
-    @FXML private Label usuarioInfoLabel;
-    @FXML private Button editarPerfilButton;
-    @FXML private Button cerrarSesionButton;
+    @FXML
+    private Label mensajeLabel;
+    @FXML
+    private Label mensajePrivadasLabel;
+    @FXML
+    private Label totalOfertasLabel;
+    @FXML
+    private Label totalPrivadasLabel;
+    @FXML
+    private Label usuarioInfoLabel;
+    @FXML
+    private Button editarPerfilButton;
+    @FXML
+    private Button cerrarSesionButton;
 
     private Trabajador trabajadorActual;
     private List<Oferta> ofertasPublicas;
@@ -735,4 +764,4 @@ public class TrabajosController {
         alert.setContentText(mensaje);
         alert.showAndWait();
     }
-]
+}
