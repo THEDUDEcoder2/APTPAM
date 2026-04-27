@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="efe55322-380b-4ea4-ae23-9ee7b554477c" name="Changes" comment="petam">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/trabajos/TrabajosController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/trabajos/TrabajosController.java" afterDir="false" />
-    </list>
+    <list default="true" id="efe55322-380b-4ea4-ae23-9ee7b554477c" name="Changes" comment="petam" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
