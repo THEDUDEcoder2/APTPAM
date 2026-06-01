@@ -35,6 +35,10 @@ public class DetalleFormularioController {
     @FXML private Label experienciaLabel;
     @FXML private Label descripcionLabel;
 
+    // NUEVOS: Fecha de expiración
+    @FXML private Label fechaExpiracionLabel;
+    @FXML private Label diasRestantesLabel;
+
     @FXML private TabPane tabPane;
     @FXML private Tab detalleTab;
     @FXML private Tab postulantesTab;
@@ -281,6 +285,24 @@ public class DetalleFormularioController {
         if (nivelEstudioLabel != null) nivelEstudioLabel.setText(oferta.getNivel_estudio());
         if (experienciaLabel != null) experienciaLabel.setText(oferta.getExperiencia());
         if (descripcionLabel != null) descripcionLabel.setText(oferta.getDescripcion_trabajo());
+
+        // NUEVO: Mostrar fecha de expiración
+        if (fechaExpiracionLabel != null) {
+            fechaExpiracionLabel.setText(oferta.getFechaExpiracionFormateada());
+        }
+        if (diasRestantesLabel != null) {
+            if (oferta.isExpirada()) {
+                diasRestantesLabel.setText("⚠️ ESTA OFERTA HA EXPIRADO ⚠️");
+                diasRestantesLabel.setStyle("-fx-text-fill: #e74c3c; -fx-font-weight: bold;");
+            } else {
+                diasRestantesLabel.setText(oferta.getDiasRestantesTexto());
+                if (oferta.getDiasRestantes() <= 7) {
+                    diasRestantesLabel.setStyle("-fx-text-fill: #e67e22; -fx-font-weight: bold;");
+                } else {
+                    diasRestantesLabel.setStyle("-fx-text-fill: #27ae60;");
+                }
+            }
+        }
 
         if (esDesdeEmpresas && ofertaActual != null && postulantesTable != null) {
             cargarPostulantes();

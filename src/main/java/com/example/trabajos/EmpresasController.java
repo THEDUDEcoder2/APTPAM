@@ -162,6 +162,24 @@ public class EmpresasController {
         trabajadoresDisponiblesController.setBuscarField(buscarField);
         trabajadoresDisponiblesController.setTotalTrabajadoresLabel(totalTrabajadoresLabel);
 
+        // Inyectar el Stage para navegación correcta
+        if (trabajadoresTable.getScene() != null) {
+            trabajadoresDisponiblesController.setStage((Stage) trabajadoresTable.getScene().getWindow());
+        } else {
+            trabajadoresTable.sceneProperty().addListener((obs, oldScene, newScene) -> {
+                if (newScene != null) {
+                    newScene.windowProperty().addListener((obs2, oldWin, newWin) -> {
+                        if (newWin instanceof Stage) {
+                            trabajadoresDisponiblesController.setStage((Stage) newWin);
+                        }
+                    });
+                    if (newScene.getWindow() instanceof Stage) {
+                        trabajadoresDisponiblesController.setStage((Stage) newScene.getWindow());
+                    }
+                }
+            });
+        }
+
         trabajadoresDisponiblesController.initialize();
     }
 
@@ -193,6 +211,25 @@ public class EmpresasController {
     }
 
     @FXML
+    protected void onPerfilClick() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/PerfilEmpresa.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) volverButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setMaximized(true);
+            stage.setTitle("Mi Perfil - Empresa");
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("No se pudo abrir el perfil");
+            alert.setContentText("Error: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
     protected void onMatchClick() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/MatchTrabajadores.fxml"));
@@ -208,6 +245,44 @@ public class EmpresasController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("No se pudo abrir el Match de Talento");
+            alert.setContentText("Error: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    protected void onDashboardClick() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/Dashboard.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) volverButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setMaximized(true);
+            stage.setTitle("Dashboard");
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("No se pudo abrir el Dashboard");
+            alert.setContentText("Error: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    protected void onCalificacionClick() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/ListaCalificacion.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) volverButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setMaximized(true);
+            stage.setTitle("Calificaciones");
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("No se pudo abrir la vista de Calificación");
             alert.setContentText("Error: " + e.getMessage());
             alert.showAndWait();
         }

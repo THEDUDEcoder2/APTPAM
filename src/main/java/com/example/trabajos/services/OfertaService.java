@@ -6,6 +6,7 @@ import com.example.trabajos.models.Trabajador;
 import com.example.trabajos.utils.HibernateUtil;
 import jakarta.persistence.EntityManager;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class OfertaService {
@@ -23,7 +24,8 @@ public class OfertaService {
             entityManager.flush();
             entityManager.getTransaction().commit();
 
-            System.out.println("✅ Oferta guardada: " + oferta.getPuesto_trabajo() + " | Sueldo: " + oferta.getSueldo());
+            System.out.println("✅ Oferta guardada: " + oferta.getPuesto_trabajo() + " | Sueldo: " + oferta.getSueldo() +
+                    " | Expira: " + oferta.getFechaExpiracion());
             return oferta;
         } catch (Exception ex) {
             if (entityManager.getTransaction().isActive()) {
@@ -38,40 +40,52 @@ public class OfertaService {
     public List<Oferta> obtenerTodasOfertas() {
         EntityManager entityManager = HibernateUtil.getEntityManagerFactory().createEntityManager();
         try {
-            return entityManager.createQuery("FROM Oferta ORDER BY fecha_publicacion DESC", Oferta.class)
+            return entityManager.createQuery(
+                            "SELECT o FROM Oferta o WHERE o.fechaExpiracion >= :hoy ORDER BY o.fecha_publicacion DESC",
+                            Oferta.class)
+                    .setParameter("hoy", LocalDate.now())
                     .getResultList();
         } finally {
             entityManager.close();
         }
     }
 
+    // CORREGIDO: Filtrar solo ofertas públicas NO expiradas
     public List<Oferta> obtenerOfertasPublicas() {
         EntityManager entityManager = HibernateUtil.getEntityManagerFactory().createEntityManager();
         try {
             List<Oferta> ofertas = entityManager.createQuery(
-                            "SELECT o FROM Oferta o WHERE o.tipoOferta = 'PUBLICA' AND o.trabajadorDestino IS NULL ORDER BY o.fecha_publicacion DESC",
+                            "SELECT o FROM Oferta o WHERE o.tipoOferta = 'PUBLICA' " +
+                                    "AND o.trabajadorDestino IS NULL " +
+                                    "AND (o.fechaExpiracion IS NULL OR o.fechaExpiracion >= :hoy) " +
+                                    "ORDER BY o.fecha_publicacion DESC",
                             Oferta.class)
+                    .setParameter("hoy", LocalDate.now())
                     .getResultList();
 
-            // Forzar carga del sueldo
             for (Oferta o : ofertas) {
                 o.getSueldo();
             }
 
-            System.out.println("📋 Ofertas públicas encontradas: " + ofertas.size());
+            System.out.println("📋 Ofertas públicas encontradas (no expiradas): " + ofertas.size());
             return ofertas;
         } finally {
             entityManager.close();
         }
     }
 
+    // CORREGIDO: Filtrar solo ofertas privadas NO expiradas para el trabajador
     public List<Oferta> obtenerOfertasPrivadasPorTrabajador(Trabajador trabajador) {
         EntityManager entityManager = HibernateUtil.getEntityManagerFactory().createEntityManager();
         try {
             List<Oferta> ofertas = entityManager.createQuery(
-                            "SELECT o FROM Oferta o WHERE o.tipoOferta = 'PRIVADA' AND o.trabajadorDestino.idTrabajador = :idTrabajador ORDER BY o.fecha_publicacion DESC",
+                            "SELECT o FROM Oferta o WHERE o.tipoOferta = 'PRIVADA' " +
+                                    "AND o.trabajadorDestino.idTrabajador = :idTrabajador " +
+                                    "AND (o.fechaExpiracion IS NULL OR o.fechaExpiracion >= :hoy) " +
+                                    "ORDER BY o.fecha_publicacion DESC",
                             Oferta.class)
                     .setParameter("idTrabajador", trabajador.getIdTrabajador())
+                    .setParameter("hoy", LocalDate.now())
                     .getResultList();
 
             for (Oferta o : ofertas) {
@@ -89,7 +103,7 @@ public class OfertaService {
         try {
             Oferta oferta = entityManager.find(Oferta.class, id);
             if (oferta != null) {
-                oferta.getSueldo(); // Forzar carga
+                oferta.getSueldo();
             }
             return oferta;
         } finally {

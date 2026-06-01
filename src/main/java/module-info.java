@@ -17,4 +17,6 @@ module com.example.trabajos {
 
     exports com.example.trabajos;
     exports com.example.trabajos.models;
+    exports com.example.trabajos.components;
+    opens com.example.trabajos.components to javafx.fxml;
 }

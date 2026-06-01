@@ -95,6 +95,10 @@ public class Trabajador {
     @Column(name = "foto", columnDefinition = "LONGBLOB")
     private byte[] fotoPerfil;
 
+    // NUEVO CAMPO: activo (por defecto true)
+    @Column(name = "activo", nullable = false)
+    private Boolean activo = true;
+
     @OneToMany(mappedBy = "trabajador", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TrabajadorIdioma> trabajadorIdiomas = new ArrayList<>();
 
@@ -102,6 +106,7 @@ public class Trabajador {
     private List<Postulacion> postulaciones = new ArrayList<>();
 
     public Trabajador() {
+        this.activo = true;
     }
 
     public Trabajador(String nombre, String apellidoPaterno, String apellidoMaterno,
@@ -111,9 +116,10 @@ public class Trabajador {
         this.apellidoMaterno = apellidoMaterno;
         this.correoElectronico = correoElectronico;
         this.contrasena = contrasena;
+        this.activo = true;
     }
 
-    // Getters y Setters
+    // Getters y Setters existentes...
     public Integer getIdTrabajador() { return idTrabajador; }
     public void setIdTrabajador(Integer idTrabajador) { this.idTrabajador = idTrabajador; }
     public Ciudad getCiudad() { return ciudad; }
@@ -170,6 +176,11 @@ public class Trabajador {
     public void setTrabajadorIdiomas(List<TrabajadorIdioma> trabajadorIdiomas) { this.trabajadorIdiomas = trabajadorIdiomas; }
     public List<Postulacion> getPostulaciones() { return postulaciones; }
     public void setPostulaciones(List<Postulacion> postulaciones) { this.postulaciones = postulaciones; }
+
+    // NUEVOS GETTERS/SETTERS para activo
+    public Boolean getActivo() { return activo != null && activo; }
+    public void setActivo(Boolean activo) { this.activo = activo; }
+    public boolean isActivo() { return activo != null && activo; }
 
     public String getNombreCompleto() {
         String nombreCompleto = nombre;

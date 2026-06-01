@@ -28,8 +28,10 @@ public class TrabajadoresDisponiblesController {
 
     private TrabajadorService trabajadorService = new TrabajadorService();
     private List<Trabajador> todosLosTrabajadores;
+    private Stage stage;
 
     // Setters para inyección desde EmpresasController
+    public void setStage(Stage stage) { this.stage = stage; }
     public void setTrabajadoresTable(TableView<Trabajador> table) { this.trabajadoresTable = table; }
     public void setNombreColumn(TableColumn<Trabajador, String> col) { this.nombreColumn = col; }
     public void setEspecialidadColumn(TableColumn<Trabajador, String> col) { this.especialidadColumn = col; }
@@ -136,15 +138,17 @@ public class TrabajadoresDisponiblesController {
 
     private void cargarTrabajadores() {
         try {
-            todosLosTrabajadores = trabajadorService.obtenerTodosTrabajadores();
+            // CORREGIDO: Usar obtenerTrabajadoresDisponibles() en lugar de obtenerTodosTrabajadores()
+            todosLosTrabajadores = trabajadorService.obtenerTrabajadoresDisponibles();
 
             if (todosLosTrabajadores == null || todosLosTrabajadores.isEmpty()) {
-                if (totalTrabajadoresLabel != null) totalTrabajadoresLabel.setText("Total de trabajadores: 0");
+                if (totalTrabajadoresLabel != null) totalTrabajadoresLabel.setText("Total de trabajadores disponibles: 0");
+                if (trabajadoresTable != null) trabajadoresTable.setVisible(false);
                 return;
             }
 
             actualizarTabla(todosLosTrabajadores);
-            if (totalTrabajadoresLabel != null) totalTrabajadoresLabel.setText("Total de trabajadores: " + todosLosTrabajadores.size());
+            if (totalTrabajadoresLabel != null) totalTrabajadoresLabel.setText("Total de trabajadores disponibles: " + todosLosTrabajadores.size());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -156,7 +160,7 @@ public class TrabajadoresDisponiblesController {
 
         if (textoBusqueda == null || textoBusqueda.trim().isEmpty()) {
             actualizarTabla(todosLosTrabajadores);
-            if (totalTrabajadoresLabel != null) totalTrabajadoresLabel.setText("Total de trabajadores: " + todosLosTrabajadores.size());
+            if (totalTrabajadoresLabel != null) totalTrabajadoresLabel.setText("Total de trabajadores disponibles: " + todosLosTrabajadores.size());
             return;
         }
 
@@ -176,7 +180,7 @@ public class TrabajadoresDisponiblesController {
 
         actualizarTabla(filtrados);
         if (totalTrabajadoresLabel != null) {
-            totalTrabajadoresLabel.setText("Mostrando: " + filtrados.size() + " de " + todosLosTrabajadores.size() + " trabajadores");
+            totalTrabajadoresLabel.setText("Mostrando: " + filtrados.size() + " de " + todosLosTrabajadores.size() + " trabajadores disponibles");
         }
     }
 
@@ -198,14 +202,14 @@ public class TrabajadoresDisponiblesController {
             DetalleTrabajadorController controller = loader.getController();
             controller.setTrabajador(trabajador);
 
-            Stage stage = (Stage) trabajadoresTable.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setMaximized(true);
+            Stage s = stage != null ? stage : (Stage) trabajadoresTable.getScene().getWindow();
+            s.setScene(new Scene(root));
+            s.setMaximized(true);
 
             String nombreCompleto = trabajador.getNombre() + " " +
                     (trabajador.getApellidoPaterno() != null ? trabajador.getApellidoPaterno() : "") + " " +
                     (trabajador.getApellidoMaterno() != null ? trabajador.getApellidoMaterno() : "");
-            stage.setTitle("Perfil de " + nombreCompleto.trim());
+            s.setTitle("Perfil de " + nombreCompleto.trim());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -221,15 +225,15 @@ public class TrabajadoresDisponiblesController {
             FormularioPrivadoController controller = loader.getController();
             controller.setTrabajadorDestino(trabajador);
 
-            Stage stage = (Stage) trabajadoresTable.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setMaximized(true);
+            Stage s = stage != null ? stage : (Stage) trabajadoresTable.getScene().getWindow();
+            s.setScene(new Scene(root));
+            s.setMaximized(true);
 
             String nombreCompleto = trabajador.getNombre() + " " +
                     (trabajador.getApellidoPaterno() != null ? trabajador.getApellidoPaterno() : "") + " " +
                     (trabajador.getApellidoMaterno() != null ? trabajador.getApellidoMaterno() : "");
 
-            stage.setTitle("Enviar Oferta Exclusiva a " + nombreCompleto.trim());
+            s.setTitle("Enviar Oferta Exclusiva a " + nombreCompleto.trim());
 
         } catch (IOException e) {
             e.printStackTrace();

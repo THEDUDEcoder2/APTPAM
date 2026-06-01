@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +41,9 @@ public class EditarOfertaController {
     @FXML private Label mensajeLabel;
     @FXML private Label errorLabel;
 
+    // NUEVO: Selector de fecha de expiración
+    @FXML private DatePicker fechaExpiracionPicker;
+
     private Oferta ofertaOriginal;
     private List<ComboBox<String>> idiomasComboBoxes = new ArrayList<>();
     private Empresa empresaActual;
@@ -59,6 +63,28 @@ public class EditarOfertaController {
     public void initialize() {
         configurarCombos();
         cargarEmpresaActual();
+        configurarFechaExpiracion();
+    }
+
+    /**
+     * Configura el DatePicker para la fecha de expiración en modo edición
+     */
+    private void configurarFechaExpiracion() {
+        if (fechaExpiracionPicker != null) {
+            LocalDate fechaMinima = LocalDate.now().plusDays(7);
+            LocalDate fechaMaxima = LocalDate.now().plusDays(365);
+
+            fechaExpiracionPicker.setDayCellFactory(picker -> new DateCell() {
+                @Override
+                public void updateItem(LocalDate date, boolean empty) {
+                    super.updateItem(date, empty);
+                    if (date.isBefore(fechaMinima) || date.isAfter(fechaMaxima)) {
+                        setDisable(true);
+                        setStyle("-fx-background-color: #f0f0f0;");
+                    }
+                }
+            });
+        }
     }
 
     public void setOferta(Oferta oferta) {
@@ -85,6 +111,15 @@ public class EditarOfertaController {
         if (ofertaOriginal == null) return;
 
         herramientaField.setText("No especificado");
+
+        // Cargar fecha de expiración
+        if (fechaExpiracionPicker != null) {
+            if (ofertaOriginal.getFechaExpiracion() != null) {
+                fechaExpiracionPicker.setValue(ofertaOriginal.getFechaExpiracion());
+            } else {
+                fechaExpiracionPicker.setValue(LocalDate.now().plusDays(30));
+            }
+        }
 
         // Cargar idiomas existentes
         try {
@@ -238,6 +273,17 @@ public class EditarOfertaController {
             ofertaOriginal.setJornada_laboral(horarioCompleto);
             ofertaOriginal.setNivel_estudio(nivelEstudioComboBox.getValue());
 
+            // Actualizar fecha de expiración
+            if (fechaExpiracionPicker != null && fechaExpiracionPicker.getValue() != null) {
+                // Validar que la nueva fecha sea válida
+                if (fechaExpiracionPicker.getValue().isBefore(LocalDate.now().plusDays(7))) {
+                    mostrarMensaje("⚠️ La fecha de expiración debe ser al menos dentro de 7 días.\n" +
+                            "Fecha mínima permitida: " + LocalDate.now().plusDays(7).toString(), "error");
+                    return;
+                }
+                ofertaOriginal.setFechaExpiracion(fechaExpiracionPicker.getValue());
+            }
+
             // Actualizar sueldo
             String sueldoTexto = sueldoField.getText();
             if (sueldoTexto != null && !sueldoTexto.isEmpty()) {
@@ -270,7 +316,7 @@ public class EditarOfertaController {
                 }
             }
 
-            mostrarMensaje("✅ Oferta actualizada exitosamente", "exito");
+            mostrarMensaje("✅ Oferta actualizada exitosamente. Válida hasta: " + ofertaOriginal.getFechaExpiracionFormateada(), "exito");
 
             new Thread(() -> {
                 try {
@@ -315,6 +361,18 @@ public class EditarOfertaController {
 
         if (tipoSalarioComboBox.getValue() == null) {
             mostrarMensaje("Selecciona el tipo de sueldo", "error");
+            return false;
+        }
+
+        if (fechaExpiracionPicker != null && fechaExpiracionPicker.getValue() != null) {
+            LocalDate fechaMinima = LocalDate.now().plusDays(7);
+            if (fechaExpiracionPicker.getValue().isBefore(fechaMinima)) {
+                mostrarMensaje("⚠️ La fecha de expiración debe ser al menos dentro de 7 días.\n" +
+                        "Fecha mínima permitida: " + fechaMinima.toString(), "error");
+                return false;
+            }
+        } else {
+            mostrarMensaje("Selecciona una fecha de expiración para la oferta", "error");
             return false;
         }
 

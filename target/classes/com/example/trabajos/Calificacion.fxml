@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+    prefHeight="900.0" prefWidth="1539.0"
+    style="-fx-background-color: #dce8f5;"
+    stylesheets="@calificacion.css"
+    xmlns="http://javafx.com/javafx/25"
+    xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="com.example.trabajos.CalificacionController">
+    <children>
+
+        <!-- TÍTULO SUPERIOR -->
+        <Label alignment="CENTER" layoutX="392.0" layoutY="20.0"
+            prefHeight="100.0" prefWidth="822.0"
+            style="-fx-text-fill: #1a3a5c; -fx-font-size: 30; -fx-font-weight: bold;"
+            text="PLATAFORMA DE EMPLEO TEMPORAL">
+            <font><Font size="32.0" /></font>
+        </Label>
+
+        <!-- TARJETA IZQUIERDA -->
+        <VBox alignment="TOP_CENTER" layoutX="28.0" layoutY="126.0"
+            maxWidth="250.0" minWidth="250.0" prefHeight="674.0" prefWidth="250.0"
+            spacing="18.0"
+            style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+            <padding><Insets bottom="28.0" left="16.0" right="16.0" top="28.0" /></padding>
+            <children>
+                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@assets/WhatsApp_Image_2026-03-24_at_12.15.37-removebg-preview.png" />
+                </ImageView>
+                <Label alignment="CENTER" prefWidth="210.0"
+                    style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;"
+                    text="Calificación" wrapText="true" />
+
+                <Region VBox.vgrow="ALWAYS" />
+
+                <Button fx:id="cancelarButton" onAction="#onCancelar"
+                    prefHeight="55.0" prefWidth="225.0"
+                    styleClass="btn-volver" text="← Volver" />
+            </children>
+        </VBox>
+
+        <!-- TARJETA DERECHA - Información -->
+        <VBox alignment="TOP_CENTER" layoutX="1274.0" layoutY="126.0"
+            maxWidth="250.0" minWidth="250.0" prefHeight="674.0" prefWidth="250.0"
+            spacing="18.0"
+            style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+            <padding><Insets bottom="28.0" left="22.0" right="22.0" top="28.0" /></padding>
+            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;" text="Información" />
+            <HBox alignment="TOP_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;"
+                    text="Califica al trabajador al finalizar el empleo." wrapText="true" />
+            </HBox>
+            <HBox alignment="TOP_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;"
+                    text="El trabajador también evalúa a la empresa." wrapText="true" />
+            </HBox>
+            <HBox alignment="TOP_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;"
+                    text="Selecciona de 1 a 5 estrellas por criterio." wrapText="true" />
+            </HBox>
+            <HBox alignment="TOP_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;"
+                    text="Agrega un comentario adicional si lo deseas." wrapText="true" />
+            </HBox>
+            <Region VBox.vgrow="ALWAYS" />
+            <Button fx:id="guardarButton" onAction="#onGuardar"
+                prefHeight="40.0" prefWidth="206.0"
+                styleClass="btn-azul" text="✔ Guardar calificaciones" />
+        </VBox>
+
+        <!-- CONTENIDO CENTRAL -->
+        <VBox layoutX="290.0" layoutY="126.0" prefHeight="674.0" prefWidth="970.0" spacing="14.0"
+            style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+            <padding><Insets bottom="24.0" left="28.0" right="28.0" top="24.0" /></padding>
+
+            <!-- Encabezado -->
+            <HBox alignment="CENTER_LEFT" spacing="12.0">
+                <Label style="-fx-font-size: 22;" text="⭐" />
+                <VBox spacing="2.0">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 21; -fx-font-weight: bold;"
+                        text="Calificación al finalizar el empleo" />
+                    <Label fx:id="empleoLabel"
+                        style="-fx-text-fill: #64748b; -fx-font-size: 13;"
+                        text="Empleo: Asistente de almacén  •  Empresa: Logística Norte S.A.  •  Trabajador: Juan Pérez" />
+                </VBox>
+            </HBox>
+
+            <!-- Separador -->
+            <Region prefHeight="1.0"
+                style="-fx-background-color: #d0dce8;" />
+
+            <!-- Scroll con las dos columnas -->
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;"
+                VBox.vgrow="ALWAYS">
+                <content>
+                    <HBox spacing="18.0" prefWidth="910.0">
+                        <padding><Insets bottom="8.0" top="4.0" /></padding>
+
+                        <!-- ═══════════════════════════════════ -->
+                        <!-- COLUMNA IZQUIERDA: Empresa → Trabajador -->
+                        <!-- ═══════════════════════════════════ -->
+                        <VBox fx:id="columnaEmpresa" spacing="14.0"
+                            style="-fx-background-color: #f8fafd; -fx-background-radius: 12; -fx-border-color: #d0dce8; -fx-border-radius: 12; -fx-padding: 20;"
+                            HBox.hgrow="ALWAYS">
+
+                            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                <Label prefHeight="36.0" prefWidth="36.0" alignment="CENTER"
+                                    style="-fx-background-color: #dbeafe; -fx-background-radius: 8; -fx-font-size: 17;"
+                                    text="🏢" />
+                                <VBox spacing="1.0">
+                                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;"
+                                        text="La empresa califica al trabajador" />
+                                    <Label style="-fx-text-fill: #64748b; -fx-font-size: 12;"
+                                        text="Evalúa el desempeño de Juan Pérez" />
+                                </VBox>
+                            </HBox>
+
+                            <Region prefHeight="1.0" style="-fx-background-color: #d0dce8;" />
+
+                            <!-- Puntualidad -->
+                            <VBox spacing="6.0">
+                                <HBox alignment="CENTER_LEFT" spacing="6.0">
+                                    <Label style="-fx-font-size: 14;" text="⏰" />
+                                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 13; -fx-font-weight: bold;" text="Puntualidad" />
+                                </HBox>
+                                <HBox fx:id="estrellasEmpPuntualidad" alignment="CENTER_LEFT" spacing="5.0">
+                                    <Button fx:id="emp_pun_1" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="emp_pun_1" />
+                                    <Button fx:id="emp_pun_2" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="emp_pun_2" />
+                                    <Button fx:id="emp_pun_3" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="emp_pun_3" />
+                                    <Button fx:id="emp_pun_4" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="emp_pun_4" />
+                                    <Button fx:id="emp_pun_5" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="emp_pun_5" />
+                                    <Label fx:id="lblEmpPuntualidad" style="-fx-text-fill: #94a3b8; -fx-font-size: 12;" text="Sin calificar" />
+                                </HBox>
+                            </VBox>
+
+                            <!-- Actitud -->
+                            <VBox spacing="6.0">
+                                <HBox alignment="CENTER_LEFT" spacing="6.0">
+                                    <Label style="-fx-font-size: 14;" text="😊" />
+                                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 13; -fx-font-weight: bold;" text="Actitud" />
+                                </HBox>
+                                <HBox fx:id="estrellasEmpActitud" alignment="CENTER_LEFT" spacing="5.0">
+                                    <Button fx:id="emp_act_1" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="emp_act_1" />
+                                    <Button fx:id="emp_act_2" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="emp_act_2" />
+                                    <Button fx:id="emp_act_3" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="emp_act_3" />
+                                    <Button fx:id="emp_act_4" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="emp_act_4" />
+                                    <Button fx:id="emp_act_5" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="emp_act_5" />
+                                    <Label fx:id="lblEmpActitud" style="-fx-text-fill: #94a3b8; -fx-font-size: 12;" text="Sin calificar" />
+                                </HBox>
+                            </VBox>
+
+                            <!-- Desempeño -->
+                            <VBox spacing="6.0">
+                                <HBox alignment="CENTER_LEFT" spacing="6.0">
+                                    <Label style="-fx-font-size: 14;" text="💪" />
+                                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 13; -fx-font-weight: bold;" text="Desempeño" />
+                                </HBox>
+                                <HBox fx:id="estrellasEmpDesempeno" alignment="CENTER_LEFT" spacing="5.0">
+                                    <Button fx:id="emp_des_1" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="emp_des_1" />
+                                    <Button fx:id="emp_des_2" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="emp_des_2" />
+                                    <Button fx:id="emp_des_3" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="emp_des_3" />
+                                    <Button fx:id="emp_des_4" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="emp_des_4" />
+                                    <Button fx:id="emp_des_5" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="emp_des_5" />
+                                    <Label fx:id="lblEmpDesempeno" style="-fx-text-fill: #94a3b8; -fx-font-size: 12;" text="Sin calificar" />
+                                </HBox>
+                            </VBox>
+
+                            <!-- Confiabilidad -->
+                            <VBox spacing="6.0">
+                                <HBox alignment="CENTER_LEFT" spacing="6.0">
+                                    <Label style="-fx-font-size: 14;" text="🔒" />
+                                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 13; -fx-font-weight: bold;" text="Confiabilidad" />
+                                </HBox>
+                                <HBox fx:id="estrellasEmpConfiabilidad" alignment="CENTER_LEFT" spacing="5.0">
+                                    <Button fx:id="emp_con_1" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="emp_con_1" />
+                                    <Button fx:id="emp_con_2" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="emp_con_2" />
+                                    <Button fx:id="emp_con_3" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="emp_con_3" />
+                                    <Button fx:id="emp_con_4" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="emp_con_4" />
+                                    <Button fx:id="emp_con_5" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="emp_con_5" />
+                                    <Label fx:id="lblEmpConfiabilidad" style="-fx-text-fill: #94a3b8; -fx-font-size: 12;" text="Sin calificar" />
+                                </HBox>
+                            </VBox>
+
+                            <!-- Comentario -->
+                            <VBox spacing="5.0" VBox.vgrow="ALWAYS">
+                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 13; -fx-font-weight: bold;" text="💬  Comentario adicional" />
+                                <TextArea fx:id="comentarioEmpresa"
+                                    prefHeight="90.0"
+                                    promptText="Escribe observaciones sobre el trabajador..."
+                                    styleClass="text-area-comentario"
+                                    wrapText="true" VBox.vgrow="ALWAYS" />
+                            </VBox>
+
+                            <!-- Promedio -->
+                            <HBox alignment="CENTER_LEFT" spacing="10.0"
+                                style="-fx-background-color: #e8f0fe; -fx-background-radius: 8; -fx-border-color: #bcd0f7; -fx-border-radius: 8; -fx-border-width: 1; -fx-padding: 10 14;">
+                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 13;" text="Calificación promedio:" />
+                                <Label fx:id="promedioEmpresaLabel"
+                                    style="-fx-text-fill: #1a3a5c; -fx-font-size: 20; -fx-font-weight: bold;" text="—" />
+                                <Label style="-fx-text-fill: #f59e0b; -fx-font-size: 16;" text="★" />
+                            </HBox>
+
+                        </VBox>
+
+                        <!-- ═══════════════════════════════════ -->
+                        <!-- COLUMNA DERECHA: Trabajador → Empresa -->
+                        <!-- ═══════════════════════════════════ -->
+                        <VBox fx:id="columnaTrabajador" spacing="14.0"
+                            style="-fx-background-color: #f8fafd; -fx-background-radius: 12; -fx-border-color: #d0dce8; -fx-border-radius: 12; -fx-padding: 20;"
+                            HBox.hgrow="ALWAYS">
+
+                            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                <Label prefHeight="36.0" prefWidth="36.0" alignment="CENTER"
+                                    style="-fx-background-color: #d1fae5; -fx-background-radius: 8; -fx-font-size: 17;"
+                                    text="👷" />
+                                <VBox spacing="1.0">
+                                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;"
+                                        text="El trabajador califica a la empresa" />
+                                    <Label style="-fx-text-fill: #64748b; -fx-font-size: 12;"
+                                        text="Evalúa tu experiencia en Logística Norte S.A." />
+                                </VBox>
+                            </HBox>
+
+                            <Region prefHeight="1.0" style="-fx-background-color: #d0dce8;" />
+
+                            <!-- Trato -->
+                            <VBox spacing="6.0">
+                                <HBox alignment="CENTER_LEFT" spacing="6.0">
+                                    <Label style="-fx-font-size: 14;" text="🤝" />
+                                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 13; -fx-font-weight: bold;" text="Trato al trabajador" />
+                                </HBox>
+                                <HBox fx:id="estrellasTraTrato" alignment="CENTER_LEFT" spacing="5.0">
+                                    <Button fx:id="tra_tra_1" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="tra_tra_1" />
+                                    <Button fx:id="tra_tra_2" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="tra_tra_2" />
+                                    <Button fx:id="tra_tra_3" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="tra_tra_3" />
+                                    <Button fx:id="tra_tra_4" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="tra_tra_4" />
+                                    <Button fx:id="tra_tra_5" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="tra_tra_5" />
+                                    <Label fx:id="lblTraTrato" style="-fx-text-fill: #94a3b8; -fx-font-size: 12;" text="Sin calificar" />
+                                </HBox>
+                            </VBox>
+
+                            <!-- Condiciones -->
+                            <VBox spacing="6.0">
+                                <HBox alignment="CENTER_LEFT" spacing="6.0">
+                                    <Label style="-fx-font-size: 14;" text="🏗️" />
+                                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 13; -fx-font-weight: bold;" text="Condiciones de trabajo" />
+                                </HBox>
+                                <HBox fx:id="estrellasTraCondiciones" alignment="CENTER_LEFT" spacing="5.0">
+                                    <Button fx:id="tra_con_1" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="tra_con_1" />
+                                    <Button fx:id="tra_con_2" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="tra_con_2" />
+                                    <Button fx:id="tra_con_3" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="tra_con_3" />
+                                    <Button fx:id="tra_con_4" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="tra_con_4" />
+                                    <Button fx:id="tra_con_5" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="tra_con_5" />
+                                    <Label fx:id="lblTraCondiciones" style="-fx-text-fill: #94a3b8; -fx-font-size: 12;" text="Sin calificar" />
+                                </HBox>
+                            </VBox>
+
+                            <!-- Pago a tiempo -->
+                            <VBox spacing="6.0">
+                                <HBox alignment="CENTER_LEFT" spacing="6.0">
+                                    <Label style="-fx-font-size: 14;" text="💰" />
+                                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 13; -fx-font-weight: bold;" text="Pago a tiempo" />
+                                </HBox>
+                                <HBox fx:id="estrellasTraPago" alignment="CENTER_LEFT" spacing="5.0">
+                                    <Button fx:id="tra_pag_1" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="tra_pag_1" />
+                                    <Button fx:id="tra_pag_2" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="tra_pag_2" />
+                                    <Button fx:id="tra_pag_3" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="tra_pag_3" />
+                                    <Button fx:id="tra_pag_4" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="tra_pag_4" />
+                                    <Button fx:id="tra_pag_5" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="tra_pag_5" />
+                                    <Label fx:id="lblTraPago" style="-fx-text-fill: #94a3b8; -fx-font-size: 12;" text="Sin calificar" />
+                                </HBox>
+                            </VBox>
+
+                            <!-- Confiabilidad -->
+                            <VBox spacing="6.0">
+                                <HBox alignment="CENTER_LEFT" spacing="6.0">
+                                    <Label style="-fx-font-size: 14;" text="🔒" />
+                                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 13; -fx-font-weight: bold;" text="Confiabilidad" />
+                                </HBox>
+                                <HBox fx:id="estrellasTraConfiabilidad" alignment="CENTER_LEFT" spacing="5.0">
+                                    <Button fx:id="tra_cfi_1" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="tra_cfi_1" />
+                                    <Button fx:id="tra_cfi_2" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="tra_cfi_2" />
+                                    <Button fx:id="tra_cfi_3" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="tra_cfi_3" />
+                                    <Button fx:id="tra_cfi_4" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="tra_cfi_4" />
+                                    <Button fx:id="tra_cfi_5" onAction="#onEstrella" styleClass="estrella-btn" text="★" userData="tra_cfi_5" />
+                                    <Label fx:id="lblTraConfiabilidad" style="-fx-text-fill: #94a3b8; -fx-font-size: 12;" text="Sin calificar" />
+                                </HBox>
+                            </VBox>
+
+                            <!-- Comentario -->
+                            <VBox spacing="5.0" VBox.vgrow="ALWAYS">
+                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 13; -fx-font-weight: bold;" text="💬  Comentario adicional" />
+                                <TextArea fx:id="comentarioTrabajador"
+                                    prefHeight="90.0"
+                                    promptText="Escribe tu experiencia con esta empresa..."
+                                    styleClass="text-area-comentario"
+                                    wrapText="true" VBox.vgrow="ALWAYS" />
+                            </VBox>
+
+                            <!-- Promedio -->
+                            <HBox alignment="CENTER_LEFT" spacing="10.0"
+                                style="-fx-background-color: #e8fdf0; -fx-background-radius: 8; -fx-border-color: #9be0b9; -fx-border-radius: 8; -fx-border-width: 1; -fx-padding: 10 14;">
+                                <Label style="-fx-text-fill: #15803d; -fx-font-size: 13;" text="Calificación promedio:" />
+                                <Label fx:id="promedioTrabajadorLabel"
+                                    style="-fx-text-fill: #15803d; -fx-font-size: 20; -fx-font-weight: bold;" text="—" />
+                                <Label style="-fx-text-fill: #f59e0b; -fx-font-size: 16;" text="★" />
+                            </HBox>
+
+                        </VBox>
+                    </HBox>
+                </content>
+            </ScrollPane>
+
+        </VBox>
+
+    </children>
+</AnchorPane>

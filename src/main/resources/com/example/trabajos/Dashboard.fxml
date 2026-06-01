@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import java.lang.String?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+    prefHeight="900.0" prefWidth="1539.0"
+    style="-fx-background-color: #dce8f5;"
+    stylesheets="@dashboard.css"
+    xmlns="http://javafx.com/javafx/25"
+    xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="com.example.trabajos.DashboardController">
+    <children>
+
+        <!-- TÍTULO SUPERIOR -->
+        <Label alignment="CENTER" layoutX="392.0" layoutY="20.0"
+            prefHeight="100.0" prefWidth="822.0"
+            style="-fx-text-fill: #1a3a5c; -fx-font-size: 30; -fx-font-weight: bold;"
+            text="PLATAFORMA DE EMPLEO TEMPORAL">
+            <font><Font size="32.0" /></font>
+        </Label>
+
+        <!-- TARJETA IZQUIERDA -->
+        <VBox alignment="TOP_CENTER" layoutX="28.0" layoutY="126.0"
+            maxWidth="250.0" minWidth="250.0" prefHeight="674.0" prefWidth="250.0"
+            spacing="18.0"
+            style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+            <padding><Insets bottom="28.0" left="16.0" right="16.0" top="28.0" /></padding>
+            <children>
+                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@assets/WhatsApp_Image_2026-03-24_at_12.15.37-removebg-preview.png" />
+                </ImageView>
+                <Label alignment="CENTER" prefWidth="210.0"
+                    style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;"
+                    text="Dashboard" wrapText="true" />
+                <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="volverButton" onAction="#onIrAlPanel"
+                    prefHeight="55.0" prefWidth="225.0"
+                    styleClass="btn-volver" text="← Volver al panel" />
+            </children>
+        </VBox>
+
+        <!-- TARJETA DERECHA -->
+        <VBox alignment="TOP_CENTER" layoutX="1274.0" layoutY="126.0"
+            maxWidth="250.0" minWidth="250.0" prefHeight="674.0" prefWidth="250.0"
+            spacing="18.0"
+            style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+            <padding><Insets bottom="28.0" left="22.0" right="22.0" top="28.0" /></padding>
+            <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;" text="Información" />
+            <HBox alignment="TOP_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;"
+                    text="Consulta las métricas generales del sistema." wrapText="true" />
+            </HBox>
+            <HBox alignment="TOP_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;"
+                    text="Revisa la actividad reciente por período." wrapText="true" />
+            </HBox>
+            <HBox alignment="TOP_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;"
+                    text="Monitorea postulaciones y formularios." wrapText="true" />
+            </HBox>
+            <HBox alignment="TOP_LEFT" spacing="10.0">
+                <Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" />
+                <Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;"
+                    text="Filtra por periodo para mayor detalle." wrapText="true" />
+            </HBox>
+            <Region VBox.vgrow="ALWAYS" />
+        </VBox>
+
+        <!-- CONTENIDO CENTRAL -->
+        <VBox layoutX="290.0" layoutY="126.0" prefHeight="674.0" prefWidth="970.0" spacing="16.0"
+            style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
+            <padding><Insets bottom="24.0" left="28.0" right="28.0" top="24.0" /></padding>
+
+            <!-- Encabezado -->
+            <HBox alignment="CENTER_LEFT" spacing="16.0">
+                <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 21; -fx-font-weight: bold;"
+                    text="📊 Dashboard General" HBox.hgrow="ALWAYS" />
+                <ComboBox fx:id="periodoComboBox" prefHeight="32.0" prefWidth="150.0"
+                    promptText="Este trimestre">
+                    <items>
+                        <javafx.collections.FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Hoy" />
+                            <String fx:value="Esta semana" />
+                            <String fx:value="Este mes" />
+                            <String fx:value="Este trimestre" />
+                            <String fx:value="Este año" />
+                        </javafx.collections.FXCollections>
+                    </items>
+                </ComboBox>
+            </HBox>
+
+            <Label fx:id="bienvenidoLabel"
+                style="-fx-text-fill: #3a5070; -fx-font-size: 14;"
+                text="Bienvenido" />
+
+            <!-- 4 Tarjetas métricas — valores en 0 por defecto -->
+            <HBox spacing="14.0">
+
+                <VBox alignment="CENTER_LEFT" prefHeight="84.0" spacing="4.0"
+                    style="-fx-background-color: #f8fafd; -fx-background-radius: 12; -fx-border-color: #d0dce8; -fx-border-radius: 12; -fx-padding: 16;"
+                    HBox.hgrow="ALWAYS">
+                    <HBox alignment="CENTER_LEFT" spacing="14.0">
+                        <Label prefHeight="40.0" prefWidth="40.0" alignment="CENTER"
+                            style="-fx-background-color: #dbeafe; -fx-background-radius: 10; -fx-font-size: 20;" text="👁" />
+                        <VBox spacing="2.0">
+                            <Label style="-fx-text-fill: #64748b; -fx-font-size: 12;" text="Vistas del sistema" />
+                            <Label fx:id="vistasLabel"
+                                style="-fx-text-fill: #1a3a5c; -fx-font-size: 24; -fx-font-weight: bold;" text="0" />
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+                <VBox alignment="CENTER_LEFT" prefHeight="84.0" spacing="4.0"
+                    style="-fx-background-color: #f8fafd; -fx-background-radius: 12; -fx-border-color: #d0dce8; -fx-border-radius: 12; -fx-padding: 16;"
+                    HBox.hgrow="ALWAYS">
+                    <HBox alignment="CENTER_LEFT" spacing="14.0">
+                        <Label prefHeight="40.0" prefWidth="40.0" alignment="CENTER"
+                            style="-fx-background-color: #ffe4d6; -fx-background-radius: 10; -fx-font-size: 20;" text="🔒" />
+                        <VBox spacing="2.0">
+                            <Label style="-fx-text-fill: #64748b; -fx-font-size: 12;" text="Inicio de sesión" />
+                            <Label fx:id="sesionesLabel"
+                                style="-fx-text-fill: #1a3a5c; -fx-font-size: 24; -fx-font-weight: bold;" text="0" />
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+                <VBox alignment="CENTER_LEFT" prefHeight="84.0" spacing="4.0"
+                    style="-fx-background-color: #f8fafd; -fx-background-radius: 12; -fx-border-color: #d0dce8; -fx-border-radius: 12; -fx-padding: 16;"
+                    HBox.hgrow="ALWAYS">
+                    <HBox alignment="CENTER_LEFT" spacing="14.0">
+                        <Label prefHeight="40.0" prefWidth="40.0" alignment="CENTER"
+                            style="-fx-background-color: #d1fae5; -fx-background-radius: 10; -fx-font-size: 20;" text="📋" />
+                        <VBox spacing="2.0">
+                            <Label style="-fx-text-fill: #64748b; -fx-font-size: 12;" text="Formularios llenados" />
+                            <Label fx:id="formulariosLabel"
+                                style="-fx-text-fill: #1a3a5c; -fx-font-size: 24; -fx-font-weight: bold;" text="0" />
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+                <VBox alignment="CENTER_LEFT" prefHeight="84.0" spacing="4.0"
+                    style="-fx-background-color: #f8fafd; -fx-background-radius: 12; -fx-border-color: #d0dce8; -fx-border-radius: 12; -fx-padding: 16;"
+                    HBox.hgrow="ALWAYS">
+                    <HBox alignment="CENTER_LEFT" spacing="14.0">
+                        <Label prefHeight="40.0" prefWidth="40.0" alignment="CENTER"
+                            style="-fx-background-color: #ede9fe; -fx-background-radius: 10; -fx-font-size: 20;" text="💼" />
+                        <VBox spacing="2.0">
+                            <Label style="-fx-text-fill: #64748b; -fx-font-size: 12;" text="Postulaciones" />
+                            <Label fx:id="postulacionesLabel"
+                                style="-fx-text-fill: #1a3a5c; -fx-font-size: 24; -fx-font-weight: bold;" text="0" />
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+            </HBox>
+
+            <!-- Gráfica + 2 tablas con scroll -->
+            <HBox spacing="14.0" VBox.vgrow="ALWAYS">
+
+                <!-- Gráfica -->
+                <VBox spacing="10.0"
+                    style="-fx-background-color: #f8fafd; -fx-background-radius: 12; -fx-border-color: #d0dce8; -fx-border-radius: 12; -fx-padding: 18;"
+                    HBox.hgrow="ALWAYS">
+                    <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 15; -fx-font-weight: bold;" text="Actividad Reciente" />
+                    <HBox spacing="14.0" alignment="CENTER_LEFT">
+                        <HBox spacing="5.0" alignment="CENTER_LEFT">
+                            <Label style="-fx-background-color: #f59e0b; -fx-min-width:10; -fx-min-height:10; -fx-background-radius:2;" text="" />
+                            <Label style="-fx-text-fill: #64748b; -fx-font-size: 11;" text="Visitas" />
+                        </HBox>
+                        <HBox spacing="5.0" alignment="CENTER_LEFT">
+                            <Label style="-fx-background-color: #60a5fa; -fx-min-width:10; -fx-min-height:10; -fx-background-radius:2;" text="" />
+                            <Label style="-fx-text-fill: #64748b; -fx-font-size: 11;" text="Sesiones" />
+                        </HBox>
+                        <HBox spacing="5.0" alignment="CENTER_LEFT">
+                            <Label style="-fx-background-color: #f472b6; -fx-min-width:10; -fx-min-height:10; -fx-background-radius:2;" text="" />
+                            <Label style="-fx-text-fill: #64748b; -fx-font-size: 11;" text="Formularios" />
+                        </HBox>
+                        <HBox spacing="5.0" alignment="CENTER_LEFT">
+                            <Label style="-fx-background-color: #818cf8; -fx-min-width:10; -fx-min-height:10; -fx-background-radius:2;" text="" />
+                            <Label style="-fx-text-fill: #64748b; -fx-font-size: 11;" text="Postulaciones" />
+                        </HBox>
+                    </HBox>
+                    <StackPane fx:id="chartContainer"
+                        style="-fx-background-color: #f0f5fc; -fx-background-radius: 8; -fx-border-color: #d0dce8; -fx-border-radius: 8; -fx-border-width: 1;"
+                        VBox.vgrow="ALWAYS">
+                        <Label alignment="CENTER"
+                            style="-fx-text-fill: #94a3b8; -fx-font-size: 13;"
+                            text="📊 Cargando gráfica..." wrapText="true" />
+                    </StackPane>
+                </VBox>
+
+                <!-- Dos tablas con ScrollPane horizontal -->
+                <VBox spacing="12.0" prefWidth="400.0">
+
+                    <!-- Postulaciones Recientes -->
+                    <VBox spacing="8.0"
+                        style="-fx-background-color: #f8fafd; -fx-background-radius: 12; -fx-border-color: #d0dce8; -fx-border-radius: 12; -fx-padding: 16;"
+                        VBox.vgrow="ALWAYS">
+                        <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;"
+                            text="Postulaciones Recientes" />
+                        <ScrollPane fitToHeight="true" hbarPolicy="AS_NEEDED" vbarPolicy="NEVER"
+                            style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;"
+                            VBox.vgrow="ALWAYS">
+                            <content>
+                                <TableView fx:id="postulacionesTable"
+                                    prefHeight="160.0"
+                                    style="-fx-background-color: transparent; -fx-border-color: #e0eaf4; -fx-border-radius: 8; -fx-background-radius: 8;">
+                                    <columns>
+                                        <TableColumn fx:id="colNombre"  prefWidth="120" minWidth="100" text="Nombre" />
+                                        <TableColumn fx:id="colEdad"    prefWidth="55"  minWidth="50"  text="Edad" />
+                                        <TableColumn fx:id="colTrabajo" prefWidth="120" minWidth="100" text="Trabajo" />
+                                        <TableColumn fx:id="colEstado"  prefWidth="110" minWidth="100" text="Estado" />
+                                    </columns>
+                                    <placeholder>
+                                        <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 12;" text="Sin postulaciones recientes" />
+                                    </placeholder>
+                                </TableView>
+                            </content>
+                        </ScrollPane>
+                    </VBox>
+
+                    <!-- Ofertas Activas -->
+                    <VBox spacing="8.0"
+                        style="-fx-background-color: #f8fafd; -fx-background-radius: 12; -fx-border-color: #d0dce8; -fx-border-radius: 12; -fx-padding: 16;"
+                        VBox.vgrow="ALWAYS">
+                        <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 14; -fx-font-weight: bold;"
+                            text="Ofertas Activas" />
+                        <ScrollPane fitToHeight="true" hbarPolicy="AS_NEEDED" vbarPolicy="NEVER"
+                            style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;"
+                            VBox.vgrow="ALWAYS">
+                            <content>
+                                <TableView fx:id="ofertasTable"
+                                    prefHeight="160.0"
+                                    style="-fx-background-color: transparent; -fx-border-color: #e0eaf4; -fx-border-radius: 8; -fx-background-radius: 8;">
+                                    <columns>
+                                        <TableColumn fx:id="colNombre2"  prefWidth="120" minWidth="100" text="Nombre" />
+                                        <TableColumn fx:id="colEdad2"    prefWidth="55"  minWidth="50"  text="Edad" />
+                                        <TableColumn fx:id="colTrabajo2" prefWidth="120" minWidth="100" text="Trabajo" />
+                                        <TableColumn fx:id="colEstado2"  prefWidth="110" minWidth="100" text="Estado" />
+                                    </columns>
+                                    <placeholder>
+                                        <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 12;" text="Sin datos" />
+                                    </placeholder>
+                                </TableView>
+                            </content>
+                        </ScrollPane>
+                    </VBox>
+
+                </VBox>
+            </HBox>
+
+        </VBox>
+
+    </children>
+</AnchorPane>

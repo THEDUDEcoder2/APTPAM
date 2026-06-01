@@ -1,7 +1,5 @@
 package com.example.trabajos.services;
 
-import com.example.trabajos.models.Empresa;
-import com.example.trabajos.models.Trabajador;
 import com.example.trabajos.utils.HibernateUtil;
 import jakarta.persistence.EntityManager;
 

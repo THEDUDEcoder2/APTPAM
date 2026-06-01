@@ -133,6 +133,17 @@
                                                 <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Descripción:" />
                                                 <Label fx:id="descripcionLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 15;" wrapText="true" />
                                             </VBox>
+
+                                            <!-- NUEVO: Fecha de expiración -->
+                                            <VBox spacing="4.0">
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Fecha de expiración:" />
+                                                <Label fx:id="fechaExpiracionLabel" style="-fx-text-fill: #3a5070; -fx-font-size: 15;" />
+                                            </VBox>
+                                            <VBox spacing="4.0">
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Estado de la oferta:" />
+                                                <Label fx:id="diasRestantesLabel" style="-fx-text-fill: #27ae60; -fx-font-size: 15; -fx-font-weight: bold;" />
+                                            </VBox>
+
                                         </VBox>
 
                                     </VBox>

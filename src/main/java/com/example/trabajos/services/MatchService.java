@@ -153,8 +153,9 @@ public class MatchService {
         public void setGenero(String genero) { this.genero = genero; }
     }
 
+    // CORREGIDO: Usar obtenerTrabajadoresDisponibles() en lugar de obtenerTodosTrabajadores()
     public List<MatchResult> buscarMatches(CriteriosMatch criterios) {
-        List<Trabajador> todos = trabajadorService.obtenerTodosTrabajadores();
+        List<Trabajador> todos = trabajadorService.obtenerTrabajadoresDisponibles();
         List<MatchResult> resultados = new ArrayList<>();
 
         for (Trabajador t : todos) {

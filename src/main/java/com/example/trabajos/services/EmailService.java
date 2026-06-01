@@ -87,4 +87,37 @@ public class EmailService {
 
         return enviarCorreo(destinatario, asunto, mensaje);
     }
+
+    // Notificación de oferta privada - El trabajador debe acudir al DIF
+    public boolean enviarNotificacionOfertaPrivada(String destinatario, String nombreEmpresa, String nombreTrabajador) {
+        String asunto = "📨 Nueva oferta exclusiva - PETAM (En colaboración con el DIF)";
+
+        String mensaje = String.format(
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
+                        "                          PLATAFORMA DE EMPLEO TEMPORAL\n" +
+                        "                          En colaboración con el DIF\n" +
+                        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n" +
+                        "Estimado/a %s,\n\n" +
+                        "Nos complace informarle que una empresa interesada en su perfil profesional\n" +
+                        "le ha enviado una OFERTA EXCLUSIVA a través de nuestra plataforma.\n\n" +
+                        "┌─────────────────────────────────────────────────────────────────────────────┐\n" +
+                        "│                                                                             │\n" +
+                        "│  📌 Ha recibido una oferta de empleo privada                                │\n" +
+                        "│                                                                             │\n" +
+                        "│  👤 Empresa: %s                                                             │\n" +
+                        "│                                                                             │\n" +
+                        "│  ⏰ La oferta ha sido diseñada especialmente para usted.                    │\n" +
+                        "│                                                                             │\n" +
+                        "└─────────────────────────────────────────────────────────────────────────────┘\n\n" +
+                        "Para conocer los detalles de esta oferta (puesto, horario, sueldo y condiciones),\n" +
+                        "debe acudir a las oficinas del DIF.\n\n" +
+                        "Atentamente,\n" +
+                        "Equipo de la Plataforma de Empleo Temporal (PETAM)\n" +
+                        "En colaboración con el Sistema DIF\n" +
+                        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+                nombreTrabajador, nombreEmpresa
+        );
+
+        return enviarCorreo(destinatario, asunto, mensaje);
+    }
 }

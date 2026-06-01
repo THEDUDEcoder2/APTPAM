@@ -66,6 +66,59 @@ public class RegistroController {
         if (passwordVisibleField != null && passwordField != null) {
             passwordVisibleField.textProperty().bindBidirectional(passwordField.textProperty());
         }
+
+        // LIMITAR LONGITUD DEL CORREO INTELIGENTEMENTE
+        emailField.textProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null && !newValue.isEmpty()) {
+                int arrobaPos = newValue.indexOf('@');
+
+                if (arrobaPos == -1) {
+                    // No hay @ aún, limitar a 64 caracteres
+                    if (newValue.length() > 64) {
+                        emailField.setText(oldValue);
+                    }
+                } else {
+                    // Ya hay @, separar partes
+                    String antesArroba = newValue.substring(0, arrobaPos);
+                    String despuesArroba = newValue.substring(arrobaPos + 1);
+
+                    // Validar parte antes del @ (máximo 64)
+                    if (antesArroba.length() > 64) {
+                        emailField.setText(oldValue);
+                        return;
+                    }
+
+                    // Validar parte después del @ (máximo 35)
+                    if (despuesArroba.length() > 35) {
+                        emailField.setText(oldValue);
+                        return;
+                    }
+
+                    // Validar total (máximo 100)
+                    if (newValue.length() > 100) {
+                        emailField.setText(oldValue);
+                    }
+                }
+            }
+        });
+
+        // LIMITAR LONGITUD DE CONTRASEÑA
+        passwordField.textProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null && newValue.length() > 10) {
+                passwordField.setText(oldValue);
+                if (passwordVisibleField != null) passwordVisibleField.setText(oldValue);
+            }
+        });
+
+        if (passwordVisibleField != null) {
+            passwordVisibleField.textProperty().addListener((obs, oldValue, newValue) -> {
+                if (newValue != null && newValue.length() > 10) {
+                    passwordVisibleField.setText(oldValue);
+                    passwordField.setText(oldValue);
+                }
+            });
+        }
+
         inicializarComboBoxes();
         if (camposEmpresaBox != null) {
             camposEmpresaBox.setVisible(false);
@@ -147,8 +200,6 @@ public class RegistroController {
             municipioComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue != null && !newValue.isEmpty()) {
                     cargarCiudadesPorMunicipio(newValue);
-                } else if (ciudadComboBox != null) {
-                    ciudadComboBox.getItems().clear();
                 }
             });
         }
@@ -280,6 +331,25 @@ public class RegistroController {
             return;
         }
 
+        // Validar formato de email (máximo 64 caracteres antes del @)
+        String[] partes = email.split("@");
+        if (partes.length != 2) {
+            mostrarAlertaError("Email inválido", "Por favor, ingresa un email válido");
+            return;
+        }
+
+        String nombreUsuario = partes[0];
+        if (nombreUsuario.length() < 1) {
+            mostrarAlertaError("Email inválido", "La parte antes del @ debe tener al menos 1 carácter");
+            return;
+        }
+
+        if (nombreUsuario.length() > 64) {
+            mostrarAlertaError("Email inválido", "La parte antes del @ no puede tener más de 64 caracteres\n\n" +
+                    "Caracteres ingresados: " + nombreUsuario.length() + "/64");
+            return;
+        }
+
         if (!validarDominioEmail(email)) {
             mostrarAlertaError("Dominio de email no permitido",
                     "Solo se permiten correos con terminación:\n\n• @gmail.com\n• @hotmail.com\n\nPor favor, usa una de estas extensiones.");
@@ -288,6 +358,12 @@ public class RegistroController {
 
         if (password.length() < 6) {
             mostrarAlertaError("Contraseña muy corta", "La contraseña debe tener al menos 6 caracteres");
+            return;
+        }
+
+        if (password.length() > 10) {
+            mostrarAlertaError("Contraseña muy larga", "La contraseña no puede tener más de 10 caracteres\n\n" +
+                    "Caracteres ingresados: " + password.length() + "/10");
             return;
         }
 

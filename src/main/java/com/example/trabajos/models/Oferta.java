@@ -2,6 +2,7 @@ package com.example.trabajos.models;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,13 +51,17 @@ public class Oferta {
     @Column(name = "Fecha_publicacion")
     private LocalDate fecha_publicacion;
 
+    // NUEVO CAMPO: Fecha de expiración de la oferta
+    @Column(name = "Fecha_expiracion")
+    private LocalDate fechaExpiracion;
+
     @Column(name = "Tipo_oferta", nullable = false)
     private String tipoOferta;
 
     @Column(name = "Mensaje_personal", columnDefinition = "TEXT")
     private String mensajePersonal;
 
-    @Column(name = "Sueldo")  // Atención: Mayúscula 'S' para que coincida con MySQL
+    @Column(name = "Sueldo")
     private Double sueldo;
 
     @OneToMany(mappedBy = "oferta", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -67,6 +72,8 @@ public class Oferta {
 
     public Oferta() {
         this.fecha_publicacion = LocalDate.now();
+        // Por defecto, la fecha de expiración es 30 días después de la publicación
+        this.fechaExpiracion = LocalDate.now().plusDays(30);
     }
 
     // Getters y Setters
@@ -99,6 +106,11 @@ public class Oferta {
     public void setCantidad(Integer cantidad) { this.cantidad = cantidad; }
     public LocalDate getFecha_publicacion() { return fecha_publicacion; }
     public void setFecha_publicacion(LocalDate fecha_publicacion) { this.fecha_publicacion = fecha_publicacion; }
+
+    // NUEVOS GETTERS/SETTERS para fechaExpiracion
+    public LocalDate getFechaExpiracion() { return fechaExpiracion; }
+    public void setFechaExpiracion(LocalDate fechaExpiracion) { this.fechaExpiracion = fechaExpiracion; }
+
     public String getTipoOferta() { return tipoOferta; }
     public void setTipoOferta(String tipoOferta) { this.tipoOferta = tipoOferta; }
     public String getMensajePersonal() { return mensajePersonal; }
@@ -109,6 +121,28 @@ public class Oferta {
     public void setOfertaIdiomas(List<OfertaIdioma> ofertaIdiomas) { this.ofertaIdiomas = ofertaIdiomas; }
     public List<Postulacion> getPostulaciones() { return postulaciones; }
     public void setPostulaciones(List<Postulacion> postulaciones) { this.postulaciones = postulaciones; }
+
+    // Método para verificar si la oferta está expirada
+    public boolean isExpirada() {
+        return fechaExpiracion != null && LocalDate.now().isAfter(fechaExpiracion);
+    }
+
+    // Método para obtener días restantes antes de expirar
+    public long getDiasRestantes() {
+        if (fechaExpiracion == null) return 999;
+        long dias = java.time.temporal.ChronoUnit.DAYS.between(LocalDate.now(), fechaExpiracion);
+        return Math.max(0, dias);
+    }
+
+    // Método para obtener texto formateado de días restantes
+    public String getDiasRestantesTexto() {
+        long dias = getDiasRestantes();
+        if (isExpirada()) return "⚠️ EXPIRADA";
+        if (dias == 0) return "⚠️ EXPIRA HOY";
+        if (dias == 1) return "⚠️ EXPIRA MAÑANA";
+        if (dias <= 7) return "⚠️ EXPIRA EN " + dias + " DÍAS";
+        return "✓ Válida por " + dias + " días más";
+    }
 
     public void addOfertaIdioma(OfertaIdioma ofertaIdioma) {
         ofertaIdiomas.add(ofertaIdioma);
@@ -149,5 +183,11 @@ public class Oferta {
 
     public String getNombreTrabajadorDestino() {
         return trabajadorDestino != null ? trabajadorDestino.getNombreCompleto() : null;
+    }
+
+    // Método para obtener fecha de expiración formateada
+    public String getFechaExpiracionFormateada() {
+        if (fechaExpiracion == null) return "No especificada";
+        return fechaExpiracion.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 }

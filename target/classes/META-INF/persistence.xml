@@ -29,7 +29,7 @@
         <properties>
             <!-- Configuración de la base de datos -->
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/Integrador"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/Integrador2"/>
             <property name="jakarta.persistence.jdbc.user" value="root"/>
             <property name="jakarta.persistence.jdbc.password" value="mares10"/>
 

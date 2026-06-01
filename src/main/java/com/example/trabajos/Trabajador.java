@@ -1,7 +1,6 @@
 package com.example.trabajos;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class Trabajador {
     private String nombre;

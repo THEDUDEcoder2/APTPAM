@@ -44,6 +44,7 @@ public class FormularioPrivadoController {
     private OfertaService ofertaService = new OfertaService();
     private SalarioService salarioService = new SalarioService();
     private PostulacionService postulacionService = new PostulacionService();
+    private EmailService emailService = new EmailService();
 
     private String formatearPrimeraLetraMayuscula(String texto) {
         if (texto == null || texto.isEmpty()) return texto;
@@ -201,6 +202,16 @@ public class FormularioPrivadoController {
             nuevaOferta.setMensajePersonal(formatearPrimeraLetraMayuscula(mensajePersonalArea.getText()));
             nuevaOferta.setTipoOferta("PRIVADA");
 
+            // Guardar sueldo
+            String sueldoTexto = sueldoField.getText();
+            if (sueldoTexto != null && !sueldoTexto.isEmpty()) {
+                try {
+                    nuevaOferta.setSueldo(Double.parseDouble(sueldoTexto));
+                } catch (NumberFormatException e) {
+                    nuevaOferta.setSueldo(null);
+                }
+            }
+
             Salario salario = salarioService.obtenerSalarioPorTipo(tipoSalarioComboBox.getValue());
             if (salario == null) {
                 salario = new Salario(tipoSalarioComboBox.getValue());
@@ -209,20 +220,36 @@ public class FormularioPrivadoController {
 
             Oferta ofertaPersistida = ofertaService.guardarOferta(nuevaOferta);
 
-            com.example.trabajos.models.Postulacion postulacion = new com.example.trabajos.models.Postulacion();
-            postulacion.setTrabajador(trabajadorDestino);
-            postulacion.setOferta(ofertaPersistida);
+            // USAR EL CONSTRUCTOR QUE INCLUYE TRABAJADOR, OFERTA Y EMPRESA
+            com.example.trabajos.models.Postulacion postulacion = new com.example.trabajos.models.Postulacion(
+                    trabajadorDestino,
+                    ofertaPersistida,
+                    empresaActual
+            );
             postulacion.setEstado("PENDIENTE");
             postulacion.setFechaPostulacion(LocalDateTime.now());
 
             postulacionService.guardarPostulacion(postulacion);
+
+            // ENVIAR NOTIFICACIÓN POR CORREO AL TRABAJADOR
+            try {
+                String correoTrabajador = trabajadorDestino.getCorreoElectronico();
+                String nombreEmpresa = empresaActual.getNombreEmpresa();
+                String nombreTrabajadorCompleto = trabajadorDestino.getNombreCompleto();
+
+                emailService.enviarNotificacionOfertaPrivada(correoTrabajador, nombreEmpresa, nombreTrabajadorCompleto);
+                System.out.println("✅ Notificación de oferta privada enviada a: " + correoTrabajador);
+            } catch (Exception e) {
+                System.err.println("Error al enviar notificación: " + e.getMessage());
+            }
 
             String nombreTrabajador = trabajadorDestino.getNombre();
             if (trabajadorDestino.getApellidoPaterno() != null && !trabajadorDestino.getApellidoPaterno().isEmpty()) {
                 nombreTrabajador += " " + trabajadorDestino.getApellidoPaterno();
             }
 
-            mostrarMensajeExito("✅ Oferta PRIVADA enviada correctamente a " + nombreTrabajador);
+            mostrarMensajeExito("✅ Oferta PRIVADA enviada correctamente a " + nombreTrabajador +
+                    "\n\n📧 Se ha enviado una notificación al correo del trabajador.");
 
             new Thread(() -> {
                 try {

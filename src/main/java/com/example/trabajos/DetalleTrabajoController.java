@@ -35,6 +35,10 @@ public class DetalleTrabajoController {
     @FXML private Label descripcionLabel;
     @FXML private Label estadoLabel;
 
+    // NUEVOS: Fecha de expiración
+    @FXML private Label fechaExpiracionLabel;
+    @FXML private Label diasRestantesLabel;
+
     @FXML private Button contactarButton;
     @FXML private Button cerrarButton;
 
@@ -66,12 +70,35 @@ public class DetalleTrabajoController {
         mostrarDetallesOferta();
         cargarTrabajadorSiEsNecesario();
         verificarEstadoPostulacion();
+        mostrarFechaExpiracion();
+    }
+
+    private void mostrarFechaExpiracion() {
+        if (fechaExpiracionLabel != null) {
+            fechaExpiracionLabel.setText(oferta.getFechaExpiracionFormateada());
+        }
+        if (diasRestantesLabel != null) {
+            if (oferta.isExpirada()) {
+                diasRestantesLabel.setText("⚠️ ESTA OFERTA HA EXPIRADO ⚠️");
+                diasRestantesLabel.setStyle("-fx-text-fill: #e74c3c; -fx-font-weight: bold;");
+                if (contactarButton != null) {
+                    contactarButton.setDisable(true);
+                    contactarButton.setText("Oferta Expirada");
+                }
+            } else {
+                diasRestantesLabel.setText(oferta.getDiasRestantesTexto());
+                if (oferta.getDiasRestantes() <= 7) {
+                    diasRestantesLabel.setStyle("-fx-text-fill: #e67e22; -fx-font-weight: bold;");
+                } else {
+                    diasRestantesLabel.setStyle("-fx-text-fill: #27ae60;");
+                }
+            }
+        }
     }
 
     private void mostrarDetallesOferta() {
         if (oferta == null) return;
 
-        // Información de la Empresa
         if (oferta.getEmpresa() != null) {
             nombreEmpresaLabel.setText(oferta.getEmpresa().getNombreEmpresa() != null ?
                     oferta.getEmpresa().getNombreEmpresa() : "No especificado");
@@ -87,7 +114,6 @@ public class DetalleTrabajoController {
             telefonoLabel.setText("No especificado");
         }
 
-        // Herramientas - mostrar desde la empresa si está disponible
         if (oferta.getEmpresa() != null && oferta.getEmpresa().getSectorActividad() != null) {
             herramientaLabel.setText(oferta.getEmpresa().getSectorActividad().getTipoSectorActividad() != null ?
                     oferta.getEmpresa().getSectorActividad().getTipoSectorActividad() : "No especificado");
@@ -95,15 +121,12 @@ public class DetalleTrabajoController {
             herramientaLabel.setText("No especificado");
         }
 
-        // Idiomas requeridos
         idiomasLabel.setText(oferta.getIdiomasRequeridos() != null && !oferta.getIdiomasRequeridos().isEmpty() ?
                 oferta.getIdiomasRequeridos() : "No especificado");
 
-        // Información de la Vacante
         puestoLabel.setText(oferta.getPuesto_trabajo() != null ? oferta.getPuesto_trabajo() : "No especificado");
         horarioLabel.setText(oferta.getJornada_laboral() != null ? oferta.getJornada_laboral() : "No especificado");
 
-        // Sueldo - mostrar el tipo de salario
         if (oferta.getSalario() != null && oferta.getSalario().getTipoSalario() != null) {
             sueldoLabel.setText(oferta.getSalario().getTipoSalario());
         } else {
@@ -187,6 +210,14 @@ public class DetalleTrabajoController {
 
     @FXML
     private void aceptarVacante() {
+        // VALIDACIÓN: Oferta expirada
+        if (oferta != null && oferta.isExpirada()) {
+            mostrarAlerta("Oferta Expirada",
+                    "❌ Esta oferta ya expiró el " + oferta.getFechaExpiracionFormateada() +
+                            ".\n\nNo es posible postularse a ofertas vencidas.");
+            return;
+        }
+
         if (postulacionExistente != null) {
             mostrarAlerta("Información",
                     "Ya estás postulado a esta vacante.\n" +
@@ -202,6 +233,30 @@ public class DetalleTrabajoController {
                 mostrarAlerta("Error", "No se pudo identificar tu cuenta de trabajador.");
                 return;
             }
+        }
+
+        // VALIDACIÓN: Cuenta debe estar activa
+        if (!trabajadorActual.isActivo()) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("❌ Cuenta desactivada");
+            alerta.setHeaderText("No puedes postularte a ofertas");
+            alerta.setContentText(
+                    "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
+                            "         CUENTA DESACTIVADA\n" +
+                            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n" +
+                            "❌ Tu cuenta está INACTIVA.\n\n" +
+                            "📌 Para poder postularte a nuevas vacantes:\n" +
+                            "   • Ve al panel principal\n" +
+                            "   • Haz clic en el botón ⛔ INACTIVO\n" +
+                            "   • Confirma que quieres reactivar tu cuenta\n" +
+                            "   • Espera a que el botón se ponga VERDE (✅ ACTIVO)\n\n" +
+                            "¡Reactivar tu cuenta es gratuito y toma solo unos segundos!\n\n" +
+                            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            );
+            alerta.getDialogPane().setMinHeight(400);
+            alerta.getDialogPane().setMinWidth(500);
+            alerta.showAndWait();
+            return;
         }
 
         if (oferta == null) {
@@ -223,11 +278,7 @@ public class DetalleTrabajoController {
                 return;
             }
 
-            // Crear nueva postulación - CORREGIDO: sin setEmpresa
-            Postulacion nuevaPostulacion = new Postulacion();
-            nuevaPostulacion.setTrabajador(trabajadorActual);
-            nuevaPostulacion.setOferta(ofertaBD);
-            // La empresa se obtiene automáticamente de la oferta
+            Postulacion nuevaPostulacion = new Postulacion(trabajadorActual, ofertaBD);
             nuevaPostulacion.setEstado("PENDIENTE");
             nuevaPostulacion.setFechaPostulacion(LocalDateTime.now());
 

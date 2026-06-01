@@ -5,6 +5,7 @@ import com.example.trabajos.models.Postulacion;
 import com.example.trabajos.models.Trabajador;
 import com.example.trabajos.services.PostulacionService;
 import com.example.trabajos.services.OfertaService;
+import com.example.trabajos.services.TrabajadorService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -30,6 +31,10 @@ public class DetalleTrabajoPrivadoController {
     @FXML private Label mensajePersonalLabel;
     @FXML private Label estadoActualLabel;
 
+    // NUEVOS: Fecha de expiración
+    @FXML private Label fechaExpiracionLabel;
+    @FXML private Label diasRestantesLabel;
+
     @FXML private Button aceptarButton;
     @FXML private Button rechazarButton;
     @FXML private Button volverButton;
@@ -43,15 +48,38 @@ public class DetalleTrabajoPrivadoController {
     private Postulacion postulacionActual;
     private PostulacionService postulacionService = new PostulacionService();
     private OfertaService ofertaService = new OfertaService();
+    private TrabajadorService trabajadorService = new TrabajadorService();
 
     public void setOferta(Oferta oferta) {
         this.ofertaActual = oferta;
         cargarDatosOferta();
+        mostrarFechaExpiracion();
     }
 
     public void setTrabajadorActual(Trabajador trabajador) {
         this.trabajadorActual = trabajador;
         cargarPostulacion();
+    }
+
+    private void mostrarFechaExpiracion() {
+        if (fechaExpiracionLabel != null && ofertaActual != null) {
+            fechaExpiracionLabel.setText(ofertaActual.getFechaExpiracionFormateada());
+        }
+        if (diasRestantesLabel != null && ofertaActual != null) {
+            if (ofertaActual.isExpirada()) {
+                diasRestantesLabel.setText("⚠️ ESTA OFERTA HA EXPIRADO ⚠️");
+                diasRestantesLabel.setStyle("-fx-text-fill: #e74c3c; -fx-font-weight: bold;");
+                aceptarButton.setDisable(true);
+                aceptarButton.setText("Oferta Expirada");
+            } else {
+                diasRestantesLabel.setText(ofertaActual.getDiasRestantesTexto());
+                if (ofertaActual.getDiasRestantes() <= 7) {
+                    diasRestantesLabel.setStyle("-fx-text-fill: #e67e22; -fx-font-weight: bold;");
+                } else {
+                    diasRestantesLabel.setStyle("-fx-text-fill: #27ae60;");
+                }
+            }
+        }
     }
 
     private void cargarPostulacion() {
@@ -176,6 +204,14 @@ public class DetalleTrabajoPrivadoController {
 
     @FXML
     private void onAceptarClick() {
+        // VALIDACIÓN: Oferta expirada
+        if (ofertaActual != null && ofertaActual.isExpirada()) {
+            mostrarAlerta("Oferta Expirada",
+                    "❌ Esta oferta ya expiró el " + ofertaActual.getFechaExpiracionFormateada() +
+                            ".\n\nNo es posible aceptar ofertas vencidas.");
+            return;
+        }
+
         if (postulacionActual == null) {
             mostrarAlerta("Error", "No se encontró la postulación para esta oferta.");
             return;
@@ -186,6 +222,29 @@ public class DetalleTrabajoPrivadoController {
                     "Ya has tomado una decisión sobre esta oferta.\n" +
                             "Estado actual: " + postulacionActual.getEstado().toUpperCase() + "\n\n" +
                             "Las decisiones NO se pueden modificar.");
+            return;
+        }
+
+        if (trabajadorActual != null && !trabajadorActual.isActivo()) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("❌ Cuenta desactivada");
+            alerta.setHeaderText("No puedes aceptar ofertas");
+            alerta.setContentText(
+                    "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
+                            "         CUENTA DESACTIVADA\n" +
+                            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n" +
+                            "❌ Tu cuenta está INACTIVA.\n\n" +
+                            "📌 Para poder aceptar ofertas:\n" +
+                            "   • Ve al panel principal\n" +
+                            "   • Haz clic en el botón ⛔ INACTIVO\n" +
+                            "   • Confirma que quieres reactivar tu cuenta\n" +
+                            "   • Espera a que el botón se ponga VERDE (✅ ACTIVO)\n\n" +
+                            "¡Reactivar tu cuenta es gratuito y toma solo unos segundos!\n\n" +
+                            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            );
+            alerta.getDialogPane().setMinHeight(400);
+            alerta.getDialogPane().setMinWidth(500);
+            alerta.showAndWait();
             return;
         }
 
@@ -202,7 +261,8 @@ public class DetalleTrabajoPrivadoController {
         confirmacion.setHeaderText("¿Aceptas la oferta de " + ofertaActual.getEmpresa().getNombreEmpresa() + "?");
         confirmacion.setContentText("⚠️ ATENCIÓN: Esta decisión NO se puede cambiar después.\n\n" +
                 "Tu nota será enviada a la empresa:\n" + nota + "\n\n" +
-                "Al aceptar, la empresa será notificada y podrán contactarte para continuar con el proceso.");
+                "⚠️ IMPORTANTE: Al aceptar esta oferta, tu cuenta será DESACTIVADA automáticamente\n" +
+                "y ya no aparecerás en búsquedas de otras empresas hasta que la reactives manualmente.");
 
         if (confirmacion.showAndWait().get() == javafx.scene.control.ButtonType.OK) {
             cambiarEstado("ACEPTADO", nota);
@@ -236,8 +296,7 @@ public class DetalleTrabajoPrivadoController {
         confirmacion.setTitle("Confirmar Rechazo");
         confirmacion.setHeaderText("¿Rechazas la oferta de " + ofertaActual.getEmpresa().getNombreEmpresa() + "?");
         confirmacion.setContentText("⚠️ ATENCIÓN: Esta decisión NO se puede cambiar después.\n\n" +
-                "Tu nota será enviada a la empresa:\n" + nota + "\n\n" +
-                "Al rechazar, la empresa será notificada.");
+                "Tu nota será enviada a la empresa:\n" + nota);
 
         if (confirmacion.showAndWait().get() == javafx.scene.control.ButtonType.OK) {
             cambiarEstado("RECHAZADO", nota);
@@ -251,13 +310,23 @@ public class DetalleTrabajoPrivadoController {
             postulacionActual.setEstado(nuevoEstado);
             postulacionActual.setNotaEmpresa(notaFormateada);
             postulacionService.actualizarPostulacion(postulacionActual);
+
+            if ("ACEPTADO".equals(nuevoEstado) && trabajadorActual != null && trabajadorActual.isActivo()) {
+                trabajadorService.cambiarEstadoActivo(trabajadorActual.getIdTrabajador(), false);
+                trabajadorActual.setActivo(false);
+                System.out.println("⛔ Trabajador " + trabajadorActual.getNombreCompleto() + " desactivado automáticamente por aceptar oferta privada");
+            }
+
             actualizarEstadoVisual();
 
             String mensaje = "";
             if ("ACEPTADO".equals(nuevoEstado)) {
                 mensaje = "✅ Has ACEPTADO la oferta de " + ofertaActual.getEmpresa().getNombreEmpresa() +
                         ".\n\nTu nota ha sido enviada a la empresa.\n\n" +
-                        "⚠️ Esta decisión es FINAL y no se puede cambiar.";
+                        "⚠️ Esta decisión es FINAL y no se puede cambiar.\n\n" +
+                        "🔇 Tu cuenta ha sido DESACTIVADA automáticamente.\n" +
+                        "Ya no aparecerás en búsquedas de otras empresas.\n\n" +
+                        "Para buscar nuevo empleo, reactiva tu cuenta desde el panel principal.";
             } else if ("RECHAZADO".equals(nuevoEstado)) {
                 mensaje = "❌ Has RECHAZADO la oferta de " + ofertaActual.getEmpresa().getNombreEmpresa() +
                         ".\n\nTu nota ha sido enviada a la empresa.\n\n" +

@@ -48,21 +48,35 @@ public class EditarPerfilEmpresaController {
 
     private Empresa empresaOriginal;
 
+
     @FXML
     public void initialize() {
+        // LIMITAR NUEVA CONTRASEÑA (máximo 10 caracteres)
+        nuevaPasswordField.textProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null && newValue.length() > 10) {
+                nuevaPasswordField.setText(oldValue);
+                nuevaPasswordVisibleField.setText(oldValue);
+            }
+        });
+
+        nuevaPasswordVisibleField.textProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null && newValue.length() > 10) {
+                nuevaPasswordVisibleField.setText(oldValue);
+                nuevaPasswordField.setText(oldValue);
+            }
+        });
+
         configurarCombos();
         cargarDatosEmpresa();
         configurarValidadores();
     }
 
     private void configurarCombos() {
-        // Tipo de empresa
         tipoEmpresaComboBox.getItems().addAll(
                 "Persona Física", "Persona Moral", "Sociedad Anónima",
                 "Sociedad de Responsabilidad Limitada", "Empresa Individual"
         );
 
-        // Sector de actividad
         try {
             for (SectorActividad s : sectorActividadService.obtenerTodosSectores()) {
                 sectorActividadComboBox.getItems().add(s.getTipoSectorActividad());
@@ -75,7 +89,6 @@ public class EditarPerfilEmpresaController {
             );
         }
 
-        // Municipio
         try {
             for (Municipio m : municipioService.obtenerTodosMunicipios()) {
                 municipioComboBox.getItems().add(m.getNombreMunicipio());
@@ -160,7 +173,6 @@ public class EditarPerfilEmpresaController {
     }
 
     private void configurarValidadores() {
-        // Validar teléfono (solo números, 10 dígitos)
         telefonoField.textProperty().addListener((obs, old, newVal) -> {
             if (!newVal.matches("\\d*")) {
                 telefonoField.setText(newVal.replaceAll("[^\\d]", ""));
@@ -170,7 +182,6 @@ public class EditarPerfilEmpresaController {
             }
         });
 
-        // Validar código postal
         codigoPostalField.textProperty().addListener((obs, old, newVal) -> {
             if (!newVal.matches("\\d*")) {
                 codigoPostalField.setText(newVal.replaceAll("[^\\d]", ""));
@@ -180,7 +191,6 @@ public class EditarPerfilEmpresaController {
             }
         });
 
-        // Validar RFC
         rfcField.textProperty().addListener((obs, old, newVal) -> {
             if (newVal != null && !newVal.isEmpty()) {
                 String filteredValue = newVal.replaceAll("[^a-zA-Z0-9]", "").toUpperCase();
@@ -216,7 +226,6 @@ public class EditarPerfilEmpresaController {
         if (!validarCampos()) return;
 
         try {
-            // Actualizar datos de la empresa
             empresaOriginal.setNombreEmpresa(nombreEmpresaField.getText().trim());
             empresaOriginal.setRazonSocial(razonSocialField.getText().trim());
             empresaOriginal.setNumTelefono(telefonoField.getText());
@@ -227,36 +236,36 @@ public class EditarPerfilEmpresaController {
             empresaOriginal.setActEconomicaPrincipal(actividadEconomicaArea.getText());
             empresaOriginal.setTipoEmpresa(tipoEmpresaComboBox.getValue());
 
-            // Sector actividad
             if (sectorActividadComboBox.getValue() != null) {
                 SectorActividad sector = sectorActividadService.obtenerSectorPorNombre(sectorActividadComboBox.getValue());
                 empresaOriginal.setSectorActividad(sector);
             }
 
-            // Municipio
             if (municipioComboBox.getValue() != null) {
                 Municipio municipio = municipioService.obtenerMunicipioPorNombre(municipioComboBox.getValue());
                 empresaOriginal.setMunicipio(municipio);
             }
 
-            // Ciudad
             if (ciudadComboBox.getValue() != null) {
                 Ciudad ciudad = ciudadService.obtenerCiudadPorNombre(ciudadComboBox.getValue());
                 empresaOriginal.setCiudad(ciudad);
             }
 
-            // Contraseña (solo si se ingresó una nueva)
             String nuevaPassword = nuevaPasswordField.getText();
             if (!nuevaPassword.isEmpty()) {
-                if (nuevaPassword.length() >= 6) {
+                if (nuevaPassword.length() >= 6 && nuevaPassword.length() <= 10) {
                     empresaOriginal.setContrasena(nuevaPassword);
+                } else if (nuevaPassword.length() < 6) {
+                    mostrarMensaje("La contraseña debe tener al menos 6 caracteres", "error");
+                    return;
+                } else if (nuevaPassword.length() > 10) {
+                    mostrarMensaje("La contraseña no puede tener más de 10 caracteres", "error");
+                    return;
                 }
             }
 
-            // Guardar en BD
             empresaService.actualizarEmpresa(empresaOriginal);
 
-            // Actualizar sesión
             Usuario usuarioActual = SesionManager.getInstancia().getUsuarioActual();
             if (usuarioActual != null) {
                 usuarioActual.setNombre(nombreEmpresaField.getText().trim());
@@ -347,8 +356,8 @@ public class EditarPerfilEmpresaController {
         }
 
         String nuevaPassword = nuevaPasswordField.getText();
-        if (!nuevaPassword.isEmpty() && nuevaPassword.length() < 6) {
-            mostrarMensaje("La contraseña debe tener al menos 6 caracteres", "error");
+        if (!nuevaPassword.isEmpty() && (nuevaPassword.length() < 6 || nuevaPassword.length() > 10)) {
+            mostrarMensaje("La contraseña debe tener entre 6 y 10 caracteres", "error");
             return false;
         }
 

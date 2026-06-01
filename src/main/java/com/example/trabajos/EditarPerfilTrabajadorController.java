@@ -25,7 +25,6 @@ import java.util.List;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import com.example.trabajos.models.Trabajador;
-import com.example.trabajos.models.Genero;
 import com.example.trabajos.models.Nacionalidad;
 import com.example.trabajos.models.EstadoCivil;
 import com.example.trabajos.models.Idioma;
@@ -79,7 +78,6 @@ public class EditarPerfilTrabajadorController {
     @FXML private Button cancelarButton;
     @FXML private Button volverButton;
 
-    // Foto de perfil
     @FXML private ImageView imageViewFoto;
     @FXML private Button btnTomarFoto;
     @FXML private Button btnSubirFoto;
@@ -104,6 +102,21 @@ public class EditarPerfilTrabajadorController {
 
     @FXML
     public void initialize() {
+        // LIMITAR NUEVA CONTRASEÑA (máximo 10 caracteres)
+        nuevaPasswordField.textProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null && newValue.length() > 10) {
+                nuevaPasswordField.setText(oldValue);
+                nuevaPasswordVisibleField.setText(oldValue);
+            }
+        });
+
+        nuevaPasswordVisibleField.textProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null && newValue.length() > 10) {
+                nuevaPasswordVisibleField.setText(oldValue);
+                nuevaPasswordField.setText(oldValue);
+            }
+        });
+
         configurarCombos();
         cargarDatosTrabajador();
         configurarValidadores();
@@ -111,35 +124,26 @@ public class EditarPerfilTrabajadorController {
     }
 
     private void configurarCombos() {
-        // Nacionalidad
         if (nacionalidadComboBox != null) {
             try {
                 for (Nacionalidad n : nacionalidadService.obtenerTodasNacionalidades()) {
                     nacionalidadComboBox.getItems().add(n.getNombreNacionalidad());
                 }
             } catch (Exception e) {
-                nacionalidadComboBox.getItems().addAll(
-                        "Mexicana", "Estadounidense", "Canadiense", "Española", "Colombiana",
-                        "Argentina", "Chilena", "Peruana", "Brasileña", "Francesa",
-                        "Alemana", "Italiana", "Británica", "China", "Japonesa", "Coreana"
-                );
+                nacionalidadComboBox.getItems().addAll("Mexicana", "Estadounidense", "Canadiense", "Española");
             }
         }
 
-        // Estado Civil
         if (estadoCivilComboBox != null) {
             try {
                 for (EstadoCivil ec : estadoCivilService.obtenerTodosEstadosCiviles()) {
                     estadoCivilComboBox.getItems().add(ec.getEstadoCivil());
                 }
             } catch (Exception e) {
-                estadoCivilComboBox.getItems().addAll(
-                        "Soltero/a", "Casado/a", "Divorciado/a", "Viudo/a", "Unión libre"
-                );
+                estadoCivilComboBox.getItems().addAll("Soltero/a", "Casado/a", "Divorciado/a", "Viudo/a", "Unión libre");
             }
         }
 
-        // Nivel de estudio
         if (nivelEstudioComboBox != null) {
             nivelEstudioComboBox.getItems().addAll(
                     "Primaria", "Secundaria", "Bachillerato", "Técnico",
@@ -147,14 +151,12 @@ public class EditarPerfilTrabajadorController {
             );
         }
 
-        // Discapacidad
         if (discapacidadComboBox != null) {
             discapacidadComboBox.getItems().addAll(
                     "Ninguna", "Visual", "Auditiva", "Motriz", "Intelectual", "Psicosocial"
             );
         }
 
-        // Municipio
         if (municipioComboBox != null) {
             try {
                 for (Municipio m : municipioService.obtenerTodosMunicipios()) {
@@ -165,7 +167,6 @@ public class EditarPerfilTrabajadorController {
             }
         }
 
-        // Ciudad
         if (ciudadComboBox != null) {
             ciudadComboBox.getItems().clear();
         }
@@ -180,7 +181,6 @@ public class EditarPerfilTrabajadorController {
             });
         }
 
-        // Cantidad de idiomas
         if (cantidadIdiomasComboBox != null) {
             cantidadIdiomasComboBox.getItems().addAll("0", "1", "2", "3", "4", "5");
             cantidadIdiomasComboBox.setValue("0");
@@ -262,14 +262,12 @@ public class EditarPerfilTrabajadorController {
             trabajadorOriginal = trabajadorService.obtenerTrabajadorPorEmail(usuario.getEmail());
 
             if (trabajadorOriginal != null) {
-                // Datos personales
                 nombreField.setText(trabajadorOriginal.getNombre());
                 apellidoPaternoField.setText(trabajadorOriginal.getApellidoPaterno());
                 apellidoMaternoField.setText(trabajadorOriginal.getApellidoMaterno());
                 emailField.setText(trabajadorOriginal.getCorreoElectronico());
                 fechaNacimientoPicker.setValue(trabajadorOriginal.getFechaNacimiento());
 
-                // Género
                 if (trabajadorOriginal.getGenero() != null) {
                     if ("Masculino".equals(trabajadorOriginal.getGenero().getTipoGenero())) {
                         masculinoRadio.setSelected(true);
@@ -278,17 +276,12 @@ public class EditarPerfilTrabajadorController {
                     }
                 }
 
-                // Documentos
                 rfcField.setText(trabajadorOriginal.getRfc());
                 curpField.setText(trabajadorOriginal.getCurp());
-
-                // Dirección
                 calleField.setText(trabajadorOriginal.getCalle());
                 coloniaField.setText(trabajadorOriginal.getColonia());
                 codigoPostalField.setText(trabajadorOriginal.getCodigoPostal());
                 telefonoField.setText(trabajadorOriginal.getNumTelefono());
-
-                // Datos profesionales
                 herramientasField.setText(trabajadorOriginal.getConocimientosHerramientas());
                 nivelEstudioComboBox.setValue(trabajadorOriginal.getNivelEstudio());
                 especialidadField.setText(trabajadorOriginal.getEspecialidad());
@@ -299,17 +292,14 @@ public class EditarPerfilTrabajadorController {
                 experienciaField.setText(trabajadorOriginal.getExperienciaLaboral());
                 habilidadesArea.setText(trabajadorOriginal.getHabilidades());
 
-                // Nacionalidad
                 if (trabajadorOriginal.getNacionalidad() != null) {
                     nacionalidadComboBox.setValue(trabajadorOriginal.getNacionalidad().getNombreNacionalidad());
                 }
 
-                // Estado Civil
                 if (trabajadorOriginal.getEstadoCivil() != null) {
                     estadoCivilComboBox.setValue(trabajadorOriginal.getEstadoCivil().getEstadoCivil());
                 }
 
-                // Municipio y Ciudad
                 if (trabajadorOriginal.getMunicipio() != null) {
                     municipioComboBox.setValue(trabajadorOriginal.getMunicipio().getNombreMunicipio());
                     cargarCiudadesPorMunicipio(trabajadorOriginal.getMunicipio().getNombreMunicipio());
@@ -318,7 +308,6 @@ public class EditarPerfilTrabajadorController {
                     ciudadComboBox.setValue(trabajadorOriginal.getCiudad().getNombreCiudad());
                 }
 
-                // Foto de perfil
                 byte[] fotoBytes = trabajadorOriginal.getFotoPerfil();
                 if (fotoBytes != null && fotoBytes.length > 0) {
                     Image foto = byteArrayAImagen(fotoBytes);
@@ -326,7 +315,6 @@ public class EditarPerfilTrabajadorController {
                     fotoPerfilBytes = fotoBytes;
                 }
 
-                // Idiomas
                 cargarIdiomasExistentes();
             }
         }
@@ -367,7 +355,6 @@ public class EditarPerfilTrabajadorController {
     }
 
     private void configurarValidadores() {
-        // Validar teléfono
         telefonoField.textProperty().addListener((obs, old, newVal) -> {
             if (!newVal.matches("\\d*")) {
                 telefonoField.setText(newVal.replaceAll("[^\\d]", ""));
@@ -377,7 +364,6 @@ public class EditarPerfilTrabajadorController {
             }
         });
 
-        // Validar código postal
         codigoPostalField.textProperty().addListener((obs, old, newVal) -> {
             if (!newVal.matches("\\d*")) {
                 codigoPostalField.setText(newVal.replaceAll("[^\\d]", ""));
@@ -387,7 +373,6 @@ public class EditarPerfilTrabajadorController {
             }
         });
 
-        // Validar RFC
         rfcField.textProperty().addListener((obs, old, newVal) -> {
             if (newVal != null && !newVal.isEmpty()) {
                 String filteredValue = newVal.replaceAll("[^a-zA-Z0-9]", "").toUpperCase();
@@ -400,7 +385,6 @@ public class EditarPerfilTrabajadorController {
             }
         });
 
-        // Validar CURP
         curpField.textProperty().addListener((obs, old, newVal) -> {
             if (newVal != null && !newVal.isEmpty()) {
                 String filteredValue = newVal.replaceAll("[^a-zA-Z0-9]", "").toUpperCase();
@@ -413,7 +397,6 @@ public class EditarPerfilTrabajadorController {
             }
         });
 
-        // Validar años experiencia
         anosExperienciaField.textProperty().addListener((obs, old, newVal) -> {
             if (!newVal.matches("\\d*")) {
                 anosExperienciaField.setText(newVal.replaceAll("[^\\d]", ""));
@@ -423,7 +406,6 @@ public class EditarPerfilTrabajadorController {
             }
         });
 
-        // Validar formato de mayúscula inicial
         configurarCampoSinEspaciosInicio(nombreField);
         configurarCampoSinEspaciosInicio(apellidoPaternoField);
         configurarCampoSinEspaciosInicio(apellidoMaternoField);
@@ -587,42 +569,40 @@ public class EditarPerfilTrabajadorController {
         if (!validarCampos()) return;
 
         try {
-            // Actualizar datos del trabajador
             trabajadorOriginal.setNombre(formatearPrimeraLetraMayuscula(nombreField.getText().trim()));
             trabajadorOriginal.setApellidoPaterno(formatearPrimeraLetraMayuscula(apellidoPaternoField.getText().trim()));
             trabajadorOriginal.setApellidoMaterno(formatearPrimeraLetraMayuscula(apellidoMaternoField.getText().trim()));
             trabajadorOriginal.setFechaNacimiento(fechaNacimientoPicker.getValue());
 
-            // Género
             if (masculinoRadio.isSelected()) {
                 trabajadorOriginal.setGenero(generoService.obtenerGeneroPorNombre("Masculino"));
             } else if (femeninoRadio.isSelected()) {
                 trabajadorOriginal.setGenero(generoService.obtenerGeneroPorNombre("Femenino"));
             }
 
-            // Contraseña (solo si se ingresó una nueva)
             String nuevaPassword = nuevaPasswordField.getText();
             if (!nuevaPassword.isEmpty()) {
-                if (nuevaPassword.length() >= 6) {
+                if (nuevaPassword.length() >= 6 && nuevaPassword.length() <= 10) {
                     trabajadorOriginal.setContrasena(nuevaPassword);
+                } else if (nuevaPassword.length() < 6) {
+                    mostrarMensaje("La contraseña debe tener al menos 6 caracteres", "error");
+                    return;
+                } else if (nuevaPassword.length() > 10) {
+                    mostrarMensaje("La contraseña no puede tener más de 10 caracteres", "error");
+                    return;
                 }
             }
 
-            // Nacionalidad
             if (nacionalidadComboBox.getValue() != null) {
                 trabajadorOriginal.setNacionalidad(nacionalidadService.obtenerNacionalidadPorNombre(nacionalidadComboBox.getValue()));
             }
 
-            // Estado Civil
             if (estadoCivilComboBox.getValue() != null) {
                 trabajadorOriginal.setEstadoCivil(estadoCivilService.obtenerEstadoCivilPorNombre(estadoCivilComboBox.getValue()));
             }
 
-            // Documentos
             trabajadorOriginal.setRfc(rfcField.getText().toUpperCase());
             trabajadorOriginal.setCurp(curpField.getText().toUpperCase());
-
-            // Dirección
             trabajadorOriginal.setCalle(calleField.getText());
             trabajadorOriginal.setColonia(coloniaField.getText());
             if (municipioComboBox.getValue() != null) {
@@ -633,8 +613,6 @@ public class EditarPerfilTrabajadorController {
             }
             trabajadorOriginal.setCodigoPostal(codigoPostalField.getText());
             trabajadorOriginal.setNumTelefono(telefonoField.getText());
-
-            // Datos profesionales
             trabajadorOriginal.setConocimientosHerramientas(herramientasField.getText());
             trabajadorOriginal.setNivelEstudio(nivelEstudioComboBox.getValue());
             trabajadorOriginal.setEspecialidad(especialidadField.getText());
@@ -645,15 +623,12 @@ public class EditarPerfilTrabajadorController {
             trabajadorOriginal.setExperienciaLaboral(experienciaField.getText());
             trabajadorOriginal.setHabilidades(habilidadesArea.getText());
 
-            // Foto de perfil
             if (fotoPerfilBytes != null) {
                 trabajadorOriginal.setFotoPerfil(fotoPerfilBytes);
             }
 
-            // Guardar en BD
             trabajadorService.actualizarTrabajador(trabajadorOriginal);
 
-            // Actualizar idiomas
             List<com.example.trabajos.models.TrabajadorIdioma> idiomasActuales = trabajadorIdiomaService.obtenerIdiomasPorTrabajador(trabajadorOriginal);
             for (com.example.trabajos.models.TrabajadorIdioma ti : idiomasActuales) {
                 trabajadorIdiomaService.eliminarIdiomaDeTrabajador(trabajadorOriginal, ti.getIdioma());
@@ -728,8 +703,8 @@ public class EditarPerfilTrabajadorController {
         }
 
         String nuevaPassword = nuevaPasswordField.getText();
-        if (!nuevaPassword.isEmpty() && nuevaPassword.length() < 6) {
-            mostrarMensaje("La contraseña debe tener al menos 6 caracteres", "error");
+        if (!nuevaPassword.isEmpty() && (nuevaPassword.length() < 6 || nuevaPassword.length() > 10)) {
+            mostrarMensaje("La contraseña debe tener entre 6 y 10 caracteres", "error");
             return false;
         }
 

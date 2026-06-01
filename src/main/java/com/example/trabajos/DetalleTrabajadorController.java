@@ -3,6 +3,7 @@ package com.example.trabajos;
 import com.example.trabajos.models.Trabajador;
 import com.example.trabajos.models.Postulacion;
 import com.example.trabajos.services.PostulacionService;
+import com.example.trabajos.services.TrabajadorService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,12 +13,18 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class DetalleTrabajadorController {
 
@@ -42,6 +49,11 @@ public class DetalleTrabajadorController {
     @FXML private Label habilidadesLabel;
     @FXML private ImageView fotoPerfilImageView;
 
+    @FXML private Label calificacionPromedioLabel;
+    @FXML private Label calificacionEstrellasLabel;
+    @FXML private Label calificacionTotalLabel;
+    @FXML private VBox calificacionesDetalleContainer;
+
     @FXML private Button volverButton;
     @FXML private Button aceptarButton;
     @FXML private Button rechazarButton;
@@ -49,6 +61,7 @@ public class DetalleTrabajadorController {
     private Trabajador trabajador;
     private Postulacion postulacion;
     private PostulacionService postulacionService = new PostulacionService();
+    private TrabajadorService trabajadorService = new TrabajadorService();
     private PostulantesController postulantesController;
     private String origen;
 
@@ -117,7 +130,6 @@ public class DetalleTrabajadorController {
         if (telefonoLabel != null) telefonoLabel.setText(trabajador.getNumTelefono() != null ? trabajador.getNumTelefono() : "No especificado");
         if (herramientasLabel != null) herramientasLabel.setText(trabajador.getConocimientosHerramientas() != null ? trabajador.getConocimientosHerramientas() : "No especificado");
 
-        // Mostrar foto de perfil
         if (fotoPerfilImageView != null) {
             byte[] fotoBytes = trabajador.getFotoPerfil();
             if (fotoBytes != null && fotoBytes.length > 0) {
@@ -152,6 +164,82 @@ public class DetalleTrabajadorController {
         if (discapacidadLabel != null) discapacidadLabel.setText(trabajador.getDiscapacidad() != null ? trabajador.getDiscapacidad() : "No especificado");
         if (experienciaLabel != null) experienciaLabel.setText(trabajador.getExperienciaLaboral() != null ? trabajador.getExperienciaLaboral() : "No especificado");
         if (habilidadesLabel != null) habilidadesLabel.setText(trabajador.getHabilidades() != null ? trabajador.getHabilidades() : "No especificado");
+
+        cargarCalificacionesTrabajador(trabajador);
+    }
+
+    private void cargarCalificacionesTrabajador(Trabajador t) {
+        try {
+            var em = com.example.trabajos.utils.HibernateUtil.getEntityManagerFactory().createEntityManager();
+            List<Postulacion> calificadas;
+            try {
+                calificadas = em.createQuery(
+                                "SELECT p FROM Postulacion p WHERE p.trabajador.idTrabajador = :id AND p.califEmpPromedio IS NOT NULL",
+                                Postulacion.class)
+                        .setParameter("id", t.getIdTrabajador())
+                        .getResultList();
+            } finally {
+                em.close();
+            }
+
+            if (calificadas.isEmpty()) {
+                if (calificacionPromedioLabel != null) calificacionPromedioLabel.setText("Sin calificaciones aún");
+                if (calificacionEstrellasLabel != null) calificacionEstrellasLabel.setText("☆☆☆☆☆");
+                if (calificacionTotalLabel != null) calificacionTotalLabel.setText("0 calificaciones recibidas");
+                return;
+            }
+
+            double suma = calificadas.stream()
+                    .mapToDouble(p -> p.getCalifEmpPromedio() != null ? p.getCalifEmpPromedio() : 0)
+                    .sum();
+            double promedio = suma / calificadas.size();
+
+            String estrellas = generarEstrellas(promedio);
+            if (calificacionPromedioLabel != null) calificacionPromedioLabel.setText(String.format("%.1f / 5.0", promedio));
+            if (calificacionEstrellasLabel != null) calificacionEstrellasLabel.setText(estrellas);
+            if (calificacionTotalLabel != null) calificacionTotalLabel.setText(calificadas.size() + " calificación(es) recibida(s)");
+
+            if (calificacionesDetalleContainer != null) {
+                calificacionesDetalleContainer.getChildren().clear();
+                for (Postulacion p : calificadas) {
+                    String empresa = p.getEmpresa() != null ? p.getEmpresa().getNombreEmpresa() : "Empresa";
+                    String puesto = p.getOferta() != null ? p.getOferta().getPuesto_trabajo() : "Puesto";
+
+                    HBox fila = new HBox(12);
+                    fila.setStyle("-fx-background-color: #f8faff; -fx-background-radius: 8; -fx-padding: 10 14;");
+                    fila.setAlignment(Pos.CENTER_LEFT);
+
+                    Label lblEmp = new Label("🏢 " + empresa + " — " + puesto);
+                    lblEmp.setStyle("-fx-text-fill: #1a3a5c; -fx-font-weight: bold; -fx-font-size: 13;");
+
+                    Region sp = new Region();
+                    HBox.setHgrow(sp, Priority.ALWAYS);
+
+                    Label lblProm = new Label(generarEstrellas(p.getCalifEmpPromedio()) + " " +
+                            String.format("%.1f", p.getCalifEmpPromedio()));
+                    lblProm.setStyle("-fx-text-fill: #f59e0b; -fx-font-weight: bold; -fx-font-size: 14;");
+
+                    fila.getChildren().addAll(lblEmp, sp, lblProm);
+                    calificacionesDetalleContainer.getChildren().add(fila);
+
+                    if (p.getComentarioEmpresa() != null && !p.getComentarioEmpresa().isBlank()) {
+                        Label lblComent = new Label("💬 " + p.getComentarioEmpresa());
+                        lblComent.setStyle("-fx-text-fill: #3a5070; -fx-font-size: 12; -fx-padding: 0 14 6 14;");
+                        lblComent.setWrapText(true);
+                        calificacionesDetalleContainer.getChildren().add(lblComent);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            if (calificacionPromedioLabel != null) calificacionPromedioLabel.setText("No disponible");
+        }
+    }
+
+    private String generarEstrellas(double promedio) {
+        int llenas = (int) Math.round(promedio);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i <= 5; i++) sb.append(i <= llenas ? "★" : "☆");
+        return sb.toString();
     }
 
     private Image byteArrayAImagen(byte[] bytes) {
@@ -222,7 +310,7 @@ public class DetalleTrabajadorController {
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
         confirmacion.setTitle("Confirmar Aceptación");
         confirmacion.setHeaderText("¿Estás seguro de aceptar a " + trabajador.getNombre() + "?");
-        confirmacion.setContentText("⚠️ ATENCIÓN: Esta decisión NO se puede cambiar después.");
+        confirmacion.setContentText("⚠️ ATENCIÓN: Esta decisión NO se puede cambiar después.\n\n");
 
         if (confirmacion.showAndWait().get() == javafx.scene.control.ButtonType.OK) {
             cambiarEstado("ACEPTADO");
@@ -258,6 +346,14 @@ public class DetalleTrabajadorController {
         try {
             postulacion.setEstado(nuevoEstado);
             postulacionService.actualizarPostulacion(postulacion);
+
+            // NUEVO: Si se ACEPTA al trabajador, desactivar su cuenta automáticamente
+            if ("ACEPTADO".equals(nuevoEstado) && trabajador != null && trabajador.isActivo()) {
+                trabajadorService.cambiarEstadoActivo(trabajador.getIdTrabajador(), false);
+                trabajador.setActivo(false);
+                System.out.println("⛔ Trabajador " + trabajador.getNombreCompleto() + " desactivado automáticamente por aceptación de empresa");
+            }
+
             actualizarEstadoBotones();
 
             if (postulantesController != null) {
@@ -267,8 +363,7 @@ public class DetalleTrabajadorController {
             String mensaje = "";
             if ("ACEPTADO".equals(nuevoEstado)) {
                 mensaje = "✅ Has ACEPTADO a " + trabajador.getNombre() +
-                        " para la vacante.\n\n" +
-                        "⚠️ Esta decisión es FINAL y no se puede cambiar.";
+                        " para la vacante.\n\n";
             } else if ("RECHAZADO".equals(nuevoEstado)) {
                 mensaje = "❌ Has RECHAZADO a " + trabajador.getNombre() +
                         " para la vacante.\n\n" +

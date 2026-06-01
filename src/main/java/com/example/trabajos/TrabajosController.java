@@ -92,6 +92,12 @@ public class TrabajosController {
     @FXML
     private Button cerrarSesionButton;
 
+    // NUEVOS: Botón de estado y label informativo
+    @FXML
+    private Button estadoButton;
+    @FXML
+    private Label estadoInfoLabel;
+
     private Trabajador trabajadorActual;
     private List<Oferta> ofertasPublicas;
     private List<Oferta> ofertasPrivadas;
@@ -109,6 +115,95 @@ public class TrabajosController {
         configurarFiltros();
         cargarTrabajadorActual();
         refrescarTabla();
+        configurarBotonEstado();
+    }
+
+    // NUEVO: Configurar el botón de estado según el trabajador actual
+    private void configurarBotonEstado() {
+        if (trabajadorActual != null) {
+            actualizarInterfazEstado(trabajadorActual.isActivo());
+        } else {
+            cargarTrabajadorActual();
+            if (trabajadorActual != null) {
+                actualizarInterfazEstado(trabajadorActual.isActivo());
+            }
+        }
+    }
+
+    // NUEVO: Actualizar la interfaz del botón según estado activo/inactivo
+    private void actualizarInterfazEstado(boolean activo) {
+        if (estadoButton == null) return;
+
+        if (activo) {
+            estadoButton.setText("✅ ACTIVO - Recibiendo ofertas");
+            estadoButton.setStyle("-fx-background-color: linear-gradient(to bottom, #27ae60, #1e8449); -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(39,174,96,0.55), 12, 0, 0, 4);");
+            estadoInfoLabel.setText("📢 ESTÁS ACTIVO - Las empresas pueden verte y enviarte ofertas");
+            estadoInfoLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-size: 13; -fx-wrap-text: true; -fx-text-alignment: center; -fx-font-weight: bold;");
+        } else {
+            estadoButton.setText("⛔ INACTIVO - No recibiendo ofertas");
+            estadoButton.setStyle("-fx-background-color: linear-gradient(to bottom, #95a5a6, #7f8c8d); -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(127,140,141,0.55), 12, 0, 0, 4);");
+            estadoInfoLabel.setText("🔇 ESTÁS INACTIVO - Las empresas NO pueden verte. Presiona el botón para reactivarte.");
+            estadoInfoLabel.setStyle("-fx-text-fill: #7f8c8d; -fx-font-size: 13; -fx-wrap-text: true; -fx-text-alignment: center;");
+        }
+    }
+
+    // NUEVO: Toggle del estado (Activo <-> Inactivo)
+    @FXML
+    private void onToggleEstadoClick() {
+        if (trabajadorActual == null) {
+            cargarTrabajadorActual();
+            if (trabajadorActual == null) {
+                mostrarAlerta("Error", "No se pudo identificar tu cuenta.");
+                return;
+            }
+        }
+
+        boolean activoActual = trabajadorActual.isActivo();
+
+        if (activoActual) {
+            // Intentar desactivar
+            Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmacion.setTitle("Desactivar cuenta");
+            confirmacion.setHeaderText("¿Estás seguro de desactivar tu cuenta?");
+            confirmacion.setContentText("⚠️ IMPORTANTE:\n\n" +
+                    "• Al desactivar tu cuenta, las empresas NO podrán ver tu perfil\n" +
+                    "• NO recibirás nuevas ofertas de empleo\n" +
+                    "• Puedes reactivarla en cualquier momento desde este mismo botón\n\n" +
+                    "¿Deseas continuar?");
+
+            ButtonType btnSi = new ButtonType("Sí, desactivar", ButtonBar.ButtonData.YES);
+            ButtonType btnNo = new ButtonType("No, cancelar", ButtonBar.ButtonData.NO);
+            confirmacion.getButtonTypes().setAll(btnSi, btnNo);
+
+            if (confirmacion.showAndWait().orElse(btnNo) == btnSi) {
+                trabajadorService.cambiarEstadoActivo(trabajadorActual.getIdTrabajador(), false);
+                trabajadorActual.setActivo(false);
+                actualizarInterfazEstado(false);
+                mostrarAlertaInfo("Cuenta desactivada", "✅ Tu cuenta ha sido desactivada.\n\nLas empresas ya no podrán verte ni enviarte ofertas.");
+            }
+        } else {
+            // Intentar activar
+            Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmacion.setTitle("Activar cuenta");
+            confirmacion.setHeaderText("¿Quieres reactivar tu cuenta?");
+            confirmacion.setContentText("Al activar tu cuenta:\n\n" +
+                    "• Las empresas podrán ver tu perfil nuevamente\n" +
+                    "• Recibirás ofertas de empleo que coincidan con tu perfil\n" +
+                    "• Podrás postularte a vacantes públicas\n\n" +
+                    "¿Deseas reactivar tu cuenta?");
+
+            ButtonType btnSi = new ButtonType("Sí, reactivar", ButtonBar.ButtonData.YES);
+            ButtonType btnNo = new ButtonType("No, cancelar", ButtonBar.ButtonData.NO);
+            confirmacion.getButtonTypes().setAll(btnSi, btnNo);
+
+            if (confirmacion.showAndWait().orElse(btnNo) == btnSi) {
+                trabajadorService.cambiarEstadoActivo(trabajadorActual.getIdTrabajador(), true);
+                trabajadorActual.setActivo(true);
+                actualizarInterfazEstado(true);
+                mostrarAlertaInfo("Cuenta activada", "✅ Tu cuenta ha sido reactivada.\n\nLas empresas ahora pueden ver tu perfil y enviarte ofertas.");
+                refrescarTabla();
+            }
+        }
     }
 
     private void configurarColumnasPublicas() {
@@ -187,6 +282,7 @@ public class TrabajosController {
             accionesColumn.setCellFactory(param -> new TableCell<>() {
                 private final HBox hbox = new HBox(5);
                 private final Button abrirButton = new Button("Abrir");
+                private final Button verEmpresaButton = new Button("🏢 Ver Empresa");
                 private final Button verNotaButton = new Button("📝 Ver Nota");
 
                 {
@@ -196,13 +292,19 @@ public class TrabajosController {
                         abrirDetalleTrabajo(oferta);
                     });
 
+                    verEmpresaButton.setStyle("-fx-background-color: #e67e22; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 3;");
+                    verEmpresaButton.setOnAction(event -> {
+                        Oferta oferta = getTableView().getItems().get(getIndex());
+                        abrirPerfilEmpresa(oferta.getEmpresa());
+                    });
+
                     verNotaButton.setStyle("-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 3;");
                     verNotaButton.setOnAction(event -> {
                         Oferta oferta = getTableView().getItems().get(getIndex());
                         mostrarNotaEmpresa(oferta);
                     });
 
-                    hbox.getChildren().addAll(abrirButton, verNotaButton);
+                    hbox.getChildren().addAll(abrirButton, verEmpresaButton, verNotaButton);
                 }
 
                 @Override
@@ -220,6 +322,8 @@ public class TrabajosController {
 
                         abrirButton.setVisible(true);
                         abrirButton.setManaged(true);
+                        verEmpresaButton.setVisible(oferta.getEmpresa() != null);
+                        verEmpresaButton.setManaged(oferta.getEmpresa() != null);
                         Postulacion postulacion = obtenerPostulacion(oferta);
                         if (postulacion != null && postulacion.tieneNotaEmpresa()) {
                             verNotaButton.setVisible(true);
@@ -359,7 +463,6 @@ public class TrabajosController {
     }
 
     private void configurarFiltros() {
-        // Tipo de trabajo
         if (tipoTrabajoComboBox != null) {
             tipoTrabajoComboBox.getItems().clear();
             tipoTrabajoComboBox.getItems().add("Todos los trabajos");
@@ -372,7 +475,6 @@ public class TrabajosController {
             tipoTrabajoComboBox.setValue("Todos los trabajos");
         }
 
-        // Tipo de sueldo
         if (tipoSueldoComboBox != null) {
             tipoSueldoComboBox.getItems().clear();
             tipoSueldoComboBox.getItems().add("Todos");
@@ -380,7 +482,6 @@ public class TrabajosController {
             tipoSueldoComboBox.setValue("Todos");
         }
 
-        // Municipio
         if (municipioComboBox != null) {
             municipioComboBox.getItems().clear();
             municipioComboBox.getItems().add("Todos");
@@ -394,21 +495,18 @@ public class TrabajosController {
             municipioComboBox.setValue("Todos");
         }
 
-        // Ciudad - se carga dinámicamente al seleccionar municipio
         if (ciudadComboBox != null) {
             ciudadComboBox.getItems().clear();
             ciudadComboBox.getItems().add("Todas");
             ciudadComboBox.setValue("Todas");
         }
 
-        // Listener para cargar ciudades según municipio
         if (municipioComboBox != null) {
             municipioComboBox.valueProperty().addListener((obs, old, newVal) -> {
                 cargarCiudadesPorMunicipio(newVal);
             });
         }
 
-        // Botones
         if (aplicarFiltrosButton != null) {
             aplicarFiltrosButton.setOnAction(e -> aplicarFiltros());
         }
@@ -488,6 +586,11 @@ public class TrabajosController {
         actualizarVistaPublicas();
         actualizarVistaPrivadas();
         actualizarContadores();
+
+        // Actualizar estado del botón
+        if (trabajadorActual != null) {
+            actualizarInterfazEstado(trabajadorActual.isActivo());
+        }
     }
 
     private void actualizarVistaPublicas() {
@@ -633,6 +736,24 @@ public class TrabajosController {
         alert.showAndWait();
     }
 
+    private void abrirPerfilEmpresa(Empresa empresa) {
+        if (empresa == null) return;
+        try {
+            java.net.URL fxmlUrl = getClass().getResource("/com/example/trabajos/PerfilPublicoEmpresa.fxml");
+            FXMLLoader loader = new FXMLLoader(fxmlUrl);
+            Parent root = loader.load();
+            PerfilPublicoEmpresaController controller = loader.getController();
+            controller.setEmpresa(empresa);
+            Stage stage = (Stage) trabajosTable.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setMaximized(true);
+            stage.setTitle("Perfil de " + (empresa.getNombreEmpresa() != null ? empresa.getNombreEmpresa() : "Empresa"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlerta("Error", "No se pudo abrir el perfil de la empresa: " + e.getMessage());
+        }
+    }
+
     private void abrirDetalleTrabajo(Oferta ofertaSeleccionada) {
         if (ofertaSeleccionada == null) return;
 
@@ -708,6 +829,51 @@ public class TrabajosController {
     }
 
     @FXML
+    protected void onPerfilClick() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/PerfilTrabajador.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) trabajosTable.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setMaximized(true);
+            stage.setTitle("Mi Perfil");
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlerta("Error", "No se pudo abrir el perfil: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    protected void onDashboardClick() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/Dashboard.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) trabajosTable.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setMaximized(true);
+            stage.setTitle("Dashboard");
+        } catch (IOException e) {
+            e.printStackTrace();
+            mostrarAlerta("Error", "No se pudo abrir el Dashboard: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    protected void onCalificacionClick() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/ListaCalificacion.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) trabajosTable.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setMaximized(true);
+            stage.setTitle("Calificaciones");
+        } catch (IOException e) {
+            e.printStackTrace();
+            mostrarAlerta("Error", "No se pudo abrir la Calificación: " + e.getMessage());
+        }
+    }
+
+    @FXML
     protected void onEditarPerfilClick() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/EditarPerfilTrabajador.fxml"));
@@ -758,6 +924,14 @@ public class TrabajosController {
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+
+    private void mostrarAlertaInfo(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);
         alert.setHeaderText(null);

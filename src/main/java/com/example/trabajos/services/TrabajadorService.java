@@ -1,6 +1,7 @@
 package com.example.trabajos.services;
 
 import com.example.trabajos.models.Trabajador;
+import com.example.trabajos.models.Postulacion;
 import com.example.trabajos.utils.HibernateUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -29,17 +30,69 @@ public class TrabajadorService {
         EntityManager entityManager = HibernateUtil.getEntityManager();
         try {
             List<Trabajador> trabajadores = entityManager.createQuery("FROM Trabajador", Trabajador.class).getResultList();
-            // Forzar carga de foto
             for (Trabajador t : trabajadores) {
                 if (t.getFotoPerfil() != null) {
                     byte[] foto = t.getFotoPerfil();
-                    // Esto fuerza la carga
                 }
             }
             return trabajadores;
         } finally {
             entityManager.close();
         }
+    }
+
+    // NUEVO: Obtener solo trabajadores disponibles (activo = true Y sin oferta aceptada)
+    public List<Trabajador> obtenerTrabajadoresDisponibles() {
+        EntityManager em = HibernateUtil.getEntityManager();
+        try {
+            // Usar subconsulta para excluir trabajadores con oferta aceptada
+            String jpql = "SELECT t FROM Trabajador t WHERE t.activo = true AND NOT EXISTS (" +
+                    "SELECT p FROM Postulacion p WHERE p.trabajador = t AND p.estado = 'ACEPTADO')";
+            return em.createQuery(jpql, Trabajador.class).getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    // NUEVO: Verificar si un trabajador tiene oferta aceptada
+    public boolean tieneOfertaAceptada(int idTrabajador) {
+        EntityManager em = HibernateUtil.getEntityManager();
+        try {
+            Long count = em.createQuery(
+                            "SELECT COUNT(p) FROM Postulacion p WHERE p.trabajador.idTrabajador = :id AND p.estado = 'ACEPTADO'",
+                            Long.class)
+                    .setParameter("id", idTrabajador)
+                    .getSingleResult();
+            return count > 0;
+        } finally {
+            em.close();
+        }
+    }
+
+    // NUEVO: Cambiar estado activo/inactivo por ID
+    public void cambiarEstadoActivo(int idTrabajador, boolean activo) {
+        EntityManager em = HibernateUtil.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            int updated = em.createQuery(
+                            "UPDATE Trabajador t SET t.activo = :activo WHERE t.idTrabajador = :id")
+                    .setParameter("activo", activo)
+                    .setParameter("id", idTrabajador)
+                    .executeUpdate();
+            em.getTransaction().commit();
+            System.out.println(activo ? "✅ Trabajador activado: ID " + idTrabajador : "⛔ Trabajador desactivado: ID " + idTrabajador);
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw new RuntimeException("Error al cambiar estado activo: " + e.getMessage(), e);
+        } finally {
+            em.close();
+        }
+    }
+
+    // NUEVO: Cambiar estado activo/inactivo por objeto Trabajador
+    public void cambiarEstadoActivo(Trabajador trabajador, boolean activo) {
+        trabajador.setActivo(activo);
+        actualizarTrabajador(trabajador);
     }
 
     public Trabajador obtenerTrabajadorPorId(int id) {

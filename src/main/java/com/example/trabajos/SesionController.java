@@ -37,6 +37,69 @@ public class SesionController {
         if (passwordVisibleField != null && passwordField != null) {
             passwordVisibleField.textProperty().bindBidirectional(passwordField.textProperty());
         }
+
+        // LIMITAR LONGITUD DEL CORREO EN SESIÓN
+        if (emailField != null) {
+            emailField.textProperty().addListener((obs, oldValue, newValue) -> {
+                if (newValue != null && !newValue.isEmpty()) {
+                    int arrobaPos = newValue.indexOf('@');
+
+                    if (arrobaPos == -1) {
+                        // No hay @ aún, limitar a 64 caracteres
+                        if (newValue.length() > 64) {
+                            emailField.setText(oldValue);
+                        }
+                    } else {
+                        // Ya hay @, separar partes
+                        String antesArroba = newValue.substring(0, arrobaPos);
+                        String despuesArroba = newValue.substring(arrobaPos + 1);
+
+                        // Validar parte antes del @ (máximo 64)
+                        if (antesArroba.length() > 64) {
+                            emailField.setText(oldValue);
+                            return;
+                        }
+
+                        // Validar parte después del @ (máximo 35)
+                        if (despuesArroba.length() > 35) {
+                            emailField.setText(oldValue);
+                            return;
+                        }
+
+                        // Validar total (máximo 100)
+                        if (newValue.length() > 100) {
+                            emailField.setText(oldValue);
+                        }
+                    }
+                }
+            });
+
+            // Evitar espacios al inicio
+            emailField.textProperty().addListener((obs, oldValue, newValue) -> {
+                if (newValue != null && !newValue.isEmpty() && newValue.startsWith(" ")) {
+                    emailField.setText(newValue.trim());
+                }
+            });
+        }
+
+        // LIMITAR LONGITUD DE CONTRASEÑA (máximo 10 caracteres)
+        if (passwordField != null) {
+            passwordField.textProperty().addListener((obs, oldValue, newValue) -> {
+                if (newValue != null && newValue.length() > 10) {
+                    passwordField.setText(oldValue);
+                    if (passwordVisibleField != null) passwordVisibleField.setText(oldValue);
+                }
+            });
+        }
+
+        if (passwordVisibleField != null) {
+            passwordVisibleField.textProperty().addListener((obs, oldValue, newValue) -> {
+                if (newValue != null && newValue.length() > 10) {
+                    passwordVisibleField.setText(oldValue);
+                    passwordField.setText(oldValue);
+                }
+            });
+        }
     }
 
     public void setTipoUsuario(boolean esEmpresa) {

@@ -35,6 +35,9 @@ public class FormularioController {
     private TextArea descripcionArea;
     private Label mensajeLabel;
 
+    // NUEVO: Selector de fecha de expiración
+    private DatePicker fechaExpiracionPicker;
+
     private Empresa empresaActual;
     private List<ComboBox<String>> idiomasComboBoxes = new ArrayList<>();
     private EmpresasController empresasController;
@@ -68,10 +71,41 @@ public class FormularioController {
     public void setDescripcionArea(TextArea area) { this.descripcionArea = area; }
     public void setMensajeLabel(Label label) { this.mensajeLabel = label; }
     public void setEmpresasController(EmpresasController controller) { this.empresasController = controller; }
+    public void setFechaExpiracionPicker(DatePicker picker) { this.fechaExpiracionPicker = picker; }
 
     public void initialize() {
         configurarCombos();
         configurarValidadores();
+        configurarFechaExpiracion();
+    }
+
+    /**
+     * Configura el DatePicker para la fecha de expiración
+     * - Fecha mínima: hoy + 7 días
+     * - No se pueden seleccionar fechas pasadas
+     * - Valor por defecto: hoy + 30 días
+     */
+    private void configurarFechaExpiracion() {
+        if (fechaExpiracionPicker != null) {
+            LocalDate fechaMinima = LocalDate.now().plusDays(7);
+            LocalDate fechaMaxima = LocalDate.now().plusDays(365); // 1 año máximo
+
+            fechaExpiracionPicker.setDayCellFactory(picker -> new DateCell() {
+                @Override
+                public void updateItem(LocalDate date, boolean empty) {
+                    super.updateItem(date, empty);
+                    // Deshabilitar fechas pasadas y fechas menores a 7 días desde hoy
+                    if (date.isBefore(fechaMinima) || date.isAfter(fechaMaxima)) {
+                        setDisable(true);
+                        setStyle("-fx-background-color: #f0f0f0;");
+                    }
+                }
+            });
+
+            // Valor por defecto: 30 días después
+            fechaExpiracionPicker.setValue(LocalDate.now().plusDays(30));
+            fechaExpiracionPicker.setPromptText("Selecciona fecha de expiración (mínimo 7 días)");
+        }
     }
 
     private void configurarCombos() {
@@ -224,6 +258,19 @@ public class FormularioController {
             nuevaOferta.setFecha_publicacion(LocalDate.now());
             nuevaOferta.setTipoOferta("PUBLICA");
 
+            // Establecer fecha de expiración
+            if (fechaExpiracionPicker != null && fechaExpiracionPicker.getValue() != null) {
+                nuevaOferta.setFechaExpiracion(fechaExpiracionPicker.getValue());
+            } else {
+                nuevaOferta.setFechaExpiracion(LocalDate.now().plusDays(30));
+            }
+
+            // Validar que la fecha de expiración sea válida
+            if (nuevaOferta.getFechaExpiracion().isBefore(LocalDate.now().plusDays(7))) {
+                mostrarMensaje("❌ La fecha de expiración debe ser al menos dentro de 7 días.");
+                return;
+            }
+
             // Guardar sueldo
             String sueldoTexto = sueldoField.getText();
             if (sueldoTexto != null && !sueldoTexto.isEmpty()) {
@@ -249,10 +296,9 @@ public class FormularioController {
                 }
             }
 
-            mostrarMensaje("✅ Oferta guardada exitosamente");
+            mostrarMensaje("✅ Oferta guardada exitosamente. Válida hasta: " + ofertaPersistida.getFechaExpiracionFormateada());
             limpiarCampos();
 
-            // Refrescar tabla de ofertas
             if (empresasController != null) {
                 empresasController.onRefrescarClick();
             }
@@ -275,6 +321,20 @@ public class FormularioController {
             mostrarMensaje("Completa todos los campos obligatorios.");
             return false;
         }
+
+        // Validar fecha de expiración
+        if (fechaExpiracionPicker != null && fechaExpiracionPicker.getValue() != null) {
+            LocalDate fechaMinima = LocalDate.now().plusDays(7);
+            if (fechaExpiracionPicker.getValue().isBefore(fechaMinima)) {
+                mostrarMensaje("⚠️ La fecha de expiración debe ser al menos dentro de 7 días.\n" +
+                        "Fecha mínima permitida: " + fechaMinima.toString());
+                return false;
+            }
+        } else {
+            mostrarMensaje("Selecciona una fecha de expiración para la oferta.");
+            return false;
+        }
+
         return true;
     }
 
@@ -291,6 +351,7 @@ public class FormularioController {
         if (horarioSalidaComboBox != null) horarioSalidaComboBox.getSelectionModel().clearSelection();
         if (tipoSalarioComboBox != null) tipoSalarioComboBox.getSelectionModel().clearSelection();
         if (nivelEstudioComboBox != null) nivelEstudioComboBox.getSelectionModel().clearSelection();
+        if (fechaExpiracionPicker != null) fechaExpiracionPicker.setValue(LocalDate.now().plusDays(30));
     }
 
     private void mostrarMensaje(String mensaje) {

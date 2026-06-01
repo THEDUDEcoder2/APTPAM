@@ -32,16 +32,27 @@
             </ImageView>
             <Label alignment="CENTER" prefWidth="210.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;" text="Buscar Trabajos" wrapText="true" />
 
+            <Button fx:id="perfilButton" onAction="#onPerfilClick" prefHeight="40.0" prefWidth="225.0" styleClass="btn-azul" text="👤 Mi Perfil" />
             <Button fx:id="editarPerfilButton" onAction="#onEditarPerfilClick" prefHeight="40.0" prefWidth="225.0" styleClass="btn-azul" text="✏️ Editar mi perfil" />
+            <Button fx:id="dashboardButton" onAction="#onDashboardClick" prefHeight="40.0" prefWidth="225.0" styleClass="btn-azul" text="📊 Dashboard" />
+            <Button fx:id="calificacionButton" onAction="#onCalificacionClick" prefHeight="40.0" prefWidth="225.0" styleClass="btn-azul" text="⭐ Calificación" />
 
             <Region VBox.vgrow="ALWAYS" />
             <Button fx:id="cerrarSesionButton" onAction="#onVolverClick" prefHeight="55.0" prefWidth="225.0" styleClass="btn-rojo" text="✗ Cerrar sesión" />
          </children>
       </VBox>
 
-      <!-- TARJETA DERECHA - Información -->
+      <!-- TARJETA DERECHA - Información y estado ACTIVO/INACTIVO -->
       <VBox alignment="TOP_CENTER" layoutX="1274.0" layoutY="126.0" maxWidth="250.0" minWidth="250.0" prefHeight="674.0" prefWidth="250.0" spacing="18.0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 4);">
          <padding><Insets bottom="28.0" left="16.0" right="16.0" top="28.0" /></padding>
+
+         <!-- Botón de estado ACTIVO/INACTIVO -->
+         <Button fx:id="estadoButton" onAction="#onToggleEstadoClick" prefHeight="80.0" prefWidth="218.0" styleClass="btn-estado-activo" text="✅ ACTIVO - Recibiendo ofertas" />
+
+         <!-- Label informativo debajo del botón -->
+         <Label fx:id="estadoInfoLabel" style="-fx-text-fill: #64748b; -fx-font-size: 13; -fx-wrap-text: true; -fx-text-alignment: center;" text="📢 ESTÁS ACTIVO - Las empresas pueden verte" wrapText="true" alignment="CENTER" />
+
+         <Region prefHeight="20.0" />
          <Label style="-fx-text-fill: #1a3a5c; -fx-font-size: 18; -fx-font-weight: bold;" text="Información" />
          <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Revisa las ofertas exclusivas." wrapText="true" /></HBox>
          <HBox alignment="TOP_LEFT" spacing="10.0"><Label style="-fx-text-fill: #3a7bd5; -fx-font-size: 19; -fx-font-weight: bold;" text="•" /><Label prefWidth="190.0" style="-fx-text-fill: #3a5070; -fx-font-size: 16;" text="Filtra por tipo de trabajo, ubicación y sueldo." wrapText="true" /></HBox>

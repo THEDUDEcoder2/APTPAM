@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
@@ -38,10 +39,13 @@
                 </ImageView>
                 <Label alignment="CENTER" prefWidth="210.0" style="-fx-text-fill: #1a3a5c; -fx-font-size: 17; -fx-font-weight: bold;" text="Panel de Empresas" wrapText="true" />
 
+                <Button fx:id="perfilButton" onAction="#onPerfilClick" prefHeight="40.0" prefWidth="225.0" styleClass="btn-azul" text="🏢 Mi Perfil" />
                 <Button fx:id="editarPerfilButton" onAction="#onEditarPerfilClick" prefHeight="40.0" prefWidth="225.0" styleClass="btn-azul" text="✏️ Editar perfil" />
+                <Button fx:id="dashboardButton" onAction="#onDashboardClick" prefHeight="40.0" prefWidth="225.0" styleClass="btn-azul" text="📊 Dashboard" />
+                <Button fx:id="calificacionButton" onAction="#onCalificacionClick" prefHeight="40.0" prefWidth="225.0" styleClass="btn-azul" text="⭐ Calificación" />
 
                 <Region VBox.vgrow="ALWAYS" />
-                <Button fx:id="volverButton" onAction="#onVolverClick" prefHeight="55.0" prefWidth="225.0" styleClass="btn-cerrar" text="✗ Cerrar sesión" />
+                <Button fx:id="volverButton" onAction="#onVolverClick" prefHeight="55.0" prefWidth="225.0" styleClass="btn-rojo" text="✗ Cerrar sesión" />
             </children>
         </VBox>
 
@@ -94,7 +98,8 @@
                                             <rowConstraints>
                                                 <RowConstraints /><RowConstraints /><RowConstraints />
                                                 <RowConstraints /><RowConstraints /><RowConstraints />
-                                                <RowConstraints /><RowConstraints /><RowConstraints /><RowConstraints /><RowConstraints />
+                                                <RowConstraints /><RowConstraints /><RowConstraints />
+                                                <RowConstraints /><RowConstraints /><RowConstraints /><RowConstraints />
                                             </rowConstraints>
                                             <children>
 
@@ -146,8 +151,14 @@
                                                 <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Experiencia:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
                                                 <TextField fx:id="experienciaField" prefWidth="250" promptText="Ej: 1 año en ventas, 6 meses de mesero" styleClass="campo-form" GridPane.columnIndex="1" GridPane.rowIndex="8" />
 
-                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Descripción del Puesto:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
-                                                <TextArea fx:id="descripcionArea" prefRowCount="3" prefWidth="250" promptText="Describe las responsabilidades, beneficios y requisitos adicionales del puesto…" styleClass="area-form" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="9" />
+                                                <!-- FECHA DE EXPIRACIÓN -->
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Fecha de expiración:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+                                                <DatePicker fx:id="fechaExpiracionPicker" prefWidth="200" promptText="Selecciona fecha límite" styleClass="campo-form" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                                                <Label style="-fx-text-fill: #64748b; -fx-font-size: 12;" text="Mínimo 7 días a partir de hoy" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="9" />
+
+                                                <!-- Descripción del Puesto -->
+                                                <Label style="-fx-text-fill: #1a3a5c; -fx-font-weight: bold;" text="Descripción del Puesto:" GridPane.columnIndex="0" GridPane.rowIndex="10" />
+                                                <TextArea fx:id="descripcionArea" prefRowCount="3" prefWidth="250" promptText="Describe las responsabilidades, beneficios y requisitos adicionales del puesto…" styleClass="area-form" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="10" />
 
                                             </children>
                                         </GridPane>

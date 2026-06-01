@@ -2,7 +2,6 @@ package com.example.trabajos;
 
 import com.example.trabajos.models.Postulacion;
 import com.example.trabajos.models.Oferta;
-import com.example.trabajos.models.Trabajador;
 import com.example.trabajos.services.PostulacionService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
