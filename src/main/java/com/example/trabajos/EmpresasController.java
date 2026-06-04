@@ -21,7 +21,7 @@ public class EmpresasController {
     @FXML private Button volverButton;
     @FXML private Button editarPerfilButton;
     @FXML private Button matchButton;
-    @FXML private Button refrescarButton;  // NUEVO
+    @FXML private Button refrescarButton;
     @FXML private TabPane tabPane;
     @FXML private Tab llenarFormularioTab;
     @FXML private Tab abrirFormularioTab;
@@ -49,6 +49,7 @@ public class EmpresasController {
     @FXML private TextArea descripcionArea;
     @FXML private Button aceptarButton1;
     @FXML private Button rechazarButton1;
+    @FXML private DatePicker fechaExpiracionPicker; // ← LÍNEA AGREGADA
 
     // Componentes del Tab 2 - Abrir Formulario
     @FXML private TableView<Oferta> formulariosTable;
@@ -124,6 +125,7 @@ public class EmpresasController {
         formularioController.setNivelEstudioComboBox(nivelEstudioComboBox);
         formularioController.setExperienciaField(experienciaField);
         formularioController.setDescripcionArea(descripcionArea);
+        formularioController.setFechaExpiracionPicker(fechaExpiracionPicker); // ← LÍNEA AGREGADA
 
         if (aceptarButton1 != null) {
             aceptarButton1.setOnAction(e -> formularioController.onGuardarClick());
@@ -162,7 +164,6 @@ public class EmpresasController {
         trabajadoresDisponiblesController.setBuscarField(buscarField);
         trabajadoresDisponiblesController.setTotalTrabajadoresLabel(totalTrabajadoresLabel);
 
-        // Inyectar el Stage para navegación correcta
         if (trabajadoresTable.getScene() != null) {
             trabajadoresDisponiblesController.setStage((Stage) trabajadoresTable.getScene().getWindow());
         } else {
@@ -185,7 +186,6 @@ public class EmpresasController {
 
     @FXML
     protected void onRefrescarClick() {
-        // Refrescar la tabla de ofertas guardadas
         if (formulariosTableController != null) {
             formulariosTableController.refrescarTabla();
             mostrarMensajeTemporal("✅ Lista de ofertas actualizada");
@@ -199,7 +199,6 @@ public class EmpresasController {
         alert.setContentText(mensaje);
         alert.showAndWait();
 
-        // Cerrar automáticamente después de 1.5 segundos
         new Thread(() -> {
             try {
                 Thread.sleep(1500);
@@ -234,12 +233,10 @@ public class EmpresasController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/MatchTrabajadores.fxml"));
             Parent root = loader.load();
-
             Stage stage = (Stage) volverButton.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setMaximized(true);
             stage.setTitle("Match de Talento");
-
         } catch (IOException e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -293,12 +290,10 @@ public class EmpresasController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/trabajos/EditarPerfilEmpresa.fxml"));
             Parent root = loader.load();
-
             Stage stage = (Stage) volverButton.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setMaximized(true);
             stage.setTitle("Editar Perfil - Empresa");
-
         } catch (IOException e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
